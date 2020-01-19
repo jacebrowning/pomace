@@ -32,7 +32,10 @@ python = "^3.8"
 
 # TODO: Remove these and add your library's requirements
 click = "^6.0"
-minilog = "~0.4"
+minilog = "*"
+
+ipython = "^7.11.1"
+datafiles = "=0.6b4"
 
 [tool.poetry.dev-dependencies]
 
