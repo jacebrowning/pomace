@@ -1,14 +1,32 @@
-"""A sample CLI."""
-
 import click
 import log
-from IPython import start_ipython
+from bullet import Bullet, Input
+
+from . import browsers, models
 
 
 @click.command()
 def main():
     log.init()
-    start_ipython()
+
+    cli = Bullet(
+        prompt="\nSelect a browser for automation: ",
+        bullet="● ",
+        choices=browsers.NAMES,
+    )
+    name = cli.launch()
+    browser = browsers.get(name)
+
+    try:
+        cli = Input(prompt="\nStarting domain: ", strip=True)
+        domain = cli.launch()
+        browser.visit('http://' + domain)
+
+        page = models.Page.from_url(browser.url)
+
+        print(page)
+    finally:
+        browser.quit()
 
 
 if __name__ == '__main__':  # pragma: no cover

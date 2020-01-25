@@ -31,12 +31,15 @@ classifiers = [
 
 python = "^3.7"
 
-# Models
-datafiles = "=0.6b4"
+# Interface
+bullet = "^2.1.0"
 
-# Interfaces
-click = "^6.0"
-ipython = "^7.11.1"
+# Automation
+splinter = "~0.13.0"
+webdriver_manager = "^1.8.2"
+
+# Persistence
+datafiles = "~0.6"
 
 # Utilities
 minilog = "*"
@@ -75,7 +78,7 @@ pync = { version = "*", platform = "darwin" }
 
 [tool.poetry.scripts]
 
-Pomelo = "pomelo.cli:main"
+pomelo = "pomelo.cli:main"
 
 [tool.black]
 
