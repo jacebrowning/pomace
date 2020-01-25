@@ -5,8 +5,6 @@ from tkinter.ttk import *  # type: ignore
 
 import log
 
-from . import utils
-
 
 class Application:
     """A sample class."""
@@ -89,7 +87,8 @@ class Application:
 
     def calculate(self, event=None):
         log.debug("Event: %s", event)
-        meters = utils.feet_to_meters(self.feet.get())
+        # meters = utils.feet_to_meters(self.feet.get())
+        meters = "foobar"
         if meters is not None:
             self.meters.set(meters)
 

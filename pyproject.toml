@@ -23,19 +23,23 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
 ]
 
 [tool.poetry.dependencies]
 
-python = "^3.8"
+python = "^3.7"
 
-# TODO: Remove these and add your library's requirements
-click = "^6.0"
-minilog = "*"
-
-ipython = "^7.11.1"
+# Models
 datafiles = "=0.6b4"
+
+# Interfaces
+click = "^6.0"
+ipython = "^7.11.1"
+
+# Utilities
+minilog = "*"
 
 [tool.poetry.dev-dependencies]
 

@@ -27,6 +27,14 @@ watch: install .clean-test ## Continuously run all CI tasks when files chanage
 run: install
 	poetry run python $(PACKAGE)/__main__.py
 
+.PHONY: run-cli
+run-cli: install
+	poetry run python $(PACKAGE)/cli.py
+
+.PHONY: run-gui
+run-gui: install
+	poetry run python $(PACKAGE)/gui.py
+
 # SYSTEM DEPENDENCIES #########################################################
 
 .PHONY: doctor
