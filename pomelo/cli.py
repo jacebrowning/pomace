@@ -1,3 +1,5 @@
+from importlib import reload
+
 import click
 import log
 from bullet import Bullet, Input
@@ -9,22 +11,27 @@ RELOAD = '<relaod>'
 
 
 @click.command()
+@click.option('--name')
 @click.option('--headless', is_flag=True)
-def main(headless: bool = False):
+@click.option('--domain')
+def main(name: str = '', headless: bool = False, domain: str = ''):
     log.init()
     log.silence('datafiles')
 
-    cli = Bullet(
-        prompt="\nSelect a browser for automation: ",
-        bullet=" ● ",
-        choices=browsers.NAMES,
-    )
-    name = cli.launch()
-    browser = browsers.get(name, headless)
+    if not name:
+        cli = Bullet(
+            prompt="\nSelect a browser for automation: ",
+            bullet=" ● ",
+            choices=browsers.NAMES,
+        )
+        name = cli.launch()
 
-    try:
+    if not domain:
         cli = Input(prompt="\nStarting domain: ", strip=True)
         domain = cli.launch()
+
+    browser = browsers.get(name, headless)
+    try:
         browser.visit('http://' + domain)
         loop(browser)
     finally:
@@ -36,14 +43,16 @@ def loop(browser: browsers.Browser):
         page = models.Page.from_url(browser.url)
 
         cli = Bullet(
-            prompt="\nSelect an action: ", bullet=" ● ", choices=[RELOAD, *page.actions]
+            prompt="\nSelect an action: ",
+            bullet=" ● ",
+            choices=[RELOAD, *page.action_names],
         )
         action = cli.launch()
         if action == RELOAD:
+            reload(models)
             continue
 
-        print()
-        print(action)
+        print(f'\nTODO: {action}')
 
 
 if __name__ == '__main__':  # pragma: no cover

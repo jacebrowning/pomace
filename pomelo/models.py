@@ -1,9 +1,14 @@
-from __future__ import annotations
-
+from dataclasses import dataclass, field
 from typing import List
 from urllib.parse import urlparse
 
 from datafiles import datafile
+
+
+@dataclass
+class Action:
+
+    name: str
 
 
 @datafile("./.pomelo/{self.domain}{self.path}/{self.variant}.yml")
@@ -13,11 +18,13 @@ class Page:
     path: str = '/'
     variant: str = 'default'
 
+    actions: List[Action] = field(default_factory=list)
+
     @classmethod
-    def from_url(cls, url: str) -> Page:
+    def from_url(cls, url: str) -> 'Page':
         parts = urlparse(url)
         return cls(domain=parts.netloc, path=parts.path)  # type: ignore
 
     @property
-    def actions(self) -> List[str]:
-        return ['foo', 'bar']
+    def action_names(self) -> List[str]:
+        return [action.name for action in self.actions]

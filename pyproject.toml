@@ -51,9 +51,9 @@ black = "=19.3b0"
 isort = "=4.3.4"
 
 # Linters
-mypy = "*"
+mypy = "=0.761"
 pydocstyle = "*"
-pylint = "^2.0"
+pylint = "^2.4"
 
 # Testing
 pytest = "^5.3.2"
