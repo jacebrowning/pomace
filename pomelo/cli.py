@@ -8,10 +8,11 @@ from . import browsers, models
 @click.command()
 def main():
     log.init()
+    log.silence('datafiles')
 
     cli = Bullet(
         prompt="\nSelect a browser for automation: ",
-        bullet="● ",
+        bullet=" ● ",
         choices=browsers.NAMES,
     )
     name = cli.launch()
@@ -24,6 +25,7 @@ def main():
 
         page = models.Page.from_url(browser.url)
 
+        print()
         print(page)
     finally:
         browser.quit()
