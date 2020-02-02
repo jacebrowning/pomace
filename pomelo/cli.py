@@ -1,4 +1,5 @@
 from importlib import reload
+from typing import List
 
 import click
 import log
@@ -42,17 +43,17 @@ def loop(browser: browsers.Browser):
     while True:
         page = models.Page.from_url(browser.url)
 
-        cli = Bullet(
-            prompt="\nSelect an action: ",
-            bullet=" ● ",
-            choices=[RELOAD, *page.action_names],
-        )
+        cli = Bullet(prompt="\nSelect an action: ", bullet=" ● ", choices=actions(page))
         action = cli.launch()
         if action == RELOAD:
             reload(models)
             continue
 
-        print(f'\nTODO: {action}')
+        print(f'\nTODO: call {action}()')
+
+
+def actions(page: models.Page) -> List[str]:
+    return [RELOAD, *[str(a) for a in page.actions]]
 
 
 if __name__ == '__main__':  # pragma: no cover
