@@ -182,14 +182,14 @@ description = "File-based ORM for dataclasses."
 name = "datafiles"
 optional = false
 python-versions = ">=3.7,<4.0"
-version = "0.6"
+version = "0.7b1"
 
 [package.dependencies]
 cached_property = ">=1.5,<2.0"
 classproperties = ">=0.1.3,<0.2.0"
 minilog = ">=1.2.3,<2.0.0"
 parse = ">=1.12,<2.0"
-"ruamel.yaml" = "0.16.5"
+"ruamel.yaml" = ">=0.16.7,<0.17.0"
 tomlkit = ">=0.5.3,<0.6.0"
 typing-extensions = ">=3.7,<4.0"
 
@@ -625,7 +625,7 @@ description = "ruamel.yaml is a YAML parser/emitter that supports roundtrip pres
 name = "ruamel.yaml"
 optional = false
 python-versions = "*"
-version = "0.16.5"
+version = "0.16.7"
 
 [package.dependencies]
 [package.dependencies."ruamel.yaml.clib"]
@@ -804,7 +804,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools"]
 
 [metadata]
-content-hash = "0cb6749847b4fc0d238fde1a22c25e2cab5fd895d3770ea2c990ab5688358b5b"
+content-hash = "8aad852fb6cbe3c7c08e0b801b91f8b7970da04f02662dd5f2b5308434d3f342"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -905,8 +905,8 @@ crayons = [
     {file = "crayons-0.3.0.tar.gz", hash = "sha256:50e5fa729d313e2c607ae8bf7b53bb487652e10bd8e7a1e08c4bc8bf62755ffc"},
 ]
 datafiles = [
-    {file = "datafiles-0.6-py3-none-any.whl", hash = "sha256:ad8dcdb2fe42dbe27ebffbad9b83e3a199435dfd123b896ffa6b221c50de4891"},
-    {file = "datafiles-0.6.tar.gz", hash = "sha256:16de6b56d6cfd5e9e29a52aaf63e65b1235274feab39a913bd1e98102bc97ea7"},
+    {file = "datafiles-0.7b1-py3-none-any.whl", hash = "sha256:6da2fedcb4668232d9b62259bced0123ccff743bf53fa6944bea09a2dcb62acd"},
+    {file = "datafiles-0.7b1.tar.gz", hash = "sha256:55384d9fa0df6ab7cbc61a139afc0e1817b0c57d1f9aa8131b75a67d413d5135"},
 ]
 dis3 = [
     {file = "dis3-0.1.3-py2-none-any.whl", hash = "sha256:61f7720dd0d8749d23fda3d7227ce74d73da11c2fade993a67ab2f9852451b14"},
@@ -1128,8 +1128,8 @@ requests = [
     {file = "requests-2.22.0.tar.gz", hash = "sha256:11e007a8a2aa0323f5a921e9e6a2d7e4e67d9877e85773fba9ba6419025cbeb4"},
 ]
 "ruamel.yaml" = [
-    {file = "ruamel.yaml-0.16.5-py2.py3-none-any.whl", hash = "sha256:0db639b1b2742dae666c6fc009b8d1931ef15c9276ef31c0673cc6dcf766cf40"},
-    {file = "ruamel.yaml-0.16.5.tar.gz", hash = "sha256:412a6f5cfdc0525dee6a27c08f5415c7fd832a7afcb7a0ed7319628aed23d408"},
+    {file = "ruamel.yaml-0.16.7-py2.py3-none-any.whl", hash = "sha256:dba517a7e330b6caf476b757022d21efa13c32694bfba1e057ce59a374f18f0a"},
+    {file = "ruamel.yaml-0.16.7.tar.gz", hash = "sha256:9d59fa89985c55155d35c886663e357813404ae8f94638cb673135b8c8c1a7c7"},
 ]
 "ruamel.yaml.clib" = [
     {file = "ruamel.yaml.clib-0.2.0-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:9c6d040d0396c28d3eaaa6cb20152cb3b2f15adf35a0304f4f40a3cf9f1d2448"},

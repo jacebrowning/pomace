@@ -42,14 +42,19 @@ def main(name: str = '', headless: bool = False, domain: str = ''):
 def loop(browser: browsers.Browser):
     while True:
         page = models.Page.from_url(browser.url)
+        page.datafile.save()  # type: ignore
 
-        cli = Bullet(prompt="\nSelect an action: ", bullet=" ● ", choices=actions(page))
+        cli = Bullet(
+            prompt=f"\n{page}\n\nSelect an action: ",
+            bullet=" ● ",
+            choices=actions(page),
+        )
         action = cli.launch()
         if action == RELOAD:
             reload(models)
             continue
 
-        print(f'\nTODO: call {action}()')
+        page.perform(action, browser=browser)
 
 
 def actions(page: models.Page) -> List[str]:
