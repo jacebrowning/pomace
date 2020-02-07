@@ -25,7 +25,7 @@ class Action:
 
     verb: str = list(Verb)[0].value
     name: str = 'element'
-    locators: List[Locator] = field(default_factory=list)
+    locators: List[Locator] = field(default_factory=lambda: [Locator('tag', 'body')])
 
     def __str__(self):
         return f'{self.verb}_{self.name}'
@@ -38,7 +38,7 @@ class Page:
     path: str = '/'
     variant: str = 'default'
 
-    actions: List[Action] = field(default_factory=list)
+    actions: List[Action] = field(default_factory=lambda: [Action()])
 
     @classmethod
     def from_url(cls, url: str) -> 'Page':
@@ -63,8 +63,8 @@ class Page:
 
     def perform(self, name: str, *, browser: Browser):
         action = self._get_action(name)
-        for _locator in action.locators:
+        for kwargs in action.locators:
             # TODO: Fix 'CommentedMap' object has no attribute 'find'
-            locator = Locator(**_locator)  # type: ignore
+            locator = Locator(**kwargs)  # type: ignore
             element = locator.find(browser=browser)
             getattr(element, action.verb)()
