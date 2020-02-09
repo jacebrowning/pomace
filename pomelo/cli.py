@@ -5,7 +5,8 @@ import click
 import log
 from bullet import Bullet, Input
 
-from . import browsers, models
+from . import browsers, models, shared
+from .utils import autopage
 
 
 RELOAD = '<relaod>'
@@ -18,7 +19,14 @@ RELOAD = '<relaod>'
 def main(name: str = '', headless: bool = False, domain: str = ''):
     log.init()
     log.silence('datafiles')
+    start_browser(name, headless, domain)
+    try:
+        run_loop()
+    finally:
+        quit_browser()
 
+
+def start_browser(name: str = '', headless: bool = False, domain: str = ''):
     if not name:
         cli = Bullet(
             prompt="\nSelect a browser for automation: ",
@@ -31,18 +39,18 @@ def main(name: str = '', headless: bool = False, domain: str = ''):
         cli = Input(prompt="\nStarting domain: ", strip=True)
         domain = cli.launch()
 
-    browser = browsers.get(name, headless)
-    try:
-        browser.visit('http://' + domain)
-        loop(browser)
-    finally:
-        browser.quit()
+    shared.browser = browsers.get(name, headless)
+    shared.browser.visit('http://' + domain)
 
 
-def loop(browser: browsers.Browser):
+def quit_browser():
+    if shared.browser:
+        shared.browser.quit()
+
+
+def run_loop():
     while True:
-        page = models.Page.from_url(browser.url)
-        page.datafile.save()  # type: ignore
+        page = autopage()
 
         cli = Bullet(
             prompt=f"\n{page}\n\nSelect an action: ",
@@ -55,7 +63,7 @@ def loop(browser: browsers.Browser):
             continue
 
         cli = Input(prompt=f"\nValue: ")
-        page.perform(action, browser=browser, action_input=cli.launch)
+        page.perform(action, prompt=cli.launch)
 
 
 def actions(page: models.Page) -> List[str]:

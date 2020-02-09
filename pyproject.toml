@@ -39,7 +39,7 @@ splinter = "~0.13.0"
 webdriver_manager = "^1.8.2"
 
 # Persistence
-datafiles = "=0.7b1"
+datafiles = { path = "../datafiles" }
 
 # Utilities
 minilog = "=1.4b2"
@@ -75,6 +75,7 @@ pyinstaller = "*"
 sniffer = "*"
 MacFSEvents = { version = "*", platform = "darwin" }
 pync = { version = "*", platform = "darwin" }
+ipython = "^7.12.0"
 
 [tool.poetry.scripts]
 

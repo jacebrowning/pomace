@@ -1,11 +1,13 @@
+import time
 from dataclasses import dataclass, field
 from typing import Callable, List, Optional
 from urllib.parse import urlparse
 
-from datafiles import datafile
-from splinter.browser import Browser
 from splinter.driver import ElementAPI
 
+from datafiles import datafile
+
+from . import shared
 from .enums import Verb
 
 
@@ -16,8 +18,8 @@ class Locator:
     value: str
     uses: int = field(default=0, compare=True)
 
-    def find(self, *, browser: Browser) -> Optional[ElementAPI]:
-        return getattr(browser, f'find_by_{self.mode}')(self.value)
+    def find(self) -> Optional[ElementAPI]:
+        return getattr(shared.browser, f'find_by_{self.mode}')(self.value)
 
 
 @dataclass
@@ -30,6 +32,30 @@ class Action:
     def __str__(self):
         return f'{self.verb}_{self.name}'
 
+    def __call__(self, *args, **kwargs) -> 'Page':
+        for locator in self.locators:
+
+            # TODO: https://github.com/jacebrowning/datafiles/issues/22
+            if not hasattr(locator, 'find'):
+                locator = Locator(**locator)  # type: ignore
+
+            element = locator.find()
+            if not element:
+                continue
+
+            try:
+                function = getattr(element, self.verb)
+            except AttributeError:
+                continue
+
+            function(*args, **kwargs)
+            locator.uses += 1
+            break
+
+        time.sleep(Verb(self.verb).delay)
+
+        return Page.at(shared.browser.url)
+
 
 @datafile("./.pomelo/{self.domain}{self.path}/{self.variant}.yml", defaults=True)
 class Page:
@@ -38,12 +64,22 @@ class Page:
     path: str = '/'
     variant: str = 'default'
 
+    active_locators: List[Locator] = field(
+        default_factory=lambda: [Locator('tag', 'body')]
+    )
+    inactive_locators: List[Locator] = field(
+        default_factory=lambda: [Locator('tag', 'body')]
+    )
+
     actions: List[Action] = field(default_factory=lambda: [Action()])
 
     @classmethod
-    def from_url(cls, url: str) -> 'Page':
+    def at(cls, url: str) -> 'Page':
         parts = urlparse(url)
         return cls(domain=parts.netloc, path=parts.path)  # type: ignore
+
+    def __repr__(self):
+        return f"Page.at('{self}')"
 
     def __str__(self):
         if self.variant == 'default':
@@ -54,30 +90,28 @@ class Page:
             return f'https://{self.domain} ({self.variant})'
         return f'https://{self.domain}{self.path} ({self.variant})'
 
-    def _get_action(self, name: str) -> Action:
+    def __dir__(self):
+        return [str(action) for action in self.actions]
+
+    def __getattr__(self, name: str) -> Action:
         verb, name = name.split('_', 1)
+
         for action in self.actions:
             if action.name == name and action.verb == verb:
                 return action
+
+        if Verb.validate(verb):
+            action = Action(verb, name)
+            self.actions.append(action)
+            return action
+
         raise AttributeError(f'No such action: {name}')
 
-    def perform(self, name: str, *, browser: Browser, action_input: Callable):
-        action = self._get_action(name)
-        for kwargs in action.locators:
-            # TODO: Fix 'CommentedMap' object has no attribute 'find'
-            locator = Locator(**kwargs)  # type: ignore
-            element = locator.find(browser=browser)
-            if not element:
-                continue
-
-            try:
-                function = getattr(element, action.verb)
-            except AttributeError:
-                continue
-
-            try:
-                function()
-            except TypeError:
-                function(action_input())
-
-            locator.uses += 1
+    def perform(self, name: str, *, prompt: Callable) -> 'Page':
+        action = getattr(self, name)
+        try:
+            page = action()
+        except TypeError:
+            value = prompt()
+            page = action(value)
+        return page
