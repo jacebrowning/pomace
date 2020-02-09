@@ -54,7 +54,8 @@ def loop(browser: browsers.Browser):
             reload(models)
             continue
 
-        page.perform(action, browser=browser)
+        cli = Input(prompt=f"\nValue: ")
+        page.perform(action, browser=browser, action_input=cli.launch)
 
 
 def actions(page: models.Page) -> List[str]:

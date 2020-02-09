@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import Callable, List, Optional
 from urllib.parse import urlparse
 
 from datafiles import datafile
@@ -48,11 +48,11 @@ class Page:
     def __str__(self):
         if self.variant == 'default':
             if self.path == '/':
-                return self.domain
-            return f'{self.domain}{self.path}'
+                return f'https://{self.domain}'
+            return f'https://{self.domain}{self.path}'
         if self.path == '/':
-            return f'{self.domain} ({self.variant})'
-        return f'{self.domain}{self.path} ({self.variant})'
+            return f'https://{self.domain} ({self.variant})'
+        return f'https://{self.domain}{self.path} ({self.variant})'
 
     def _get_action(self, name: str) -> Action:
         verb, name = name.split('_', 1)
@@ -61,10 +61,23 @@ class Page:
                 return action
         raise AttributeError(f'No such action: {name}')
 
-    def perform(self, name: str, *, browser: Browser):
+    def perform(self, name: str, *, browser: Browser, action_input: Callable):
         action = self._get_action(name)
         for kwargs in action.locators:
             # TODO: Fix 'CommentedMap' object has no attribute 'find'
             locator = Locator(**kwargs)  # type: ignore
             element = locator.find(browser=browser)
-            getattr(element, action.verb)()
+            if not element:
+                continue
+
+            try:
+                function = getattr(element, action.verb)
+            except AttributeError:
+                continue
+
+            try:
+                function()
+            except TypeError:
+                function(action_input())
+
+            locator.uses += 1
