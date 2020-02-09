@@ -1,3 +1,5 @@
+# pylint: disable=unused-import
+
 import atexit as _atexit
 
 import log as _log
@@ -10,3 +12,5 @@ if __name__ == '__main__':
     _log.silence('datafiles')
     _atexit.register(_cli.quit_browser)
     _cli.start_browser()
+    from pomelo.shared import browser
+    from pomelo import Page, autopage

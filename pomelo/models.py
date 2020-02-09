@@ -57,11 +57,11 @@ class Action:
         return Page.at(shared.browser.url)
 
 
-@datafile("./.pomelo/{self.domain}{self.path}/{self.variant}.yml", defaults=True)
+@datafile("./.pomelo/{self.domain}/{self.path}/{self.variant}.yml", defaults=True)
 class Page:
 
     domain: str
-    path: str = '/'
+    path: str = '@'
     variant: str = 'default'
 
     active_locators: List[Locator] = field(
@@ -76,24 +76,24 @@ class Page:
     @classmethod
     def at(cls, url: str) -> 'Page':
         parts = urlparse(url)
-        return cls(domain=parts.netloc, path=parts.path)  # type: ignore
+        path = '@' + parts.path.strip('/').replace('/', '@')
+        return cls(domain=parts.netloc, path=path)  # type: ignore
 
     def __repr__(self):
-        return f"Page.at('{self}')"
+        return f"Page.at('{self.url}', variant='{self.variant}')"
 
     def __str__(self):
         if self.variant == 'default':
-            if self.path == '/':
-                return f'https://{self.domain}'
-            return f'https://{self.domain}{self.path}'
-        if self.path == '/':
-            return f'https://{self.domain} ({self.variant})'
-        return f'https://{self.domain}{self.path} ({self.variant})'
+            return self.url
+        return f'{self.url} ({self.variant})'
 
     def __dir__(self):
-        return [str(action) for action in self.actions]
+        return ['domain', 'path', 'variant'] + [str(action) for action in self.actions]
 
     def __getattr__(self, name: str) -> Action:
+        if name.count('_') != 1:
+            raise AttributeError
+
         verb, name = name.split('_', 1)
 
         for action in self.actions:
@@ -106,6 +106,15 @@ class Page:
             return action
 
         raise AttributeError(f'No such action: {name}')
+
+    @property
+    def url(self) -> str:
+        path = self.path.replace('@', '/')
+        return f'https://{self.domain}{path}'
+
+    @property
+    def active(self) -> bool:
+        return shared.browser.url.rstrip('/') == self.url.rstrip('/')
 
     def perform(self, name: str, *, prompt: Callable) -> 'Page':
         action = getattr(self, name)
