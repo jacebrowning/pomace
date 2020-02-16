@@ -11,10 +11,15 @@ from . import shared
 from .enums import Verb
 
 
-@dataclass
 class URL:
 
-    _value: str
+    SLASH = '∕'  # 'DIVISION SLASH' (U+2215)
+
+    def __init__(self, url_or_domain, path=None):
+        if path:
+            self.value = f'https://{url_or_domain}' + path.replace(self.SLASH, '/')
+        else:
+            self.value = str(url_or_domain)
 
     def __eq__(self, other):
         return self.domain == other.domain and self.path == other.path
@@ -24,11 +29,15 @@ class URL:
 
     @property
     def domain(self) -> str:
-        return urlparse(self._value).netloc
+        return urlparse(self.value).netloc
 
     @property
     def path(self) -> str:
-        return urlparse(self._value).path.strip('/')
+        return '/' + urlparse(self.value).path.strip('/')
+
+    @property
+    def path_encoded(self) -> str:
+        return self.path.replace('/', self.SLASH)
 
 
 @dataclass(order=True)
@@ -111,7 +120,7 @@ class Action:
 class Page:
 
     domain: str
-    path: str = '@'
+    path: str = URL.SLASH
     variant: str = 'default'
 
     active_locators: List[Locator] = field(
@@ -132,43 +141,39 @@ class Page:
         if shared.browser.url != url:
             log.info(f"Redirected to {url}")
 
-        parts = urlparse(shared.browser.url)
-        path = '@' + parts.path.strip('/').replace('/', '@')
-
-        return cls(domain=parts.netloc, path=path, variant=variant)  # type: ignore
+        return cls(
+            domain=URL(url).domain, path=URL(url).path_encoded, variant=variant
+        )  # type: ignore
 
     def __repr__(self):
-        return f"Page.at('{self.url}', variant='{self.variant}')"
+        return f"Page.at('{self.url.value}', variant='{self.variant}')"
 
     def __str__(self):
         if self.variant == 'default':
-            return self.url
+            return self.url.value
         return f'{self.url} ({self.variant})'
 
     def __dir__(self):
         return [str(action) for action in self.actions]
 
     def __getattr__(self, name: str) -> Action:
-        if '_' not in name:
-            return object.__getattribute__(self, name)
+        if '_' in name:
+            verb, name = name.split('_', 1)
 
-        verb, name = name.split('_', 1)
+            for action in self.actions:
+                if action.name == name and action.verb == verb:
+                    return action
 
-        for action in self.actions:
-            if action.name == name and action.verb == verb:
+            if Verb.validate(verb):
+                action = Action(verb, name)
+                self.actions.append(action)
                 return action
 
-        if Verb.validate(verb):
-            action = Action(verb, name)
-            self.actions.append(action)
-            return action
-
-        raise AttributeError(f'No such action: {name}')
+        return object.__getattribute__(self, name)
 
     @property
-    def url(self) -> str:
-        path = self.path.replace('@', '/')
-        return f'https://{self.domain}{path}'
+    def url(self) -> URL:
+        return URL(self.domain, self.path)
 
     @property
     def active(self) -> bool:
