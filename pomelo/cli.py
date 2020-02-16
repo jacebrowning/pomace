@@ -4,7 +4,7 @@ from typing import List, Optional
 import click
 from bullet import Bullet, Input
 
-from . import browsers, models, shared
+from . import browser, models, shared
 from .settings import settings
 from .utils import autopage
 
@@ -22,19 +22,19 @@ def main(name: Optional[str] = '', headless: bool = False, domain: Optional[str]
     settings.browser.headless = headless
     if domain is not None:
         settings.site.domain = domain
-    start_browser()
+    launch_browser()
     try:
         run_loop()
     finally:
         quit_browser()
 
 
-def start_browser():
+def launch_browser():
     if not settings.browser.name:
         cli = Bullet(
             prompt="\nSelect a browser for automation: ",
             bullet=" ● ",
-            choices=browsers.NAMES,
+            choices=browser.NAMES,
         )
         settings.browser.name = cli.launch().lower()
 
@@ -42,8 +42,8 @@ def start_browser():
         cli = Input(prompt="\nStarting domain: ", strip=True)
         settings.site.domain = cli.launch()
 
-    shared.browser = browsers.get(settings.browser.name, settings.browser.headless)
-    shared.browser.visit('http://' + settings.site.domain)
+    shared.browser = browser.launch()
+    shared.browser.visit(settings.site.url)
 
 
 def quit_browser():

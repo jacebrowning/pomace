@@ -7,4 +7,4 @@ def describe_action():
     def describe_str():
         def default(expect):
             action = models.Action()
-            expect(str(action)) == 'click_element'
+            expect(str(action)) == 'click_<action>'

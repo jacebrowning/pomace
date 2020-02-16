@@ -20,7 +20,6 @@ class Locator:
     uses: int = field(default=0, compare=True)
 
     def find(self) -> Optional[ElementAPI]:
-        assert self.mode, f"Mode required: {self}"
         return getattr(shared.browser, f'find_by_{self.mode}')(self.value)
 
 
@@ -28,8 +27,10 @@ class Locator:
 class Action:
 
     verb: str = list(Verb)[0].value
-    name: str = 'element'
-    locators: List[Locator] = field(default_factory=lambda: [Locator('tag', 'body')])
+    name: str = '<action>'
+    locators: List[Locator] = field(
+        default_factory=lambda: [Locator('<mode>', '<value>')]
+    )
 
     def __str__(self):
         return f'{self.verb}_{self.name}'
@@ -101,7 +102,7 @@ class Page:
         return [str(action) for action in self.actions]
 
     def __getattr__(self, name: str) -> Action:
-        if name.count('_') != 1:
+        if '_' not in name:
             raise AttributeError
 
         verb, name = name.split('_', 1)

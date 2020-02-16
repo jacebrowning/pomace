@@ -18,6 +18,15 @@ class Browser:
 @datafile
 class Site:
     domain: str = ''
+    path: str = ''
+
+    @property
+    def url(self) -> str:
+        url = f"https://{self.domain}"
+        if self.path:
+            assert self.path.startswith('/')
+            url += self.path
+        return url
 
 
 @datafile("./.pomelo.yml")
@@ -30,8 +39,7 @@ class Settings:
         browser = self.browser.name.capitalize()
         if self.browser.headless:
             browser += " (headless)"
-        url = f"https://{self.site.domain}"
-        return f"{browser} -- {url}"
+        return f"{browser} -- {self.site.url}"
 
 
 settings = Settings()

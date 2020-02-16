@@ -9,7 +9,7 @@ from pomelo.settings import settings as _settings
 if __name__ == '__main__':
     _atexit.register(_cli.quit_browser)
     print(_settings.label)
-    _cli.start_browser()
+    _cli.launch_browser()
 
     from pomelo.shared import browser
     from pomelo import Page, autopage
