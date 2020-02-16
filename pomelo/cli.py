@@ -6,7 +6,6 @@ from bullet import Bullet, Input
 
 from . import browser, models, shared
 from .settings import settings
-from .utils import autopage
 
 
 RELOAD = '<relaod>'
@@ -43,18 +42,19 @@ def launch_browser():
         settings.site.domain = cli.launch()
 
     shared.browser = browser.launch()
+    browser.resize(shared.browser)
     shared.browser.visit(settings.site.url)
 
 
 def quit_browser():
     if shared.browser:
+        browser.save_size(shared.browser)
         shared.browser.quit()
 
 
 def run_loop():
+    page = models.autopage()
     while True:
-        page = autopage()
-
         cli = Bullet(
             prompt=f"\n{page}\n\nSelect an action: ",
             bullet=" ● ",
@@ -63,10 +63,11 @@ def run_loop():
         action = cli.launch()
         if action == RELOAD:
             reload(models)
+            page = models.autopage()
             continue
 
         cli = Input(prompt=f"\nValue: ")
-        page.perform(action, prompt=cli.launch)
+        page = page.perform(action, prompt=cli.launch)
 
 
 def actions(page: models.Page) -> List[str]:

@@ -33,3 +33,17 @@ def launch() -> Browser:
                 return Browser(name, **options)
 
         raise e from None
+
+
+def resize(browser: Browser):
+    browser.driver.set_window_size(settings.browser.width, settings.browser.height)
+    browser.driver.set_window_position(0, 0)
+    size = browser.driver.get_window_size()
+    log.debug(f'Resized browser: {size}')
+
+
+def save_size(browser: Browser):
+    size = browser.driver.get_window_size()
+    settings.browser.width = size['width']
+    settings.browser.height = size['height']
+    log.debug(f'Saved new browser size: {size}')

@@ -1,7 +1,6 @@
 from pkg_resources import DistributionNotFound, get_distribution
 
-from .models import Page
-from .utils import autopage
+from .models import Page, autopage
 
 
 try:
