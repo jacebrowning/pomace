@@ -68,11 +68,9 @@ class Page:
     variant: str = 'default'
 
     active_locators: List[Locator] = field(
-        default_factory=lambda: [Locator('tag', 'body')]
+        default_factory=lambda: [Locator('<mode>', '<value>')]
     )
-    inactive_locators: List[Locator] = field(
-        default_factory=lambda: [Locator('tag', 'body')]
-    )
+    inactive_locators: List[Locator] = field(default_factory=list)
 
     actions: List[Action] = field(default_factory=lambda: [Action()])
 
@@ -129,12 +127,12 @@ class Page:
 
         for locator in self.active_locators:
             if locator.mode and not locator.find():
-                log.debug(f'Unable to find: {locator}')
+                log.debug(f'{self}: Unable to find: {locator}')
                 match = False
 
         for locator in self.inactive_locators:
             if locator.mode and locator.find():
-                log.debug(f'Found unexpected: {locator}')
+                log.debug(f'{self}: Found unexpected: {locator}')
                 match = False
 
         return match
