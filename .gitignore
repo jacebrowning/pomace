@@ -1,4 +1,5 @@
 .pomelo
+.pomelo.yml
 geckodriver.log
 
 # Temporary Python files
