@@ -29,7 +29,7 @@ run: install
 
 .PHONY: ipython
 ipython: install
-	poetry run ipython --ipython-dir=notebooks
+	POMELO_DEBUG=true poetry run ipython --ipython-dir=notebooks
 
 # SYSTEM DEPENDENCIES #########################################################
 

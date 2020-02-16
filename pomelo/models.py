@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from typing import Callable, List, Optional
 from urllib.parse import urlparse
 
+import log
 from splinter.driver import ElementAPI
 
 from datafiles import datafile
@@ -19,6 +20,7 @@ class Locator:
     uses: int = field(default=0, compare=True)
 
     def find(self) -> Optional[ElementAPI]:
+        assert self.mode, f"Mode required: {self}"
         return getattr(shared.browser, f'find_by_{self.mode}')(self.value)
 
 
@@ -74,10 +76,18 @@ class Page:
     actions: List[Action] = field(default_factory=lambda: [Action()])
 
     @classmethod
-    def at(cls, url: str) -> 'Page':
-        parts = urlparse(url)
+    def at(cls, url: str, *, variant: str = 'default') -> 'Page':
+        if shared.browser.url != url:
+            log.info(f"Visiting {url}")
+            shared.browser.visit(url)
+
+        if shared.browser.url != url:
+            log.info(f"Redirected to {url}")
+
+        parts = urlparse(shared.browser.url)
         path = '@' + parts.path.strip('/').replace('/', '@')
-        return cls(domain=parts.netloc, path=path)  # type: ignore
+
+        return cls(domain=parts.netloc, path=path, variant=variant)  # type: ignore
 
     def __repr__(self):
         return f"Page.at('{self.url}', variant='{self.variant}')"
@@ -88,7 +98,7 @@ class Page:
         return f'{self.url} ({self.variant})'
 
     def __dir__(self):
-        return ['domain', 'path', 'variant'] + [str(action) for action in self.actions]
+        return [str(action) for action in self.actions]
 
     def __getattr__(self, name: str) -> Action:
         if name.count('_') != 1:
@@ -114,7 +124,19 @@ class Page:
 
     @property
     def active(self) -> bool:
-        return shared.browser.url.rstrip('/') == self.url.rstrip('/')
+        match = shared.browser.url.rstrip('/') == self.url.rstrip('/')
+
+        for locator in self.active_locators:
+            if locator.mode and not locator.find():
+                log.debug(f'Unable to find: {locator}')
+                match = False
+
+        for locator in self.inactive_locators:
+            if locator.mode and locator.find():
+                log.debug(f'Found unexpected: {locator}')
+                match = False
+
+        return match
 
     def perform(self, name: str, *, prompt: Callable) -> 'Page':
         action = getattr(self, name)
