@@ -1,7 +1,6 @@
 import os
 
 import log
-
 from datafiles import datafile, field
 
 

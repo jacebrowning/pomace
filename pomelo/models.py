@@ -3,9 +3,8 @@ from typing import Callable, List, Optional
 from urllib.parse import urlparse
 
 import log
-from splinter.driver import ElementAPI
-
 from datafiles import datafile
+from splinter.driver import ElementAPI
 
 from . import shared
 from .enums import Verb
