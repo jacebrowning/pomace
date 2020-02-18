@@ -17,10 +17,3 @@ def describe_url():
             url = models.URL('http://www.example.com/foo/bar')
             expect(url.domain) == 'www.example.com'
             expect(url.path_encoded) == '@foo@bar'
-
-
-def describe_action():
-    def describe_str():
-        def default(expect):
-            action = models.Action()
-            expect(str(action)) == 'click_<action>'

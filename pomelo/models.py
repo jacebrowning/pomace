@@ -42,17 +42,16 @@ class URL:
 @dataclass(order=True)
 class Locator:
 
-    mode: str
-    value: str
+    mode: str = ''
+    value: str = ''
     uses: int = field(default=0, compare=True)
 
     @property
     def _mode(self) -> Mode:
         return Mode(self.mode)
 
-    @property
-    def placeholder(self) -> bool:
-        return self.mode.startswith('<')
+    def __bool__(self) -> bool:
+        return bool(self.mode and self.value)
 
     def find(self) -> ElementAPI:
         return self._mode.finder(self.value)
@@ -61,15 +60,16 @@ class Locator:
 @dataclass
 class Action:
 
-    verb: str = list(Verb)[0].value
-    name: str = '<action>'
-    locators: List[Locator] = field(
-        default_factory=lambda: [Locator('<mode>', '<value>')]
-    )
+    verb: str = ''
+    name: str = ''
+    locators: List[Locator] = field(default_factory=lambda: [Locator()])
 
     @property
     def _verb(self) -> Verb:
         return Verb(self.verb)
+
+    def __bool__(self) -> bool:
+        return bool(self.verb and self.name)
 
     def __str__(self):
         return f'{self.verb}_{self.name}'
@@ -82,13 +82,15 @@ class Action:
             if not hasattr(locator, 'find'):
                 locator = Locator(**locator)  # type: ignore
 
-            if locator.placeholder:
-                log.debug(f'Placeholder locator: {locator}')
+            if not locator:
                 continue
 
+            log.debug(f'Using {locator} to find {self.name!r}')
             element = locator.find()
-            if not element:
-                log.debug(f'Invalid locator: {locator}')
+            if element:
+                log.debug(f'Locator found element: {element}')
+            else:
+                log.debug(f'Locator unable to find element')
                 continue
 
             self._perform_action(element, *args, **kwargs)
@@ -96,7 +98,9 @@ class Action:
             break
 
         else:
-            log.warn(f'Unable to {self}')
+            log.error(f'No locators able to find {self.name!r}')
+            if page:
+                return page
 
         if page and self._verb.updates:
             return page
@@ -116,12 +120,8 @@ class Page:
     path: str = URL.SLASH
     variant: str = 'default'
 
-    active_locators: List[Locator] = field(
-        default_factory=lambda: [Locator('<mode>', '<value>')]
-    )
-    inactive_locators: List[Locator] = field(
-        default_factory=lambda: [Locator('<mode>', '<value>')]
-    )
+    active_locators: List[Locator] = field(default_factory=lambda: [Locator()])
+    inactive_locators: List[Locator] = field(default_factory=lambda: [Locator()])
 
     actions: List[Action] = field(default_factory=lambda: [Action()])
 
@@ -139,6 +139,8 @@ class Page:
         )  # type: ignore
 
     def __repr__(self):
+        if self.variant == 'default':
+            return f"Page.at('{self.url.value}')"
         return f"Page.at('{self.url.value}', variant='{self.variant}')"
 
     def __str__(self):
@@ -170,29 +172,23 @@ class Page:
 
     @property
     def active(self) -> bool:
-        log.debug(f'Determining if active: {self}')
+        log.debug(f'Determining if active: {self!r}')
 
-        if URL(shared.browser.url) != URL(self.url):
-            log.debug(f'Wrong URL: {shared.browser.url}')
+        if URL(shared.browser.url) != self.url:
+            log.debug(f'Inactive - URL does not match: {shared.browser.url}')
             return False
 
         for locator in self.active_locators:
-            if locator.placeholder:
-                log.debug(f'Placeholder locator: {locator}')
-                return False
-            if locator.mode and not locator.find():
-                log.debug(f'{self}: Unable to find: {locator}')
+            if locator and not locator.find():
+                log.debug(f'Inactive - Unable to find: {locator!r}')
                 return False
 
         for locator in self.inactive_locators:
-            if locator.placeholder:
-                log.debug(f'Placeholder locator: {locator}')
-                return False
-            if locator.mode and locator.find():
-                log.debug(f'{self}: Found unexpected: {locator}')
+            if locator and locator.find():
+                log.debug(f'Inactive - Found unexpected: {locator!r}')
                 return False
 
-        log.debug(f'Page is active: {self}')
+        log.debug('Active')
         return True
 
     def perform(self, name: str, *, prompt: Callable) -> 'Page':
@@ -219,7 +215,7 @@ def autopage() -> Page:
                 log.warn(f'Multiple pages matched: {page}')
         return matching_pages[0]
 
-    log.warn('No matching pages found')
+    log.warn('Creating new page as none matched')
     page = Page.at(shared.browser.url)
     page.datafile.save()  # type: ignore
     return page

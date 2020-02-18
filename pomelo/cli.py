@@ -1,5 +1,5 @@
 from importlib import reload
-from typing import List, Optional
+from typing import Optional
 
 import click
 from bullet import Bullet, Input
@@ -58,7 +58,7 @@ def run_loop():
         cli = Bullet(
             prompt=f"\n{page}\n\nSelect an action: ",
             bullet=" ● ",
-            choices=actions(page),
+            choices=[RELOAD] + dir(page),
         )
         action = cli.launch()
         if action == RELOAD:
@@ -68,10 +68,6 @@ def run_loop():
 
         cli = Input(prompt=f"\nValue: ")
         page = page.perform(action, prompt=cli.launch)
-
-
-def actions(page: models.Page) -> List[str]:
-    return [RELOAD, *[str(a) for a in page.actions]]
 
 
 if __name__ == '__main__':  # pragma: no cover
