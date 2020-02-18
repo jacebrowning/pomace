@@ -32,6 +32,7 @@ classifiers = [
 python = "^3.7"
 
 # Interface
+click = "^7.0"
 bullet = "^2.1.0"
 
 # Automation
