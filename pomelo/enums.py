@@ -6,6 +6,24 @@ from selenium.webdriver.common.keys import Keys
 from . import shared
 
 
+class Mode(Enum):
+
+    CSS = 'css'
+    XPATH = 'xpath'
+    TAG = 'tag'
+    NAME = 'name'
+    TEXT = 'text'
+    PARTIAL_TEXT = 'partial_text'
+    ID = 'id'
+    VALUE = 'value'
+
+    @property
+    def finder(self):
+        if self is self.PARTIAL_TEXT:
+            return getattr(shared.browser.links, f'find_by_{self.value}')
+        return getattr(shared.browser, f'find_by_{self.value}')
+
+
 class Verb(Enum):
     CLICK = 'click'
     FILL = 'fill'

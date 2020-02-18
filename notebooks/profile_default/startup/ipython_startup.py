@@ -27,5 +27,6 @@ if __name__ == '__main__':
 
     from pomelo.shared import browser
     from pomelo import Page, autopage
+    from pomelo.settings import settings
 
     page = autopage()

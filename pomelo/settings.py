@@ -1,4 +1,5 @@
 import os
+from typing import List
 
 import log
 from datafiles import datafile, field
@@ -14,6 +15,12 @@ class Browser:
     width: int = 1920
     height: int = 1080
     headless: bool = False
+
+
+@datafile
+class Secret:
+    name: str
+    value: str
 
 
 @datafile
@@ -35,13 +42,19 @@ class Site:
 class Settings:
     browser: Browser = field(default_factory=Browser)
     site: Site = field(default_factory=Site)
+    secrets: List[Secret] = field(
+        default_factory=lambda: [Secret('password', '<value>')]  # type: ignore
+    )
 
-    @property
-    def label(self) -> str:
-        browser = self.browser.name.capitalize()
-        if self.browser.headless:
-            browser += " (headless)"
-        return f"{browser} -- {self.site.url}"
+    def __repr__(self):
+        secrets = ', '.join([secret.name for secret in self.secrets])
+        return f'<{self.site.domain} secrets: {secrets}>'
+
+    def __getattr__(self, name):
+        for secret in self.secrets:
+            if secret.name == name:
+                return secret.value
+        return object.__getattribute__(self, name)
 
 
 settings = Settings()

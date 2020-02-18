@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Callable, List, Optional
+from typing import Callable, List
 from urllib.parse import urlparse
 
 import log
@@ -7,7 +7,7 @@ from datafiles import datafile
 from splinter.driver import ElementAPI
 
 from . import shared
-from .enums import Verb
+from .enums import Mode, Verb
 
 
 class URL:
@@ -47,21 +47,15 @@ class Locator:
     uses: int = field(default=0, compare=True)
 
     @property
+    def _mode(self) -> Mode:
+        return Mode(self.mode)
+
+    @property
     def placeholder(self) -> bool:
         return self.mode.startswith('<')
 
-    def find(self) -> Optional[ElementAPI]:
-        if self.mode.startswith('find_'):
-            name = self.mode
-        else:
-            name = f'find_by_{self.mode}'
-        try:
-            finder = getattr(shared.browser, name)
-        except AttributeError as e:
-            log.error(e)
-            return None
-        else:
-            return finder(self.value)
+    def find(self) -> ElementAPI:
+        return self._mode.finder(self.value)
 
 
 @dataclass
