@@ -22,7 +22,7 @@ def action():
 
 @pytest.fixture
 def page():
-    return Page('example.com', '/foo/bar')  # type: ignore
+    return Page('example.com', '/foo/bar')
 
 
 def describe_url():

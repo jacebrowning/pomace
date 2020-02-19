@@ -40,7 +40,7 @@ splinter = "~0.13.0"
 webdriver_manager = "^1.8.2"
 
 # Persistence
-datafiles = "^0.7b5"
+datafiles = "^0.7b6"
 
 # Utilities
 minilog = "=1.4b2"

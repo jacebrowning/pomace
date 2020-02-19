@@ -38,7 +38,7 @@ def launch_browser():
         settings.browser.name = cli.launch().lower()
 
     if not settings.site.domain:
-        domains = [p.domain for p in models.Page.objects.all()]  # type: ignore
+        domains = [p.domain for p in models.Page.objects.all()]
         if domains:
             cli = Bullet(
                 prompt="\nStarting domain: ", bullet=" ● ", choices=list(set(domains))

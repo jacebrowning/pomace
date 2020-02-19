@@ -43,7 +43,7 @@ class Settings:
     browser: Browser = field(default_factory=Browser)
     site: Site = field(default_factory=Site)
     secrets: List[Secret] = field(
-        default_factory=lambda: [Secret('password', '<value>')]  # type: ignore
+        default_factory=lambda: [Secret('password', '<value>')]
     )
 
     def __repr__(self):

@@ -82,8 +82,8 @@ class Action:
         for locator in self.locators:
 
             # TODO: https://github.com/jacebrowning/datafiles/issues/22
-            if not hasattr(locator, 'find'):
-                locator = Locator(**locator)  # type: ignore
+            if isinstance(locator, dict):
+                locator = Locator(**locator)
 
             if not locator:
                 continue
@@ -137,9 +137,7 @@ class Page:
         if shared.browser.url != url:
             log.info(f"Redirected to {url}")
 
-        return cls(
-            domain=URL(url).domain, path=URL(url).path_encoded, variant=variant
-        )  # type: ignore
+        return cls(domain=URL(url).domain, path=URL(url).path_encoded, variant=variant)
 
     def __repr__(self):
         if self.variant == 'default':
@@ -219,7 +217,7 @@ def autopage() -> Page:
     matching_pages = []
 
     url = urlparse(shared.browser.url)
-    for page in Page.objects.filter(domain=url.netloc):  # type: ignore
+    for page in Page.objects.filter(domain=url.netloc):
         if page.active:
             matching_pages.append(page)
 
@@ -231,5 +229,5 @@ def autopage() -> Page:
 
     log.warn('Creating new page as none matched')
     page = Page.at(shared.browser.url)
-    page.datafile.save()  # type: ignore
+    page.datafile.save()
     return page
