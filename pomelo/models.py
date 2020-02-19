@@ -71,11 +71,11 @@ class Action:
     def _verb(self) -> Verb:
         return Verb(self.verb)
 
-    def __bool__(self) -> bool:
-        return bool(self.verb and self.name)
-
     def __str__(self):
         return f'{self.verb}_{self.name}'
+
+    def __bool__(self) -> bool:
+        return bool(self.verb and self.name)
 
     def __call__(self, *args, **kwargs) -> 'Page':
         page = kwargs.pop('_page', None)
