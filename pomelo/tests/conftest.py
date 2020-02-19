@@ -1,8 +1,9 @@
-# pylint: disable=no-self-use
+# pylint: disable=no-self-use,unused-argument
 
 """Unit tests configuration file."""
 
 
+import datafiles
 import log
 import pytest
 
@@ -32,3 +33,8 @@ def pytest_configure(config):
 
     terminal = config.pluginmanager.getplugin('terminal')
     terminal.TerminalReporter.showfspath = False
+
+
+def pytest_runtest_setup(item):
+    """Disable file storage during unit tests."""
+    datafiles.settings.HOOKS_ENABLED = False
