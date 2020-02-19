@@ -20,6 +20,9 @@ class URL:
         else:
             self.value = str(url_or_domain)
 
+    def __str__(self):
+        return self.value
+
     def __eq__(self, other):
         return self.domain == other.domain and self.path == other.path
 
@@ -149,7 +152,16 @@ class Page:
         return f'{self.url} ({self.variant})'
 
     def __dir__(self):
-        return [str(action) for action in self.actions]
+        names = []
+        add_placeholder = True
+        for action in self.actions:
+            if action:
+                names.append(str(action))
+            else:
+                add_placeholder = False
+        if add_placeholder:
+            self.actions.append(Action())
+        return names
 
     def __getattr__(self, name: str) -> Action:
         if '_' in name:
@@ -175,29 +187,31 @@ class Page:
         log.debug(f'Determining if active: {self!r}')
 
         if URL(shared.browser.url) != self.url:
-            log.debug(f'Inactive - URL does not match: {shared.browser.url}')
+            log.debug(
+                f'{self!r} is inactive - URL does not match: {shared.browser.url}'
+            )
             return False
 
         for locator in self.active_locators:
             if locator and not locator.find():
-                log.debug(f'Inactive - Unable to find: {locator!r}')
+                log.debug(f'{self!r} is inactive - Unable to find: {locator!r}')
                 return False
 
         for locator in self.inactive_locators:
             if locator and locator.find():
-                log.debug(f'Inactive - Found unexpected: {locator!r}')
+                log.debug(f'{self!r} is inactive - Found unexpected: {locator!r}')
                 return False
 
-        log.debug('Active')
+        log.debug(f'{self!r} is active')
         return True
 
     def perform(self, name: str, *, prompt: Callable) -> 'Page':
         action = getattr(self, name)
-        try:
-            page = action(_page=self)
-        except TypeError:
+        if action.verb in {'fill', 'select'}:
             value = prompt()
             page = action(value, _page=self)
+        else:
+            page = action(_page=self)
         return page
 
 

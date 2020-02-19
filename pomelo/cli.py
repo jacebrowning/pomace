@@ -38,7 +38,13 @@ def launch_browser():
         settings.browser.name = cli.launch().lower()
 
     if not settings.site.domain:
-        cli = Input(prompt="\nStarting domain: ", strip=True)
+        domains = [p.domain for p in models.Page.objects.all()]  # type: ignore
+        if domains:
+            cli = Bullet(
+                prompt="\nStarting domain: ", bullet=" ● ", choices=list(set(domains))
+            )
+        else:
+            cli = Input(prompt="\nStarting domain: ", strip=True)
         settings.site.domain = cli.launch()
 
     shared.browser = browser.launch()
