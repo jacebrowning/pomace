@@ -1,6 +1,7 @@
 from pkg_resources import DistributionNotFound, get_distribution
 
 from .api import visit
+from .config import settings
 from .models import Page, autopage
 
 

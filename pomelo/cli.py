@@ -4,8 +4,8 @@ from typing import Optional
 import click
 from bullet import Bullet, Input
 
-from . import browser, models, shared
-from .settings import settings
+from . import browser, models, utils
+from .config import settings
 
 
 RELOAD = '<relaod>'
@@ -20,12 +20,12 @@ def main(name: Optional[str] = '', headless: bool = False, domain: Optional[str]
         settings.browser.name = name.lower()
     settings.browser.headless = headless
     if domain is not None:
-        settings.site.domain = domain
+        settings.site.url = f'https://{domain}'
     launch_browser()
     try:
         run_loop()
     finally:
-        quit_browser()
+        utils.quit_browser()
 
 
 def launch_browser():
@@ -45,17 +45,9 @@ def launch_browser():
             )
         else:
             cli = Input(prompt="\nStarting domain: ", strip=True)
-        settings.site.domain = cli.launch()
+        settings.site.url = f'https://{cli.launch()}'
 
-    shared.browser = browser.launch()
-    browser.resize(shared.browser)
-    shared.browser.visit(settings.site.url)
-
-
-def quit_browser():
-    if shared.browser:
-        browser.save_size(shared.browser)
-        shared.browser.quit()
+    utils.launch_browser()
 
 
 def run_loop():

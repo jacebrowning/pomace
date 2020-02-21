@@ -1,5 +1,6 @@
 import os
 from typing import List
+from urllib.parse import urlparse
 
 import log
 from datafiles import datafile, field
@@ -25,17 +26,11 @@ class Secret:
 
 @datafile
 class Site:
-    domain: str = ''
-    path: str = '/'
+    url: str = ''
 
     @property
-    def url(self) -> str:
-        url = f"https://{self.domain}"
-        if not self.path.startswith('/'):
-            self.path = '/' + self.path
-        if self.path != '/':
-            url += self.path
-        return url
+    def domain(self) -> str:
+        return urlparse(self.url).netloc
 
 
 @datafile("./.pomelo.yml", defaults=True)

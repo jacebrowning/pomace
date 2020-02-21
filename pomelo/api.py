@@ -1,12 +1,16 @@
-# pylint: disable=unused-import,import-outside-toplevel
-
 import atexit
 
-from . import cli, models, shared
+from . import models, utils
+from .config import settings
 
 
-def visit(url: str) -> models.Page:
-    atexit.register(cli.quit_browser)
-    cli.launch_browser()
-    shared.browser.visit(url)
+def visit(url: str, *, browser: str = '') -> models.Page:
+    settings.site.url = url
+    if browser:
+        settings.browser.name = browser.lower()
+
+    atexit.register(utils.quit_browser)
+
+    utils.launch_browser()
+
     return models.autopage()
