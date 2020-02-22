@@ -612,6 +612,10 @@ colorama = "*"
 isort = ">=4.2.5,<5"
 mccabe = ">=0.6,<0.7"
 
+[package.source]
+reference = "e169e83e52fedc6624235d45e8e8737294a0fedf"
+type = "git"
+url = "https://github.com/PyCQA/pylint"
 [[package]]
 category = "dev"
 description = "Python Wrapper for Mac OS 10.10 Notification Center"
@@ -966,7 +970,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "8f1848c2180f41afa3ebadd1024af977c02433f7017a981ebb257d8a34596109"
+content-hash = "695e43c7a9b606365f96d3f60ec086fce4ea0fae365a4a5bab921b54be165825"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -1279,10 +1283,7 @@ pygments = [
 pyinstaller = [
     {file = "PyInstaller-3.6.tar.gz", hash = "sha256:3730fa80d088f8bb7084d32480eb87cbb4ddb64123363763cf8f2a1378c1c4b7"},
 ]
-pylint = [
-    {file = "pylint-2.4.4-py3-none-any.whl", hash = "sha256:886e6afc935ea2590b462664b161ca9a5e40168ea99e5300935f6591ad467df4"},
-    {file = "pylint-2.4.4.tar.gz", hash = "sha256:3db5468ad013380e987410a8d6956226963aed94ecb5f9d3a28acca6d9ac36cd"},
-]
+pylint = []
 pync = [
     {file = "pync-2.0.3.tar.gz", hash = "sha256:38b9e61735a3161f9211a5773c5f5ea698f36af4ff7f77fa03e8d1ff0caa117f"},
 ]

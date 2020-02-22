@@ -25,11 +25,11 @@ watch: install .clean-test ## Continuously run all CI tasks when files chanage
 
 .PHONY: run ## Start the program
 run: install
-	poetry run pomelo
+	poetry run python $(PACKAGE)/__main__.py
 
-.PHONY: ipython
+.PHONY: ipython ## Launch an IPython session
 ipython: install
-	POMELO_DEBUG=true poetry run ipython --ipython-dir=notebooks
+	poetry run ipython --ipython-dir=notebooks
 
 # SYSTEM DEPENDENCIES #########################################################
 
@@ -138,8 +138,7 @@ docs/requirements.txt: poetry.lock
 .PHONY: uml
 uml: install docs/*.png
 docs/*.png: $(MODULES)
-	# TODO: Find compatible version of pylint
-	# poetry run pyreverse $(PACKAGE) -p $(PACKAGE) -a 1 -f ALL -o png --ignore tests
+	poetry run pyreverse $(PACKAGE) -p $(PACKAGE) -a 1 -f ALL -o png --ignore tests
 	- mv -f classes_$(PACKAGE).png docs/classes.png
 	- mv -f packages_$(PACKAGE).png docs/packages.png
 
