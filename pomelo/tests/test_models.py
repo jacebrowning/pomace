@@ -42,6 +42,12 @@ def describe_url():
             expect(url) == URL('https://www.example.com/foo/bar/')
             expect(url) != URL('http://example.com/foo/bar')
 
+        def it_matches_patterns(expect):
+            pattern = URL('http://example.com/p/{name}')
+            expect(pattern) == URL('http://example.com/p/foobar')
+            expect(pattern) != URL('http://example.com/')
+            expect(pattern) != URL('http://example.com/p/foo/bar')
+
     def describe_path_encoded():
         def it_replaces_slashes_with_special_character(expect, monkeypatch, url):
             monkeypatch.setattr(URL, 'SLASH', '@')

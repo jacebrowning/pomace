@@ -41,6 +41,7 @@ webdriver_manager = "^1.8.2"
 
 # Persistence
 datafiles = "~0.7"
+parse = "^1.14.0"
 
 # Utilities
 minilog = "^1.4"

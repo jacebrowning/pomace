@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 
 import log
 from datafiles import datafile
+from parse import parse
 from splinter.driver import ElementAPI
 
 from . import shared
@@ -25,10 +26,20 @@ class URL:
         return self.value
 
     def __eq__(self, other):
-        return self.domain == other.domain and self.path == other.path
+        if self.domain != other.domain:
+            return False
+        if self.path == other.path:
+            return True
+        result = parse(self.path, other.path)
+        if not result:
+            return False
+        for value in result.named.values():
+            if '/' in value:
+                return False
+        return True
 
     def __ne__(self, other):
-        return self.domain != other.domain or self.path != other.path
+        return not self.__eq__(other)
 
     @property
     def domain(self) -> str:
@@ -148,7 +159,7 @@ class Page:
     def active(self) -> bool:
         log.debug(f'Determining if active: {self!r}')
 
-        if URL(shared.browser.url) != self.url:
+        if self.url != URL(shared.browser.url):
             log.debug(
                 f'{self!r} is inactive - URL does not match: {shared.browser.url}'
             )
