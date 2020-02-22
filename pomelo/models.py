@@ -140,6 +140,33 @@ class Page:
 
         return cls(domain=URL(url).domain, path=URL(url).path_encoded, variant=variant)
 
+    @property
+    def url(self) -> URL:
+        return URL(self.domain, self.path)
+
+    @property
+    def active(self) -> bool:
+        log.debug(f'Determining if active: {self!r}')
+
+        if URL(shared.browser.url) != self.url:
+            log.debug(
+                f'{self!r} is inactive - URL does not match: {shared.browser.url}'
+            )
+            return False
+
+        for locator in self.active_locators:
+            if locator and not locator.find():
+                log.debug(f'{self!r} is inactive - Unable to find: {locator!r}')
+                return False
+
+        for locator in self.inactive_locators:
+            if locator and locator.find():
+                log.debug(f'{self!r} is inactive - Found unexpected: {locator!r}')
+                return False
+
+        log.debug(f'{self!r} is active')
+        return True
+
     def __repr__(self):
         if self.variant == 'default':
             return f"Page.at('{self.url.value}')"
@@ -147,7 +174,7 @@ class Page:
 
     def __str__(self):
         if self.variant == 'default':
-            return self.url.value
+            return f'{self.url}'
         return f'{self.url} ({self.variant})'
 
     def __dir__(self):
@@ -177,37 +204,13 @@ class Page:
 
         return object.__getattribute__(self, name)
 
-    @property
-    def url(self) -> URL:
-        return URL(self.domain, self.path)
-
-    @property
-    def active(self) -> bool:
-        log.debug(f'Determining if active: {self!r}')
-
-        if URL(shared.browser.url) != self.url:
-            log.debug(
-                f'{self!r} is inactive - URL does not match: {shared.browser.url}'
-            )
-            return False
-
-        for locator in self.active_locators:
-            if locator and not locator.find():
-                log.debug(f'{self!r} is inactive - Unable to find: {locator!r}')
-                return False
-
-        for locator in self.inactive_locators:
-            if locator and locator.find():
-                log.debug(f'{self!r} is inactive - Found unexpected: {locator!r}')
-                return False
-
-        log.debug(f'{self!r} is active')
-        return True
-
     def perform(self, name: str, *, prompt: Callable) -> Tuple['Page', bool]:
         action = getattr(self, name)
         if action.verb in {'fill', 'select'}:
-            value = settings.translate(prompt())
+            try:
+                value = getattr(settings, action.name)
+            except AttributeError:
+                value = prompt()
             page = action(value, _page=self)
         else:
             page = action(_page=self)

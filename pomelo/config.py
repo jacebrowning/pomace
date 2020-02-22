@@ -55,15 +55,5 @@ class Settings:
                 return secret.value
         return object.__getattribute__(self, name)
 
-    def translate(self, value: str) -> str:
-        if value.startswith('settings.'):
-            name = value.split('.')[-1]
-            try:
-                value = getattr(settings, name)
-            except AttributeError:
-                log.error(f'{name!r} not available for {self.site}')
-                return ''
-        return value
-
 
 settings = Settings()
