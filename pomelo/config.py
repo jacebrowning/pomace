@@ -20,6 +20,7 @@ class Browser:
 
 @datafile
 class Secret:
+    domain: str
     name: str
     value: str
 
@@ -32,13 +33,16 @@ class Site:
     def domain(self) -> str:
         return urlparse(self.url).netloc
 
+    def __str__(self):
+        return self.domain
+
 
 @datafile("./.pomelo.yml", defaults=True)
 class Settings:
     browser: Browser = field(default_factory=Browser)
     site: Site = field(default_factory=Site)
     secrets: List[Secret] = field(
-        default_factory=lambda: [Secret('password', '<value>')]
+        default_factory=lambda: [Secret('example.com', 'password', '<value>')]
     )
 
     def __repr__(self):
@@ -47,9 +51,19 @@ class Settings:
 
     def __getattr__(self, name):
         for secret in self.secrets:
-            if secret.name == name:
+            if secret.domain == self.site.domain and secret.name == name:
                 return secret.value
         return object.__getattribute__(self, name)
+
+    def translate(self, value: str) -> str:
+        if value.startswith('settings.'):
+            name = value.split('.')[-1]
+            try:
+                value = getattr(settings, name)
+            except AttributeError:
+                log.error(f'{name!r} not available for {self.site}')
+                return ''
+        return value
 
 
 settings = Settings()

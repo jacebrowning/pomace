@@ -1,4 +1,6 @@
+import os
 from importlib import reload
+from pathlib import Path
 from typing import Optional
 
 import click
@@ -8,19 +10,31 @@ from . import browser, models, utils
 from .config import settings
 
 
-RELOAD = '<relaod>'
+RELOAD = '<reload actions>'
 
 
 @click.command()
 @click.option('--name')
 @click.option('--headless', is_flag=True)
 @click.option('--domain')
-def main(name: Optional[str] = '', headless: bool = False, domain: Optional[str] = ''):
+@click.option('-r', '--root', type=Path)
+def main(
+    name: Optional[str] = '',
+    headless: bool = False,
+    domain: Optional[str] = '',
+    root: Optional[Path] = None,
+):
+    if root:
+        os.chdir(root)
+
     if name is not None:
         settings.browser.name = name.lower()
+
     settings.browser.headless = headless
+
     if domain is not None:
         settings.site.url = f'https://{domain}'
+
     launch_browser()
     try:
         run_loop()
@@ -52,20 +66,28 @@ def launch_browser():
 
 def run_loop():
     page = models.autopage()
+    clear_screen()
+    print(page)
     while True:
-        cli = Bullet(
-            prompt=f"\n{page}\n\nSelect an action: ",
-            bullet=" ● ",
-            choices=[RELOAD] + dir(page),
-        )
+        choices = [RELOAD] + dir(page)
+        cli = Bullet(prompt=f"\nSelect an action: ", bullet=" ● ", choices=choices)
         action = cli.launch()
         if action == RELOAD:
             reload(models)
             page = models.autopage()
+            clear_screen()
+            print(page)
             continue
 
         cli = Input(prompt=f"\nValue: ")
-        page = page.perform(action, prompt=cli.launch)
+        page, transitioned = page.perform(action, prompt=cli.launch)
+        if transitioned:
+            clear_screen()
+            print(page)
+
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 if __name__ == '__main__':  # pragma: no cover

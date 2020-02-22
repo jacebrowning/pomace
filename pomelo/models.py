@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Callable, List
+from typing import Callable, List, Tuple
 from urllib.parse import urlparse
 
 import log
@@ -7,6 +7,7 @@ from datafiles import datafile
 from splinter.driver import ElementAPI
 
 from . import shared
+from .config import settings
 from .enums import Mode, Verb
 
 
@@ -203,14 +204,14 @@ class Page:
         log.debug(f'{self!r} is active')
         return True
 
-    def perform(self, name: str, *, prompt: Callable) -> 'Page':
+    def perform(self, name: str, *, prompt: Callable) -> Tuple['Page', bool]:
         action = getattr(self, name)
         if action.verb in {'fill', 'select'}:
-            value = prompt()
+            value = settings.translate(prompt())
             page = action(value, _page=self)
         else:
             page = action(_page=self)
-        return page
+        return page, page != self
 
 
 def autopage() -> Page:
