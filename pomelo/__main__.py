@@ -3,8 +3,8 @@
 """Package entry point."""
 
 
-from pomelo.cli import main
+from pomelo.cli import application
 
 
 if __name__ == '__main__':  # pragma: no cover
-    main()
+    application.run()

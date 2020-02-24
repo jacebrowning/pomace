@@ -1,94 +1,96 @@
+# pylint: disable=no-self-use
+
 import os
 from importlib import reload
-from pathlib import Path
-from typing import Optional
 
-import click
 from bullet import Bullet, Input
+from cleo import Application, Command
 
 from . import browser, models, utils
 from .config import settings
 
 
-RELOAD = '<reload actions>'
+class RunCommand(Command):
+    """
+    Run Pomelo in a loop
 
+    run
+        {--browser= : Browser to use for automation}
+        {--headless : If set, the specified browser will run headless}
+        {--domain= : Starting domain for the automation}
+        {--r|root= : Directory to load models from}
+    """
 
-@click.command()
-@click.option('--name')
-@click.option('--headless', is_flag=True)
-@click.option('--domain')
-@click.option('-r', '--root', type=Path)
-def main(
-    name: Optional[str] = '',
-    headless: bool = False,
-    domain: Optional[str] = '',
-    root: Optional[Path] = None,
-):
-    if root:
-        os.chdir(root)
+    def handle(self):
+        self.update_settings()
+        self.launch_browser()
+        try:
+            self.run_loop()
+        finally:
+            utils.quit_browser()
 
-    if name is not None:
-        settings.browser.name = name.lower()
+    def update_settings(self):
+        if self.option('root'):
+            os.chdir(self.option('root'))
 
-    settings.browser.headless = headless
+        if self.option('browser'):
+            settings.browser.name = self.option('browser').lower()
 
-    if domain is not None:
-        settings.site.url = f'https://{domain}'
+        settings.browser.headless = self.option('headless')
 
-    launch_browser()
-    try:
-        run_loop()
-    finally:
-        utils.quit_browser()
+        if self.option('domain'):
+            settings.site.url = "https://" + self.option('domain')
 
-
-def launch_browser():
-    if not settings.browser.name:
-        cli = Bullet(
-            prompt="\nSelect a browser for automation: ",
-            bullet=" ● ",
-            choices=browser.NAMES,
-        )
-        settings.browser.name = cli.launch().lower()
-
-    if not settings.site.domain:
-        domains = [p.domain for p in models.Page.objects.all()]
-        if domains:
+    def launch_browser(self):
+        if not settings.browser.name:
             cli = Bullet(
-                prompt="\nStarting domain: ", bullet=" ● ", choices=list(set(domains))
+                prompt="\nSelect a browser for automation: ",
+                bullet=" ● ",
+                choices=browser.NAMES,
             )
-        else:
-            cli = Input(prompt="\nStarting domain: ", strip=True)
-        settings.site.url = f'https://{cli.launch()}'
+            settings.browser.name = cli.launch().lower()
 
-    utils.launch_browser()
+        if not settings.site.domain:
+            domains = [p.domain for p in models.Page.objects.all()]
+            if domains:
+                cli = Bullet(
+                    prompt="\nStarting domain: ",
+                    bullet=" ● ",
+                    choices=list(set(domains)),
+                )
+            else:
+                cli = Input(prompt="\nStarting domain: ", strip=True)
+            settings.site.url = f'https://{cli.launch()}'
+
+        utils.launch_browser()
+
+    def run_loop(self):
+        page = models.autopage()
+        self.clear_screen()
+        self.display_url(page)
+        while True:
+            choices = ['<reload>'] + dir(page)
+            cli = Bullet(prompt=f"\nSelect an action: ", bullet=" ● ", choices=choices)
+            action = cli.launch()
+            if action == '<reload>':
+                reload(models)
+                page = models.autopage()
+                self.clear_screen()
+                self.display_url(page)
+                continue
+
+            cli = Input(prompt=f"\nValue: ")
+            page, transitioned = page.perform(action, prompt=cli.launch)
+            if transitioned:
+                self.clear_screen()
+                self.display_url(page)
+
+    def clear_screen(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
+
+    def display_url(self, page):
+        self.line(f'<fg=white;options=bold>{page}</>')
 
 
-def run_loop():
-    page = models.autopage()
-    clear_screen()
-    print(page)
-    while True:
-        choices = [RELOAD] + dir(page)
-        cli = Bullet(prompt=f"\nSelect an action: ", bullet=" ● ", choices=choices)
-        action = cli.launch()
-        if action == RELOAD:
-            reload(models)
-            page = models.autopage()
-            clear_screen()
-            print(page)
-            continue
-
-        cli = Input(prompt=f"\nValue: ")
-        page, transitioned = page.perform(action, prompt=cli.launch)
-        if transitioned:
-            clear_screen()
-            print(page)
-
-
-def clear_screen():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-
-if __name__ == '__main__':  # pragma: no cover
-    main()
+application = Application()
+application.add(RunCommand())
