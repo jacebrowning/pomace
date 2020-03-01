@@ -1,9 +1,8 @@
-from dataclasses import dataclass, field
 from typing import Callable, List, Tuple
 from urllib.parse import urlparse
 
 import log
-from datafiles import datafile
+from datafiles import datafile, field
 from parse import parse
 from splinter.driver import ElementAPI
 
@@ -54,7 +53,7 @@ class URL:
         return self.path.replace('/', self.SLASH)
 
 
-@dataclass(order=True)
+@datafile(order=True)
 class Locator:
 
     mode: str = ''
@@ -72,7 +71,7 @@ class Locator:
         return self._mode.finder(self.value)
 
 
-@dataclass
+@datafile
 class Action:
 
     verb: str = ''

@@ -23,7 +23,7 @@ def _display_settings():
 if __name__ == '__main__':
     _atexit.register(_utils.quit_browser)
     _display_settings()
-    _cli.launch_browser()
+    _cli.RunCommand().launch_browser()
 
     from pomelo.shared import browser
     from pomelo import Page, autopage
