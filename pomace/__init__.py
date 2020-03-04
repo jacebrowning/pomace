@@ -6,6 +6,6 @@ from .models import Page, autopage
 
 
 try:
-    __version__ = get_distribution('Pomelo').version
+    __version__ = get_distribution('pomace').version
 except DistributionNotFound:
     __version__ = '(local)'

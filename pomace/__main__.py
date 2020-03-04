@@ -3,7 +3,7 @@
 """Package entry point."""
 
 
-from pomelo.cli import application
+from pomace.cli import application
 
 
 if __name__ == '__main__':  # pragma: no cover

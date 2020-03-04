@@ -2,11 +2,11 @@
 
 import atexit as _atexit
 
-from pomelo import cli as _cli, utils as _utils
+from pomace import cli as _cli, utils as _utils
 
 
 def _display_settings():
-    from pomelo.config import settings
+    from pomace.config import settings
 
     line = ""
     if settings.browser.name:
@@ -25,8 +25,8 @@ if __name__ == '__main__':
     _display_settings()
     _cli.RunCommand().launch_browser()
 
-    from pomelo.shared import browser
-    from pomelo import Page, autopage
-    from pomelo.config import settings
+    from pomace.shared import browser
+    from pomace import Page, autopage
+    from pomace.config import settings
 
     page = autopage()

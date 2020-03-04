@@ -1,9 +1,9 @@
-site_name: Pomelo
+site_name: Pomace
 site_description: Dynamic page objects for browser automation.
 site_author: Jace Browning
 
-repo_url: https://github.com/jacebrowning/pomelo
-edit_uri: https://github.com/jacebrowning/pomelo/edit/develop/docs
+repo_url: https://github.com/jacebrowning/pomace
+edit_uri: https://github.com/jacebrowning/pomace/edit/develop/docs
 
 theme: readthedocs
 
@@ -12,9 +12,9 @@ markdown_extensions:
       linenums: true
 
 nav:
-- Home: index.md
-- Advanced: advanced.md
-- About:
-  - Release Notes: about/changelog.md
-  - Contributing: about/contributing.md
-  - License: about/license.md
+  - Home: index.md
+  - Advanced: advanced.md
+  - About:
+      - Release Notes: about/changelog.md
+      - Contributing: about/contributing.md
+      - License: about/license.md

@@ -127,7 +127,7 @@ class Action:
         self._verb.post_action()
 
 
-@datafile("./.pomelo/{self.domain}/{self.path}/{self.variant}.yml", defaults=True)
+@datafile("./.pomace/{self.domain}/{self.path}/{self.variant}.yml", defaults=True)
 class Page:
 
     domain: str

@@ -12,7 +12,7 @@ from .config import settings
 
 class RunCommand(Command):
     """
-    Run Pomelo in a loop
+    Run pomace in a loop
 
     run
         {--browser= : Browser to use for automation}

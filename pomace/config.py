@@ -6,7 +6,7 @@ import log
 from datafiles import datafile, field
 
 
-log.init(debug='POMELO_DEBUG' in os.environ)
+log.init(debug='pomace_DEBUG' in os.environ)
 log.silence('datafiles')
 
 
@@ -37,7 +37,7 @@ class Site:
         return self.domain
 
 
-@datafile("./.pomelo.yml", defaults=True)
+@datafile("./.pomace.yml", defaults=True)
 class Settings:
     browser: Browser = field(default_factory=Browser)
     site: Site = field(default_factory=Site)

@@ -1,7 +1,7 @@
 # Project settings
-PROJECT := Pomelo
-PACKAGE := pomelo
-REPOSITORY := jacebrowning/pomelo
+PROJECT := pomace
+PACKAGE := pomace
+REPOSITORY := jacebrowning/pomace
 
 # Project paths
 PACKAGES := $(PACKAGE) tests
@@ -25,7 +25,7 @@ watch: install .clean-test ## Continuously run all CI tasks when files chanage
 
 .PHONY: run ## Start the program
 run: install
-	poetry run pomelo run
+	poetry run pomace run
 
 .PHONY: ipython ## Launch an IPython session
 ipython: install

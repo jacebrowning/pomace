@@ -2,4 +2,4 @@
 
 # pylint: disable=unused-import
 
-from pomelo.tests.conftest import pytest_configure
+from pomace.tests.conftest import pytest_configure

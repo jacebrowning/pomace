@@ -7,7 +7,7 @@ import datafiles
 import log
 import pytest
 
-from pomelo import shared
+from pomace import shared
 
 
 class MockLinks:

@@ -4,6 +4,7 @@ import time
 import subprocess
 
 from sniffer.api import select_runnable, file_validator, runnable
+
 try:
     from pync import Notifier
 except ImportError:
@@ -12,7 +13,7 @@ else:
     notify = Notifier.notify
 
 
-watch_paths = ["pomelo", "tests"]
+watch_paths = ["pomace", "tests"]
 
 
 class Options:
