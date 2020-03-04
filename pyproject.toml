@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomelo"
-version = "0.0"
+version = "0.1a1"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
