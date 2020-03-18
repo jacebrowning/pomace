@@ -3,6 +3,7 @@
 import os
 from importlib import reload
 
+import log
 from bullet import Bullet, Input
 from cleo import Application, Command
 
@@ -22,7 +23,10 @@ class RunCommand(Command):
         {--dev : Enable development mode to create missing pages}
     """
 
+    RELOAD_ACTIONS = '<reload actions>'
+
     def handle(self):
+        log.init(verbosity=self.io.verbosity + 1)
         self.update_settings()
         self.launch_browser()
         try:
@@ -73,10 +77,10 @@ class RunCommand(Command):
         self.clear_screen()
         self.display_url(page)
         while True:
-            choices = ['<reload>'] + dir(page)
+            choices = [self.RELOAD_ACTIONS] + dir(page)
             cli = Bullet(prompt=f"\nSelect an action: ", bullet=" ● ", choices=choices)
             action = cli.launch()
-            if action == '<reload>':
+            if action == self.RELOAD_ACTIONS:
                 reload(models)
                 page = models.autopage()
                 self.clear_screen()
