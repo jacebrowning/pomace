@@ -16,9 +16,10 @@ class RunCommand(Command):
 
     run
         {--browser= : Browser to use for automation}
-        {--headless : If set, the specified browser will run headless}
+        {--headless : Run the specified browser in a headless mode}
         {--domain= : Starting domain for the automation}
-        {--r|root= : Directory to load models from}
+        {--root= : Directory to load models from}
+        {--dev : Enable development mode to create missing pages}
     """
 
     def handle(self):
@@ -40,6 +41,9 @@ class RunCommand(Command):
 
         if self.option('domain'):
             settings.site.url = "https://" + self.option('domain')
+
+        if self.option('dev'):
+            settings.development_mode_enabled = True
 
     def launch_browser(self):
         if not settings.browser.name:

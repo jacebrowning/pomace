@@ -44,6 +44,7 @@ class Settings:
     secrets: List[Secret] = field(
         default_factory=lambda: [Secret('example.com', 'password', '<value>')]
     )
+    development_mode_enabled = False
 
     def __repr__(self):
         secrets = ', '.join([secret.name for secret in self.secrets])

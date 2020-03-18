@@ -8,6 +8,8 @@ from pomace import cli as _cli, utils as _utils
 def _display_settings():
     from pomace.config import settings
 
+    settings.development_mode_enabled = True
+
     line = ""
     if settings.browser.name:
         line += settings.browser.name.capitalize()
