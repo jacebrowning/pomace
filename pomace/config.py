@@ -1,13 +1,17 @@
 import os
-from typing import List
+from typing import List, Optional
 from urllib.parse import urlparse
 
 import log
 from datafiles import datafile, field
 
+from . import shared
 
-log.init(debug='pomace_DEBUG' in os.environ)
-log.silence('datafiles')
+
+if 'POMACE_DEBUG' in os.environ:
+    log.init(debug=True)
+else:
+    log.silence('datafiles')
 
 
 @datafile
@@ -20,41 +24,80 @@ class Browser:
 
 @datafile
 class Secret:
-    domain: str
     name: str
     value: str
 
 
 @datafile
 class Site:
-    url: str = ''
+    domain: str = ''
+    data: List[Secret] = field(
+        default_factory=lambda: [Secret('username', ''), Secret('password', '')]
+    )
 
     @property
-    def domain(self) -> str:
-        return urlparse(self.url).netloc
-
-    def __str__(self):
-        return self.domain
+    def url(self) -> str:
+        return f'http://{self.domain}'
 
 
 @datafile("./.pomace.yml", defaults=True)
 class Settings:
     browser: Browser = field(default_factory=Browser)
-    site: Site = field(default_factory=Site)
-    secrets: List[Secret] = field(
-        default_factory=lambda: [Secret('example.com', 'password', '<value>')]
-    )
+    url: str = ''
+    secrets: List[Site] = field(default_factory=list)
+
     development_mode_enabled = False
 
-    def __repr__(self):
-        secrets = ', '.join([secret.name for secret in self.secrets])
-        return f'<{self.site.domain} secrets: {secrets}>'
-
     def __getattr__(self, name):
-        for secret in self.secrets:
-            if secret.domain == self.site.domain and secret.name == name:
-                return secret.value
+        if not name.startswith('_'):
+            value = self.get_secret(name)
+            if value is not None:
+                return value
         return object.__getattribute__(self, name)
+
+    def set_secret(self, name, value):
+        site = self._get_site(create=True)
+        assert site
+        for secret in site.data:
+            if secret.name == name:
+                secret.value = value
+                self.datafile.save()
+                break
+        else:
+            site.data.append(Secret(name, value))
+
+    def get_secret(self, name) -> Optional[str]:
+        domain = urlparse(shared.browser.url).netloc
+        for site in self.secrets:
+            if site.domain == domain:
+                for secret in site.data:
+                    if secret.name == name:
+                        return secret.value
+        log.info(f'Secret {name!r} not set for {domain}')
+        return None
+
+    def update_secret(self, name, value):
+        site = self._get_site()
+        if site:
+            for secret in site.data:
+                if secret.name == name:
+                    secret.value = value
+                    self.datafile.save()
+            log.info(f'Secret {name!r} not set for {site.domain}')
+
+    def _get_site(self, domain='', *, create=False) -> Optional[Site]:
+        domain = domain or urlparse(shared.browser.url).netloc
+
+        for site in self.secrets:
+            if site.domain == domain:
+                return site
+
+        if create:
+            site = Site(domain)
+            self.secrets.append(site)
+            return site
+
+        return None
 
 
 settings = Settings()

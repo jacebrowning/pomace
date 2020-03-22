@@ -36,11 +36,11 @@ cleo = "~0.7.6"
 bullet = "^2.1.0"
 
 # Automation
-splinter = { git = "https://github.com/cobrateam/splinter", branch = "master" }
+splinter = { git = "https://github.com/cobrateam/splinter", rev = "e2af3a441afc975581cae2ab04e7c1398e546f7a" }
 webdriver_manager = "^1.8.2"
 
 # Persistence
-datafiles = "~0.8b1"
+datafiles = "~0.8b3"
 parse = "^1.14.0"
 
 # Utilities

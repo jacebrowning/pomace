@@ -23,7 +23,7 @@ class RunCommand(Command):
         {--dev : Enable development mode to create missing pages}
     """
 
-    RELOAD_ACTIONS = '<reload actions>'
+    RELOAD_ACTIONS = "<reload actions>"
 
     def handle(self):
         log.init(verbosity=self.io.verbosity + 1)
@@ -35,18 +35,18 @@ class RunCommand(Command):
             utils.quit_browser()
 
     def update_settings(self):
-        if self.option('root'):
-            os.chdir(self.option('root'))
+        if self.option("root"):
+            os.chdir(self.option("root"))
 
-        if self.option('browser'):
-            settings.browser.name = self.option('browser').lower()
+        if self.option("browser"):
+            settings.browser.name = self.option("browser").lower()
 
-        settings.browser.headless = self.option('headless')
+        settings.browser.headless = self.option("headless")
 
-        if self.option('domain'):
-            settings.site.url = "https://" + self.option('domain')
+        if self.option("domain"):
+            settings.url = "https://" + self.option("domain")
 
-        if self.option('dev'):
+        if self.option("dev"):
             settings.development_mode_enabled = True
 
     def launch_browser(self):
@@ -58,7 +58,7 @@ class RunCommand(Command):
             )
             settings.browser.name = cli.launch().lower()
 
-        if not settings.site.domain:
+        if not settings.url:
             domains = [p.domain for p in models.Page.objects.all()]
             if domains:
                 cli = Bullet(
@@ -68,7 +68,7 @@ class RunCommand(Command):
                 )
             else:
                 cli = Input(prompt="\nStarting domain: ", strip=True)
-            settings.site.url = f'https://{cli.launch()}'
+            settings.url = f"https://{cli.launch()}"
 
         utils.launch_browser()
 
@@ -94,10 +94,10 @@ class RunCommand(Command):
                 self.display_url(page)
 
     def clear_screen(self):
-        os.system('cls' if os.name == 'nt' else 'clear')
+        os.system("cls" if os.name == "nt" else "clear")
 
     def display_url(self, page):
-        self.line(f'<fg=white;options=bold>{page}</>')
+        self.line(f"<fg=white;options=bold>{page}</>")
 
 
 application = Application()

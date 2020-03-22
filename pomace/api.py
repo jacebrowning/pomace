@@ -5,7 +5,7 @@ from .config import settings
 
 
 def visit(url: str, *, browser: str = '') -> models.Page:
-    settings.site.url = url
+    settings.url = url
     if browser:
         settings.browser.name = browser.lower()
 
