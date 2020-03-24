@@ -5,7 +5,7 @@ from .config import settings
 def launch_browser():
     shared.browser = browser.launch()
     browser.resize(shared.browser)
-    shared.browser.visit(settings.site.url)
+    shared.browser.visit(settings.url)
 
 
 def quit_browser():

@@ -15,8 +15,8 @@ def _display_settings():
         line += settings.browser.name.capitalize()
         if settings.browser.headless:
             line += " (headless)"
-    if line and settings.site.domain:
-        line += f" -- {settings.site.url}"
+    if line and settings.url:
+        line += f" -- {settings.url}"
 
     if line:
         print(line)

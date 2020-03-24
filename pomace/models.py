@@ -91,11 +91,6 @@ class Action:
     def __call__(self, *args, **kwargs) -> 'Page':
         page = kwargs.pop('_page', None)
         for locator in self.locators:
-
-            # TODO: https://github.com/jacebrowning/datafiles/issues/22
-            if isinstance(locator, dict):
-                locator = Locator(**locator)
-
             if not locator:
                 continue
 
