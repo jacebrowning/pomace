@@ -11,7 +11,7 @@ from . import shared
 if 'POMACE_DEBUG' in os.environ:
     log.init(debug=True)
 else:
-    log.silence('datafiles')
+    log.silence('datafiles', allow_warning=True)
 
 
 @datafile
@@ -56,18 +56,18 @@ class Settings:
         return object.__getattribute__(self, name)
 
     def set_secret(self, name, value):
-        site = self._get_site(create=True)
+        domain = self._get_current_domain()
+        site = self._get_site(domain, create=True)
         assert site
         for secret in site.data:
             if secret.name == name:
                 secret.value = value
-                self.datafile.save()
                 break
         else:
             site.data.append(Secret(name, value))
 
     def get_secret(self, name) -> Optional[str]:
-        domain = urlparse(shared.browser.url).netloc
+        domain = self._get_current_domain()
         for site in self.secrets:
             if site.domain == domain:
                 for secret in site.data:
@@ -77,17 +77,20 @@ class Settings:
         return None
 
     def update_secret(self, name, value):
-        site = self._get_site()
+        domain = self._get_current_domain()
+        site = self._get_site(domain)
         if site:
             for secret in site.data:
                 if secret.name == name:
                     secret.value = value
-                    self.datafile.save()
-            log.info(f'Secret {name!r} not set for {site.domain}')
+                    return
+        log.info(f'Secret {name!r} not set for {domain}')
 
-    def _get_site(self, domain='', *, create=False) -> Optional[Site]:
-        domain = domain or urlparse(shared.browser.url).netloc
+    @staticmethod
+    def _get_current_domain() -> str:
+        return urlparse(shared.browser.url).netloc
 
+    def _get_site(self, domain: str, *, create=False) -> Optional[Site]:
         for site in self.secrets:
             if site.domain == domain:
                 return site

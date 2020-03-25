@@ -239,7 +239,6 @@ def autopage() -> Page:
     if settings.development_mode_enabled:
         log.info('Creating new page as none matched')
         page = Page.at(shared.browser.url)
-        page.datafile.save()
         return page
 
     raise RuntimeError('No matching page')
