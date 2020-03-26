@@ -1,10 +1,10 @@
 from typing import List, Optional
-from urllib.parse import urlparse
 
 import log
 from datafiles import datafile, field
 
 from . import shared
+from .types import URL
 
 
 log.silence('datafiles')
@@ -45,7 +45,7 @@ class Settings:
     development_mode_enabled = False
 
     def get_secret(self, name) -> Optional[str]:
-        domain = self._get_current_domain()
+        domain = URL(shared.browser.url).domain
         for site in self.secrets:
             if site.domain == domain:
                 for secret in site.data:
@@ -55,7 +55,7 @@ class Settings:
         return None
 
     def set_secret(self, name, value):
-        domain = self._get_current_domain()
+        domain = URL(shared.browser.url).domain
         site = self._get_site(domain, create=True)
         if site:
             for secret in site.data:
@@ -66,7 +66,7 @@ class Settings:
                 site.data.append(Secret(name, value))
 
     def update_secret(self, name, value):
-        domain = self._get_current_domain()
+        domain = URL(shared.browser.url).domain
         site = self._get_site(domain)
         if site:
             for secret in site.data:
@@ -74,10 +74,6 @@ class Settings:
                     secret.value = value
                     return
         log.info(f'Secret {name!r} not set for {domain}')
-
-    @staticmethod
-    def _get_current_domain() -> str:
-        return urlparse(shared.browser.url).netloc
 
     def _get_site(self, domain: str, *, create=False) -> Optional[Site]:
         for site in self.secrets:

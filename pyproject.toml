@@ -36,7 +36,7 @@ cleo = "~0.7.6"
 bullet = "^2.1.0"
 
 # Automation
-splinter = "~0.13.0"
+splinter = "~0.12.0" # 0.13 has blocking bug: https://github.com/cobrateam/splinter/issues/748
 webdriver_manager = "^1.8.2"
 
 # Persistence
