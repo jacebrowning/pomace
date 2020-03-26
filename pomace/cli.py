@@ -26,7 +26,9 @@ class RunCommand(Command):
     RELOAD_ACTIONS = "<reload actions>"
 
     def handle(self):
+        log.reset()
         log.init(verbosity=self.io.verbosity + 1)
+        log.silence('datafiles', allow_warning=True)
         self.update_settings()
         self.launch_browser()
         try:

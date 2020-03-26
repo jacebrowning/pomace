@@ -212,10 +212,8 @@ class Page:
     def perform(self, name: str, *, prompt: Callable) -> Tuple['Page', bool]:
         action = getattr(self, name)
         if action.verb in {'fill', 'select'}:
-            try:
-                value = getattr(settings, action.name)
-            except AttributeError:
-                value = prompt()
+            value = settings.get_secret(action.name) or prompt()
+            settings.update_secret(action.name, value)
             page = action(value, _page=self)
         else:
             page = action(_page=self)
