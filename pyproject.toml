@@ -36,7 +36,7 @@ cleo = "~0.7.6"
 bullet = "^2.1.0"
 
 # Automation
-splinter = { git = "https://github.com/cobrateam/splinter", rev = "e2af3a441afc975581cae2ab04e7c1398e546f7a" }
+splinter = "~0.13.0"
 webdriver_manager = "^1.8.2"
 
 # Persistence
