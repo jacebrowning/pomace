@@ -191,7 +191,7 @@ def autopage() -> Page:
         return matching_pages[0]
 
     if settings.development_mode_enabled:
-        log.info('Creating new page as none matched')
+        log.info(f'Creating new page: {shared.browser.url}')
         page = Page.at(shared.browser.url)
         return page
 
