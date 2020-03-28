@@ -60,7 +60,7 @@ pylint = { git = "https://github.com/PyCQA/pylint", rev = "e169e83e52fedc6624235
 # Testing
 pytest = "^5.3.2"
 pytest-cov = "*"
-pytest-describe = "*"
+pytest-describe = { git = "https://github.com/jacebrowning/pytest-describe", branch = "pytest-5.4-support" } # https://github.com/ropez/pytest-describe/pull/27
 pytest-expecter = "^2.0"
 pytest-mock = "^2.0"
 pytest-random = "*"
