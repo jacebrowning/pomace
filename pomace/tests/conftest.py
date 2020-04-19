@@ -16,6 +16,9 @@ class MockLinks:
 
 
 class MockBrowser:
+
+    html = "Hello, world!"
+
     def find_by_name(self, value):
         return f'<mockelement: name={value}>'
 
