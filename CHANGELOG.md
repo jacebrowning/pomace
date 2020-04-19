@@ -1,3 +1,3 @@
-# 0.0.0 (YYYY-MM-DD)
+# 0.1 (alpha)
 
- - TBD
+- Initial pre-alpha release.

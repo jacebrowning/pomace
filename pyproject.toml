@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.1a5"
+version = "0.0.1"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -15,16 +15,24 @@ documentation = "https://pomace.readthedocs.io"
 repository = "https://github.com/jacebrowning/pomace"
 
 keywords = [
+    "browser automation",
+    "page object model",
+    "selenium",
+    "splinter",
 ]
 classifiers = [
-    # TODO: update this list to match your application: https://pypi.org/pypi?%3Aaction=list_classifiers
-    "Development Status :: 1 - Planning",
+    "Development Status :: 2 - Pre-Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
+    "Topic :: Internet :: WWW/HTTP :: Browsers",
+    "Topic :: Software Development :: Testing",
 ]
 
 [tool.poetry.dependencies]
