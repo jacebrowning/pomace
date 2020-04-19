@@ -1,5 +1,5 @@
 # Project settings
-PROJECT := pomace
+PROJECT := Pomace
 PACKAGE := pomace
 REPOSITORY := jacebrowning/pomace
 
@@ -81,8 +81,8 @@ RANDOM_SEED ?= $(shell date +%s)
 FAILURES := .cache/v/cache/lastfailed
 
 PYTEST_OPTIONS := --random --random-seed=$(RANDOM_SEED)
-ifdef DISABLE_COVERAGE
-PYTEST_OPTIONS += --no-cov --disable-warnings
+ifndef DISABLE_COVERAGE
+PYTEST_OPTIONS += --cov=$(PACKAGE)
 endif
 PYTEST_RERUN_OPTIONS := --last-failed --exitfirst
 
@@ -131,9 +131,9 @@ $(MKDOCS_INDEX): docs/requirements.txt mkdocs.yml docs/*.md
 	@ cd docs/about && ln -sf ../../LICENSE.md license.md
 	poetry run mkdocs build --clean --strict
 
-# Workaround: https://github.com/rtfd/readthedocs.org/issues/5090
 docs/requirements.txt: poetry.lock
 	@ poetry run pip freeze -qqq | grep mkdocs > $@
+	@ poetry run pip freeze -qqq | grep Pygments >> $@
 
 .PHONY: uml
 uml: install docs/*.png

@@ -44,8 +44,8 @@ class Verb(Enum):
             return 1.0
         return 0.0
 
-    def post_action(self):
+    def post_action(self, *, delay: float = 0.0):
         if self is self.FILL:
             element = shared.browser.driver.switch_to_active_element()
             element.send_keys(Keys.TAB)
-        time.sleep(self.delay)
+        time.sleep(delay or self.delay)

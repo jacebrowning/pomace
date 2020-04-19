@@ -74,9 +74,10 @@ class Action:
         return autopage()
 
     def _perform_action(self, element: ElementAPI, *args, **kwargs):
+        delay = kwargs.pop('delay', 0.0)
         function = getattr(element, self.verb)
         function(*args, **kwargs)
-        self._verb.post_action()
+        self._verb.post_action(delay=delay)
 
 
 @datafile("./.pomace/{self.domain}/{self.path}/{self.variant}.yml", defaults=True)
@@ -151,9 +152,9 @@ class Page:
             self.actions.append(Action())
         return names
 
-    def __getattr__(self, name: str) -> Action:
-        if '_' in name:
-            verb, name = name.split('_', 1)
+    def __getattr__(self, value: str) -> Action:
+        if '_' in value:
+            verb, name = value.split('_', 1)
 
             for action in self.actions:
                 if action.name == name and action.verb == verb:
@@ -164,7 +165,10 @@ class Page:
                 self.actions.append(action)
                 return action
 
-        return object.__getattribute__(self, name)
+        return object.__getattribute__(self, value)
+
+    def __contains__(self, value):
+        return value in shared.browser.html
 
     def perform(self, name: str, *, prompt: Callable) -> Tuple['Page', bool]:
         action = getattr(self, name)
