@@ -2,9 +2,18 @@
 
 import atexit as _atexit
 
-from pomace import Page, autopage, cli as _cli, utils as _utils
+from pomace import cli as _cli, utils as _utils
 from pomace.config import settings
+from pomace.models import Page, autopage
 from pomace.shared import browser
+
+
+def _configure_logging():
+    import log
+
+    log.reset()
+    log.init(debug=True)
+    log.silence('datafiles')
 
 
 def _display_settings():
@@ -24,19 +33,10 @@ def _display_settings():
         print(line)
 
 
-def _configure_logging():
-    import log
-
-    log.reset()
-    log.init(debug=True)
-    log.silence('datafiles')
-
-
 if __name__ == '__main__':
     _atexit.register(_utils.quit_browser)
+    _configure_logging()
     _display_settings()
     _cli.RunCommand().launch_browser()
 
     page = autopage()
-
-    _configure_logging()
