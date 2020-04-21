@@ -789,9 +789,9 @@ version = "0.12.0"
 pytest = ">=2.6.0"
 
 [package.source]
-reference = "43245ecfc3c432c4bfb5b12f8868790c7f2ebe5d"
+reference = "453aa9045b265e313f356f1492d8991c02a6aea6"
 type = "git"
-url = "https://github.com/jacebrowning/pytest-describe"
+url = "https://github.com/pytest-dev/pytest-describe"
 [[package]]
 category = "dev"
 description = "Better testing with expecter and pytest."
@@ -1093,7 +1093,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "a2f30ca4614b9c189f4e8cebe02ff00c474911f1b218514079c9097c96f178b6"
+content-hash = "74e662ee6a05b8a4550dd7ca207eecfd8dd64f8624132951dc8560ed3d8b5526"
 python-versions = "^3.7"
 
 [metadata.files]
