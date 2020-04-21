@@ -1,16 +1,16 @@
 import atexit
 
-from bullet import Input
-
-from . import models, shared, utils
+from . import cli, models, utils
 from .config import settings
-from .types import URL
 
 
-def visit(url: str, *, browser: str = '') -> models.Page:
+def visit(url: str = '', *, browser: str = '') -> models.Page:
     settings.url = url
+    cli.prompt_for_url_if_unset()
+
     if browser:
         settings.browser.name = browser.lower()
+    cli.prompt_for_browser_if_unset()
 
     atexit.register(utils.quit_browser)
 
@@ -19,9 +19,7 @@ def visit(url: str, *, browser: str = '') -> models.Page:
     return models.autopage()
 
 
-def get_secret(name: str) -> str:
-    domain = URL(shared.browser.url).domain
-    cli = Input(prompt=f"{domain} {name}: ")
-    value = settings.get_secret(name) or cli.launch()
-    settings.set_secret(name, value)
-    return value
+def prompt(*names):
+    for name in names:
+        cli.prompt_for_secret_if_unset(name)
+    return settings

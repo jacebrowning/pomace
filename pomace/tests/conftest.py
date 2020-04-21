@@ -12,7 +12,7 @@ from pomace import shared
 
 class MockLinks:
     def find_by_partial_text(self, value):
-        return f'<mockelement: links.partial_text={value}>'
+        return [f'<mockelement: links.partial_text={value}>']
 
 
 class MockBrowser:
@@ -20,7 +20,7 @@ class MockBrowser:
     html = "Hello, world!"
 
     def find_by_name(self, value):
-        return f'<mockelement: name={value}>'
+        return [f'<mockelement: name={value}>']
 
     links = MockLinks()
 

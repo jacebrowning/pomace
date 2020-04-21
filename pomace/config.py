@@ -44,6 +44,9 @@ class Settings:
 
     development_mode_enabled = False
 
+    def __getattr__(self, name):
+        return self.get_secret(name) or object.__getattribute__(self, name)
+
     def get_secret(self, name) -> Optional[str]:
         domain = URL(shared.browser.url).domain
         for site in self.secrets:

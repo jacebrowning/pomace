@@ -37,6 +37,8 @@ if __name__ == '__main__':
     _atexit.register(_utils.quit_browser)
     _configure_logging()
     _display_settings()
-    _cli.RunCommand().launch_browser()
+    _cli.prompt_for_browser_if_unset()
+    _cli.prompt_for_url_if_unset()
+    _utils.launch_browser()
 
     page = autopage()

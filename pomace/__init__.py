@@ -1,6 +1,6 @@
 from pkg_resources import DistributionNotFound, get_distribution
 
-from .api import get_secret, visit
+from .api import prompt, visit
 
 
 try:

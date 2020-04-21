@@ -1,8 +1,9 @@
-from typing import Callable, List, Tuple
+from typing import Callable, List, Optional, Tuple
 
 import log
 from datafiles import datafile, field
-from splinter.driver import ElementAPI
+from splinter.driver.webdriver import WebDriverElement
+from splinter.exceptions import ElementDoesNotExist
 
 from . import shared
 from .config import settings
@@ -15,6 +16,7 @@ class Locator:
 
     mode: str = ''
     value: str = ''
+    index: int = 0
     uses: int = field(default=0, compare=True)
 
     @property
@@ -24,8 +26,12 @@ class Locator:
     def __bool__(self) -> bool:
         return bool(self.mode and self.value)
 
-    def find(self) -> ElementAPI:
-        return self._mode.finder(self.value)
+    def find(self) -> Optional[WebDriverElement]:
+        elements = self._mode.finder(self.value)
+        try:
+            return elements[self.index]
+        except ElementDoesNotExist:
+            return None
 
 
 @datafile
@@ -73,7 +79,7 @@ class Action:
 
         return autopage()
 
-    def _perform_action(self, element: ElementAPI, *args, **kwargs):
+    def _perform_action(self, element: WebDriverElement, *args, **kwargs):
         delay = kwargs.pop('delay', 0.0)
         function = getattr(element, self.verb)
         function(*args, **kwargs)

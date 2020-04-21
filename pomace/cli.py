@@ -11,6 +11,34 @@ from . import browser, models, utils
 from .config import settings
 
 
+def prompt_for_browser_if_unset():
+    if not settings.browser.name:
+        cli = Bullet(
+            prompt="\nSelect a browser for automation: ",
+            bullet=" ● ",
+            choices=browser.NAMES,
+        )
+        settings.browser.name = cli.launch().lower()
+
+
+def prompt_for_url_if_unset():
+    if not settings.url:
+        domains = [p.domain for p in models.Page.objects.all()]
+        if domains:
+            cli = Bullet(
+                prompt="\nStarting domain: ", bullet=" ● ", choices=list(set(domains))
+            )
+        else:
+            cli = Input(prompt="\nStarting domain: ", strip=True)
+        settings.url = f"https://{cli.launch()}"
+
+
+def prompt_for_secret_if_unset(name: str):
+    cli = Input(prompt=f"{name}: ")
+    value = settings.get_secret(name) or cli.launch()
+    settings.set_secret(name, value)
+
+
 class RunCommand(Command):
     """
     Run pomace in a loop
@@ -30,7 +58,9 @@ class RunCommand(Command):
         log.init(verbosity=self.io.verbosity + 1)
         log.silence('datafiles', allow_warning=True)
         self.update_settings()
-        self.launch_browser()
+        prompt_for_browser_if_unset()
+        prompt_for_url_if_unset()
+        utils.launch_browser()
         try:
             self.run_loop()
         finally:
@@ -50,29 +80,6 @@ class RunCommand(Command):
 
         if self.option("dev"):
             settings.development_mode_enabled = True
-
-    def launch_browser(self):
-        if not settings.browser.name:
-            cli = Bullet(
-                prompt="\nSelect a browser for automation: ",
-                bullet=" ● ",
-                choices=browser.NAMES,
-            )
-            settings.browser.name = cli.launch().lower()
-
-        if not settings.url:
-            domains = [p.domain for p in models.Page.objects.all()]
-            if domains:
-                cli = Bullet(
-                    prompt="\nStarting domain: ",
-                    bullet=" ● ",
-                    choices=list(set(domains)),
-                )
-            else:
-                cli = Input(prompt="\nStarting domain: ", strip=True)
-            settings.url = f"https://{cli.launch()}"
-
-        utils.launch_browser()
 
     def run_loop(self):
         page = models.autopage()
