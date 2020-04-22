@@ -783,15 +783,11 @@ description = "Describe-style plugin for pytest"
 name = "pytest-describe"
 optional = false
 python-versions = "*"
-version = "0.12.0"
+version = "1.0.0"
 
 [package.dependencies]
 pytest = ">=2.6.0"
 
-[package.source]
-reference = "453aa9045b265e313f356f1492d8991c02a6aea6"
-type = "git"
-url = "https://github.com/pytest-dev/pytest-describe"
 [[package]]
 category = "dev"
 description = "Better testing with expecter and pytest."
@@ -1064,7 +1060,7 @@ description = "Library provides the way to automatically manage drivers for diff
 name = "webdriver-manager"
 optional = false
 python-versions = "*"
-version = "1.8.2"
+version = "2.3.0"
 
 [package.dependencies]
 configparser = "*"
@@ -1093,7 +1089,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "74e662ee6a05b8a4550dd7ca207eecfd8dd64f8624132951dc8560ed3d8b5526"
+content-hash = "7175d70b8ab65954f32eb5c72ae0a619ab2ac0edb500654a8cf4d7f84a2cdda1"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -1452,7 +1448,11 @@ pytest-cov = [
     {file = "pytest-cov-2.8.1.tar.gz", hash = "sha256:cc6742d8bac45070217169f5f72ceee1e0e55b0221f54bcf24845972d3a47f2b"},
     {file = "pytest_cov-2.8.1-py2.py3-none-any.whl", hash = "sha256:cdbdef4f870408ebdbfeb44e63e07eb18bb4619fae852f6e760645fa36172626"},
 ]
-pytest-describe = []
+pytest-describe = [
+    {file = "pytest-describe-1.0.0.tar.gz", hash = "sha256:3e2ea0e77efa09edb98cf90423bf1da21a462ed90bd3120f8f98fe7519a167d5"},
+    {file = "pytest_describe-1.0.0-py2-none-any.whl", hash = "sha256:cc3862662faa5a6fb721927aaef46b46cf787e4a8163e5459fc8778e650fabad"},
+    {file = "pytest_describe-1.0.0-py3-none-any.whl", hash = "sha256:95fe78639d4d16c4a1e7d62c70f63030b217c08d2ee6dca49559fe6e730c6696"},
+]
 pytest-expecter = [
     {file = "pytest-expecter-2.1.tar.gz", hash = "sha256:70b05fec2a9ae5ec6f15d5c5467c1e2cb9aa2fd85ec9c4783b26e2cf68e66f96"},
     {file = "pytest_expecter-2.1-py3-none-any.whl", hash = "sha256:ab66120671a22be41f7df4c29d76c02d62e3420b8277b1455d2e683a042a0608"},
@@ -1622,7 +1622,7 @@ wcwidth = [
     {file = "wcwidth-0.1.9.tar.gz", hash = "sha256:ee73862862a156bf77ff92b09034fc4825dd3af9cf81bc5b360668d425f3c5f1"},
 ]
 webdriver-manager = [
-    {file = "webdriver_manager-1.8.2-py2.py3-none-any.whl", hash = "sha256:4e3f522f937fd6ab246d63ee06612287bc122b70bb6034266459de86953b8645"},
+    {file = "webdriver_manager-2.3.0-py2.py3-none-any.whl", hash = "sha256:e4359ff4fb7ebeae3a561081897a747eddf6fe726652d95b609303b966ac4cf7"},
 ]
 wrapt = [
     {file = "wrapt-1.11.2.tar.gz", hash = "sha256:565a021fd19419476b9362b05eeaa094178de64f8361e44468f9e9d7843901e1"},
