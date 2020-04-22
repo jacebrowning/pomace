@@ -13,8 +13,8 @@ log.silence('datafiles')
 @datafile
 class Browser:
     name: str = ''
-    width: int = 1920
-    height: int = 1080
+    width: int = 1366
+    height: int = 768
     headless: bool = False
 
 

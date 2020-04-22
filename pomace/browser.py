@@ -33,7 +33,7 @@ def launch() -> Browser:
         log.debug(str(e))
 
         for driver, manager in WEBDRIVER_MANAGERS.items():
-            if driver in str(e):
+            if driver in str(e).lower():
                 options["executable_path"] = manager().install()
                 return Browser(settings.browser.name, **options)
 
