@@ -4,16 +4,22 @@ import os
 from importlib import reload
 
 import log
-from bullet import Bullet, Input
 from cleo import Application, Command
 
 from . import browser, models, utils
 from .config import settings
 
 
+try:
+    import bullet
+except ImportError:
+    bullet = None  # https://github.com/Mckinsey666/bullet/issues/2
+    log.warn("Interactive CLI prompts not yet supported on Windows")
+
+
 def prompt_for_browser_if_unset():
-    if not settings.browser.name:
-        cli = Bullet(
+    if not settings.browser.name and bullet:
+        cli = bullet.Bullet(
             prompt="\nSelect a browser for automation: ",
             bullet=" ● ",
             choices=browser.NAMES,
@@ -22,21 +28,22 @@ def prompt_for_browser_if_unset():
 
 
 def prompt_for_url_if_unset():
-    if not settings.url:
+    if not settings.url and bullet:
         domains = [p.domain for p in models.Page.objects.all()]
         if domains:
-            cli = Bullet(
+            cli = bullet.Bullet(
                 prompt="\nStarting domain: ", bullet=" ● ", choices=list(set(domains))
             )
         else:
-            cli = Input(prompt="\nStarting domain: ", strip=True)
+            cli = bullet.Input(prompt="\nStarting domain: ", strip=True)
         settings.url = f"https://{cli.launch()}"
 
 
 def prompt_for_secret_if_unset(name: str):
-    cli = Input(prompt=f"{name}: ")
-    value = settings.get_secret(name) or cli.launch()
-    settings.set_secret(name, value)
+    if bullet:
+        cli = bullet.Input(prompt=f"{name}: ")
+        value = settings.get_secret(name) or cli.launch()
+        settings.set_secret(name, value)
 
 
 class RunCommand(Command):
@@ -87,7 +94,9 @@ class RunCommand(Command):
         self.display_url(page)
         while True:
             choices = [self.RELOAD_ACTIONS] + dir(page)
-            cli = Bullet(prompt=f"\nSelect an action: ", bullet=" ● ", choices=choices)
+            cli = bullet.Bullet(
+                prompt=f"\nSelect an action: ", bullet=" ● ", choices=choices
+            )
             action = cli.launch()
             if action == self.RELOAD_ACTIONS:
                 reload(models)
@@ -96,7 +105,7 @@ class RunCommand(Command):
                 self.display_url(page)
                 continue
 
-            cli = Input(prompt=f"\nValue: ")
+            cli = bullet.Input(prompt=f"\nValue: ")
             page, transitioned = page.perform(action, prompt=cli.launch)
             if transitioned:
                 self.clear_screen()
