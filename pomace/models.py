@@ -2,6 +2,7 @@ from typing import Callable, List, Optional, Tuple
 
 import log
 from datafiles import datafile, field
+from selenium.common.exceptions import WebDriverException
 from splinter.driver.webdriver import WebDriverElement
 from splinter.exceptions import ElementDoesNotExist
 
@@ -17,7 +18,7 @@ class Locator:
     mode: str = ''
     value: str = ''
     index: int = 0
-    uses: int = field(default=0, compare=True)
+    score: float = field(default=0.5, compare=True)
 
     @property
     def _mode(self) -> Mode:
@@ -29,9 +30,22 @@ class Locator:
     def find(self) -> Optional[WebDriverElement]:
         elements = self._mode.finder(self.value)
         try:
-            return elements[self.index]
+            element = elements[self.index]
         except ElementDoesNotExist:
+            log.debug(f'Locator unable to find element')
             return None
+        else:
+            log.debug(f'Locator found element: {element}')
+            return element
+
+    def increase_score(self):
+        if self.score:
+            self.score = min(1.0, self.score * 1.25)
+        else:
+            self.score = 0.1
+
+    def decrease_score(self):
+        self.score = round(self.score * 0.5, 4) // 10
 
 
 @datafile
@@ -53,22 +67,15 @@ class Action:
 
     def __call__(self, *args, **kwargs) -> 'Page':
         page = kwargs.pop('_page', None)
-        for locator in self.locators:
-            if not locator:
-                continue
-
-            log.debug(f'Using {locator} to find {self.name!r}')
-            element = locator.find()
-            if element:
-                log.debug(f'Locator found element: {element}')
-            else:
-                log.debug(f'Locator unable to find element')
-                continue
-
-            self._perform_action(element, *args, **kwargs)
-            locator.uses += 1
-            break
-
+        for locator in sorted(self.locators, reverse=True):
+            if locator:
+                log.debug(f'Using {locator} to find {self.name!r}')
+                element = locator.find()
+                if element:
+                    if self._perform_action(element, *args, **kwargs):
+                        locator.increase_score()
+                        break
+            locator.decrease_score()
         else:
             log.error(f'No locators able to find {self.name!r}')
             if page:
@@ -79,11 +86,17 @@ class Action:
 
         return autopage()
 
-    def _perform_action(self, element: WebDriverElement, *args, **kwargs):
+    def _perform_action(self, element: WebDriverElement, *args, **kwargs) -> bool:
         delay = kwargs.pop('delay', 0.0)
         function = getattr(element, self.verb)
-        function(*args, **kwargs)
-        self._verb.post_action(delay=delay)
+        try:
+            function(*args, **kwargs)
+        except WebDriverException as e:
+            log.debug(e)
+            return False
+        else:
+            self._verb.post_action(delay=delay)
+            return True
 
 
 @datafile("./.pomace/{self.domain}/{self.path}/{self.variant}.yml", defaults=True)

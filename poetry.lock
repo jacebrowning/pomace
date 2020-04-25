@@ -1060,7 +1060,7 @@ description = "Library provides the way to automatically manage drivers for diff
 name = "webdriver-manager"
 optional = false
 python-versions = "*"
-version = "2.3.0"
+version = "2.4.0"
 
 [package.dependencies]
 configparser = "*"
@@ -1622,7 +1622,7 @@ wcwidth = [
     {file = "wcwidth-0.1.9.tar.gz", hash = "sha256:ee73862862a156bf77ff92b09034fc4825dd3af9cf81bc5b360668d425f3c5f1"},
 ]
 webdriver-manager = [
-    {file = "webdriver_manager-2.3.0-py2.py3-none-any.whl", hash = "sha256:e4359ff4fb7ebeae3a561081897a747eddf6fe726652d95b609303b966ac4cf7"},
+    {file = "webdriver_manager-2.4.0-py2.py3-none-any.whl", hash = "sha256:87f3f4bfda4917fa0ef1387fd1ddbbb5738e6961eb846434895801167771f652"},
 ]
 wrapt = [
     {file = "wrapt-1.11.2.tar.gz", hash = "sha256:565a021fd19419476b9362b05eeaa094178de64f8361e44468f9e9d7843901e1"},
