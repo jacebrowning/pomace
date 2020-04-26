@@ -42,8 +42,6 @@ class Settings:
     url: str = ''
     secrets: List[Site] = field(default_factory=list)
 
-    development_mode_enabled = False
-
     def __getattr__(self, name):
         return self.get_secret(name) or object.__getattribute__(self, name)
 

@@ -19,8 +19,6 @@ def _configure_logging():
 def _display_settings():
     from pomace.config import settings
 
-    settings.development_mode_enabled = True
-
     line = ""
     if settings.browser.name:
         line += settings.browser.name.capitalize()

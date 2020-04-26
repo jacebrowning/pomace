@@ -2,7 +2,6 @@
 
 import pytest
 
-from ..config import settings
 from ..models import Action, Locator, Page
 
 
@@ -81,7 +80,6 @@ def describe_page():
             expect(getattr(page, 'fill_email')) == action
 
         def it_adds_missing_actions(expect, page, monkeypatch):
-            monkeypatch.setattr(settings, 'development_mode_enabled', True)
             page.actions = []
             new_action = getattr(page, 'fill_password')
             expect(new_action.verb) == 'fill'

@@ -4,17 +4,20 @@ from . import cli, models, utils
 from .config import settings
 
 
-def visit(url: str = '', *, browser: str = '') -> models.Page:
-    settings.url = url
-    cli.prompt_for_url_if_unset()
+def visit(url: str = '', *, browser: str = '', delay: float = 0.0) -> models.Page:
+    if url:
+        settings.url = url
+    else:
+        cli.prompt_for_url_if_unset()
 
     if browser:
         settings.browser.name = browser.lower()
-    cli.prompt_for_browser_if_unset()
+    else:
+        cli.prompt_for_browser_if_unset()
 
     atexit.register(utils.quit_browser)
 
-    utils.launch_browser()
+    utils.launch_browser(delay)
 
     return models.autopage()
 
