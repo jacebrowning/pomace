@@ -161,7 +161,7 @@ class Page:
 
     def __dir__(self):
         names = []
-        add_placeholder = settings.development_mode_enabled
+        add_placeholder = True
         for action in self.actions:
             if action:
                 names.append(str(action))
@@ -179,7 +179,7 @@ class Page:
                 if action.name == name and action.verb == verb:
                     return action
 
-            if Verb.validate(verb) and settings.development_mode_enabled:
+            if Verb.validate(verb):
                 action = Action(verb, name)
                 self.actions.append(action)
                 return action
@@ -213,9 +213,6 @@ def autopage() -> Page:
                 log.warn(f'Multiple pages matched: {page}')
         return matching_pages[0]
 
-    if settings.development_mode_enabled:
-        log.info(f'Creating new page: {shared.browser.url}')
-        page = Page.at(shared.browser.url)
-        return page
-
-    raise RuntimeError('No matching page')
+    log.info(f'Creating new page: {shared.browser.url}')
+    page = Page.at(shared.browser.url)
+    return page

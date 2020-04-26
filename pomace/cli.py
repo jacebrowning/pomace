@@ -36,7 +36,8 @@ def prompt_for_url_if_unset():
             )
         else:
             cli = bullet.Input(prompt="\nStarting domain: ", strip=True)
-        settings.url = f"https://{cli.launch()}"
+        domain = cli.launch()
+        settings.url = f"https://{domain}"
 
 
 def prompt_for_secret_if_unset(name: str):
@@ -55,7 +56,6 @@ class RunCommand(Command):
         {--headless : Run the specified browser in a headless mode}
         {--domain= : Starting domain for the automation}
         {--root= : Directory to load models from}
-        {--dev : Enable development mode to create missing pages}
     """
 
     RELOAD_ACTIONS = "<reload actions>"
@@ -84,9 +84,6 @@ class RunCommand(Command):
 
         if self.option("domain"):
             settings.url = "https://" + self.option("domain")
-
-        if self.option("dev"):
-            settings.development_mode_enabled = True
 
     def run_loop(self):
         page = models.autopage()

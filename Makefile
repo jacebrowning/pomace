@@ -25,7 +25,7 @@ watch: install .clean-test ## Continuously run all CI tasks when files chanage
 
 .PHONY: run ## Start the program
 run: install
-	poetry run pomace run --dev
+	poetry run pomace run
 
 .PHONY: ipython ## Launch an IPython session
 ipython: install
