@@ -145,7 +145,7 @@ description = "Composable command line interface toolkit"
 name = "click"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
-version = "7.1.1"
+version = "7.1.2"
 
 [[package]]
 category = "main"
@@ -471,7 +471,7 @@ description = "Minimalistic wrapper for Python logging."
 name = "minilog"
 optional = false
 python-versions = ">=3.6,<4.0"
-version = "1.5"
+version = "1.6b3"
 
 [[package]]
 category = "dev"
@@ -1089,7 +1089,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "57f53019fc5ab6d86a7d539742b177f0e7fef3c4ac6744837728c80877223908"
+content-hash = "ae5ed68b1c49d40e2c866d5c3ddb0d4ec13472b31a80b771cdb93143cf09c468"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -1149,8 +1149,8 @@ cleo = [
     {file = "cleo-0.7.6.tar.gz", hash = "sha256:99cf342406f3499cec43270fcfaf93c126c5164092eca201dfef0f623360b409"},
 ]
 click = [
-    {file = "click-7.1.1-py2.py3-none-any.whl", hash = "sha256:e345d143d80bf5ee7534056164e5e112ea5e22716bbb1ce727941f4c8b471b9a"},
-    {file = "click-7.1.1.tar.gz", hash = "sha256:8a18b4ea89d8820c5d0c7da8a64b2c324b4dabb695804dbfea19b9be9d88c0cc"},
+    {file = "click-7.1.2-py2.py3-none-any.whl", hash = "sha256:dacca89f4bfadd5de3d7489b7c8a566eee0d3676333fbb50030263894c38c0dc"},
+    {file = "click-7.1.2.tar.gz", hash = "sha256:d2b5255c7c6349bc1bd1e59e08cd12acbbd63ce649f2588755783aa94dfb6b1a"},
 ]
 clikit = [
     {file = "clikit-0.4.3-py2.py3-none-any.whl", hash = "sha256:71e321b7795a2a6c4888629f43365d52db071737e668ab16861121d7dd3ada09"},
@@ -1339,8 +1339,8 @@ mccabe = [
     {file = "mccabe-0.6.1.tar.gz", hash = "sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f"},
 ]
 minilog = [
-    {file = "minilog-1.5-py3-none-any.whl", hash = "sha256:545cacd6a3db3b5b2fa9743acfc3c413c262ada2ea98ab6fe81a9ca56d4163f3"},
-    {file = "minilog-1.5.tar.gz", hash = "sha256:1670d6d2d28b0957ed1b89b4808c966127be118f989463cbcf3e7fb1335e427b"},
+    {file = "minilog-1.6b3-py3-none-any.whl", hash = "sha256:c0047bf18a9a2f5cea087f7686ac662856a85d7f62ece8028e93b38ce07b9a06"},
+    {file = "minilog-1.6b3.tar.gz", hash = "sha256:c85ade5cb4f3d6532c2c990c1c0c687ef0518a023e1c025a9db4a8dc6ca2e495"},
 ]
 mkdocs = [
     {file = "mkdocs-1.1-py2.py3-none-any.whl", hash = "sha256:1e385a70aea8a9dedb731aea4fd5f3704b2074801c4f96f06b2920999babda8a"},
