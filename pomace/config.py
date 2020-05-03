@@ -7,7 +7,7 @@ from . import shared
 from .types import URL
 
 
-log.silence('datafiles')
+log.silence('datafiles', allow_warning=True)
 
 
 @datafile

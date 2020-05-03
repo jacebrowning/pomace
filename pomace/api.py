@@ -1,5 +1,7 @@
 import atexit
 
+import log
+
 from . import cli, models, utils
 from .config import settings
 
@@ -15,9 +17,9 @@ def visit(url: str = '', *, browser: str = '', delay: float = 0.0) -> models.Pag
     else:
         cli.prompt_for_browser_if_unset()
 
-    atexit.register(utils.quit_browser)
-
-    utils.launch_browser(delay)
+    if utils.launch_browser(delay):
+        log.silence('urllib3.connectionpool')
+        atexit.register(utils.quit_browser)
 
     return models.autopage()
 
