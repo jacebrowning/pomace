@@ -12,11 +12,24 @@ def url():
 
 def describe_url():
     def describe_init():
-        def it_removes_escaped_slashes(expect, monkeypatch):
-            monkeypatch.setattr(URL, 'SLASH', '@')
-            url = URL('www.example.com', '@foo@bar')
-            expect(url.domain) == 'www.example.com'
-            expect(url.path) == '/foo/bar'
+        def with_url(expect, url):
+            expect(url.value) == 'http://www.example.com/foo/bar'
+
+        def with_url_and_trailing_slash(expect):
+            url = URL('http://example.com/login/error/')
+            expect(url.value) == 'http://example.com/login/error'
+
+        def with_path(expect):
+            url = URL('example.com', 'login')
+            expect(url.value) == 'https://example.com/login'
+
+        def with_path_at_root(expect):
+            url = URL('example.com', '@')
+            expect(url.value) == 'https://example.com'
+
+        def with_path_and_extra_slashes(expect):
+            url = URL('example.com', '/login/error/')
+            expect(url.value) == 'https://example.com/login/error'
 
     def describe_str():
         def it_returns_the_value(expect, url):
@@ -33,8 +46,15 @@ def describe_url():
             expect(pattern) != URL('http://example.com/')
             expect(pattern) != URL('http://example.com/p/foo/bar')
 
-    def describe_path_encoded():
-        def it_replaces_slashes_with_special_character(expect, monkeypatch, url):
-            monkeypatch.setattr(URL, 'SLASH', '@')
-            expect(url.domain) == 'www.example.com'
-            expect(url.path_encoded) == '@foo@bar'
+    def describe_path():
+        def when_root(expect, url):
+            url = URL('http://example.com')
+            expect(url.path) == '@'
+
+        def when_single(expect, url):
+            url = URL('http://example.com/login')
+            expect(url.path) == 'login'
+
+        def when_trailing_slash(expect, url):
+            url = URL('http://example.com/login/error/')
+            expect(url.path) == 'login/error'

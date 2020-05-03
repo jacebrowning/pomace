@@ -1,3 +1,4 @@
+from typing import Optional
 from urllib.parse import urlparse
 
 from parse import parse
@@ -5,13 +6,16 @@ from parse import parse
 
 class URL:
 
-    SLASH = '∕'  # 'DIVISION SLASH' (U+2215)
+    ROOT = '@'
 
-    def __init__(self, url_or_domain, path=None):
-        if path:
-            self.value = f'https://{url_or_domain}' + path.replace(self.SLASH, '/')
+    def __init__(self, url_or_domain: str, path: Optional[str] = None):
+        if path == self.ROOT:
+            self.value = f'https://{url_or_domain}'
+        elif path:
+            path = ('/' + path).rstrip('/').replace('//', '/')
+            self.value = f'https://{url_or_domain}' + path
         else:
-            self.value = str(url_or_domain)
+            self.value = str(url_or_domain).rstrip('/')
 
     def __str__(self):
         return self.value
@@ -38,8 +42,5 @@ class URL:
 
     @property
     def path(self) -> str:
-        return '/' + urlparse(self.value).path.strip('/')
-
-    @property
-    def path_encoded(self) -> str:
-        return self.path.replace('/', self.SLASH)
+        path = urlparse(self.value).path.strip('/')
+        return path if path else self.ROOT
