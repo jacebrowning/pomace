@@ -92,7 +92,7 @@ class RunCommand(Command):
         while True:
             choices = [self.RELOAD_ACTIONS] + dir(page)
             cli = bullet.Bullet(
-                prompt=f"\nSelect an action: ", bullet=" ● ", choices=choices
+                prompt="\nSelect an action: ", bullet=" ● ", choices=choices
             )
             action = cli.launch()
             if action == self.RELOAD_ACTIONS:
@@ -102,7 +102,7 @@ class RunCommand(Command):
                 self.display_url(page)
                 continue
 
-            cli = bullet.Input(prompt=f"\nValue: ")
+            cli = bullet.Input(prompt="\nValue: ")
             page, transitioned = page.perform(action, prompt=cli.launch)
             if transitioned:
                 self.clear_screen()
