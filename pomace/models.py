@@ -18,7 +18,7 @@ class Locator:
     mode: str = ''
     value: str = ''
     index: int = 0
-    score: float = field(default=0.5, compare=True)
+    score: float = field(default=0.5, compare=True, repr=False)
 
     @property
     def _mode(self) -> Mode:
@@ -32,10 +32,10 @@ class Locator:
         try:
             element = elements[self.index]
         except ElementDoesNotExist:
-            log.debug(f'Locator unable to find element')
+            log.debug(f'{self} unable to find element')
             return None
         else:
-            log.debug(f'Locator found element: {element}')
+            log.debug(f'{self} found element: {element}')
             return element
 
     def increase_score(self):
@@ -99,11 +99,11 @@ class Action:
             return True
 
 
-@datafile("./.pomace/{self.domain}/{self.path}/{self.variant}.yml", defaults=True)
+@datafile("./.pomace/{self.domain}/p/{self.path}/v/{self.variant}.yml", defaults=True)
 class Page:
 
     domain: str
-    path: str = URL.SLASH
+    path: str = URL.ROOT
     variant: str = 'default'
 
     active_locators: List[Locator] = field(default_factory=lambda: [Locator()])
@@ -120,7 +120,7 @@ class Page:
         if shared.browser.url != url:
             log.info(f"Redirected to {url}")
 
-        return cls(domain=URL(url).domain, path=URL(url).path_encoded, variant=variant)
+        return cls(domain=URL(url).domain, path=URL(url).path, variant=variant)
 
     @property
     def url(self) -> URL:
@@ -128,7 +128,7 @@ class Page:
 
     @property
     def active(self) -> bool:
-        log.debug(f'Determining if active: {self!r}')
+        log.debug(f'Determining if {self!r} is active')
 
         if self.url != URL(shared.browser.url):
             log.debug(
@@ -136,11 +136,13 @@ class Page:
             )
             return False
 
+        log.debug('Checking for expected elements')
         for locator in self.active_locators:
             if locator and not locator.find():
                 log.debug(f'{self!r} is inactive - Unable to find: {locator!r}')
                 return False
 
+        log.debug('Checking for unexpected elements locators')
         for locator in self.inactive_locators:
             if locator and locator.find():
                 log.debug(f'{self!r} is inactive - Found unexpected: {locator!r}')
