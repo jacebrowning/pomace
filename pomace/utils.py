@@ -17,7 +17,9 @@ def launch_browser(delay: float = 0.0) -> bool:
     return launched
 
 
-def quit_browser():
+def quit_browser(silence_logging: bool = False):
+    if silence_logging:
+        log.silence('pomace', 'selenium', allow_warning=True)
     try:
         browser.save_size(shared.browser)
         shared.browser.quit()
