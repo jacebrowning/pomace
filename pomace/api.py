@@ -1,4 +1,5 @@
 import atexit
+from typing import Optional
 
 import log
 
@@ -6,7 +7,13 @@ from . import cli, models, utils
 from .config import settings
 
 
-def visit(url: str = '', *, browser: str = '', delay: float = 0.0) -> models.Page:
+def visit(
+    url: str = '',
+    *,
+    browser: str = '',
+    headless: Optional[bool] = None,
+    delay: float = 0.0,
+) -> models.Page:
     if url:
         settings.url = url
     else:
@@ -17,9 +24,12 @@ def visit(url: str = '', *, browser: str = '', delay: float = 0.0) -> models.Pag
     else:
         cli.prompt_for_browser_if_unset()
 
+    if headless is not None:
+        settings.browser.headless = headless
+
     if utils.launch_browser(delay):
         log.silence('urllib3.connectionpool')
-        atexit.register(utils.quit_browser)
+        atexit.register(utils.quit_browser, silence_logging=True)
 
     return models.autopage()
 
