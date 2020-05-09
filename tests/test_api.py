@@ -1,6 +1,9 @@
+# pylint: disable=unused-variable
+
 import pomace
 
 
-def test_visit():
-    page = pomace.visit("http://example.com", browser='chrome', headless=True)
-    assert "Example Domain" in page
+def describe_visit():
+    def it_launches_a_browser(expect):
+        page = pomace.visit("http://example.com", browser='chrome', headless=True)
+        expect(page).contains("Example Domain")
