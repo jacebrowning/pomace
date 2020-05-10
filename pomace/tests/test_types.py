@@ -69,4 +69,4 @@ def describe_url():
 
         def when_containing_slashes(expect, url):
             url = URL('http://example.com/signup/#/step/2/')
-            expect(url.fragment) == 'step2'
+            expect(url.fragment) == 'step_2'

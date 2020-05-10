@@ -50,4 +50,4 @@ class URL:
 
     @property
     def fragment(self) -> str:
-        return urlparse(self.value).fragment.replace('/', '')
+        return urlparse(self.value).fragment.replace('/', '_').strip('_')

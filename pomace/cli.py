@@ -72,6 +72,7 @@ class RunCommand(Command):
             self.run_loop()
         finally:
             utils.quit_browser()
+            print()
 
     def update_settings(self):
         if self.option("root"):
@@ -86,8 +87,8 @@ class RunCommand(Command):
             settings.url = "https://" + self.option("domain")
 
     def run_loop(self):
-        page = models.autopage()
         self.clear_screen()
+        page = models.autopage()
         self.display_url(page)
         while True:
             choices = [self.RELOAD_ACTIONS] + dir(page)
@@ -97,8 +98,8 @@ class RunCommand(Command):
             action = cli.launch()
             if action == self.RELOAD_ACTIONS:
                 reload(models)
-                page = models.autopage()
                 self.clear_screen()
+                page = models.autopage()
                 self.display_url(page)
                 continue
 
