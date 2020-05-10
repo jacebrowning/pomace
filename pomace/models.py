@@ -142,7 +142,7 @@ class Page:
                 log.debug(f'{self!r} is inactive - Unable to find: {locator!r}')
                 return False
 
-        log.debug('Checking for unexpected elements locators')
+        log.debug('Checking for unexpected elements')
         for locator in self.inactive_locators:
             if locator and locator.find():
                 log.debug(f'{self!r} is inactive - Found unexpected: {locator!r}')
