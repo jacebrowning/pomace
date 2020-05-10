@@ -58,3 +58,15 @@ def describe_url():
         def when_trailing_slash(expect, url):
             url = URL('http://example.com/login/error/')
             expect(url.path) == 'login/error'
+
+    def describe_fragment():
+        def when_default(expect, url):
+            expect(url.fragment) == ''
+
+        def when_provided(expect, url):
+            url = URL('http://example.com/signup/#step1')
+            expect(url.fragment) == 'step1'
+
+        def when_containing_slashes(expect, url):
+            url = URL('http://example.com/signup/#/step/2/')
+            expect(url.fragment) == 'step2'

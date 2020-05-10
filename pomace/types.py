@@ -44,3 +44,7 @@ class URL:
     def path(self) -> str:
         path = urlparse(self.value).path.strip('/')
         return path if path else self.ROOT
+
+    @property
+    def fragment(self) -> str:
+        return urlparse(self.value).fragment.replace('/', '')

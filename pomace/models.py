@@ -112,7 +112,7 @@ class Page:
     actions: List[Action] = field(default_factory=lambda: [Action()])
 
     @classmethod
-    def at(cls, url: str, *, variant: str = 'default') -> 'Page':
+    def at(cls, url: str, *, variant: str = '') -> 'Page':
         if shared.browser.url != url:
             log.info(f"Visiting {url}")
             shared.browser.visit(url)
@@ -120,7 +120,12 @@ class Page:
         if shared.browser.url != url:
             log.info(f"Redirected to {url}")
 
-        return cls(domain=URL(url).domain, path=URL(url).path, variant=variant)
+        kwargs = {'domain': URL(url).domain, 'path': URL(url).path}
+        variant = variant or URL(url).fragment
+        if variant:
+            kwargs['variant'] = variant
+
+        return cls(**kwargs)  # type: ignore
 
     @property
     def url(self) -> URL:
