@@ -5,6 +5,7 @@ from importlib import reload
 
 import log
 from cleo import Application, Command
+from IPython import embed
 
 from . import browser, models, utils
 from .config import settings
@@ -47,19 +48,7 @@ def prompt_for_secret_if_unset(name: str):
         settings.set_secret(name, value)
 
 
-class RunCommand(Command):
-    """
-    Run pomace in a loop
-
-    run
-        {--browser= : Browser to use for automation}
-        {--headless : Run the specified browser in a headless mode}
-        {--domain= : Starting domain for the automation}
-        {--root= : Directory to load models from}
-    """
-
-    RELOAD_ACTIONS = "<reload actions>"
-
+class BaseCommand(Command):
     def handle(self):
         log.reset()
         log.init(verbosity=self.io.verbosity + 1)
@@ -85,6 +74,39 @@ class RunCommand(Command):
 
         if self.option("domain"):
             settings.url = "https://" + self.option("domain")
+
+
+class DevCommand(BaseCommand):
+    """
+    Launch an interactive shell
+
+    dev
+        {--browser= : Browser to use for automation}
+        {--headless : Run the specified browser in a headless mode}
+        {--domain= : Starting domain for the automation}
+        {--root= : Directory to load models from}
+    """
+
+    def run_loop(self):
+        # pylint: disable=unused-variable
+        Page = models.Page
+        autopage = models.autopage
+        page = autopage()
+        embed(colors="neutral")
+
+
+class RunCommand(BaseCommand):
+    """
+    Run pomace in a loop
+
+    run
+        {--browser= : Browser to use for automation}
+        {--headless : Run the specified browser in a headless mode}
+        {--domain= : Starting domain for the automation}
+        {--root= : Directory to load models from}
+    """
+
+    RELOAD_ACTIONS = "<reload actions>"
 
     def run_loop(self):
         self.clear_screen()
@@ -117,4 +139,5 @@ class RunCommand(Command):
 
 
 application = Application()
+application.add(DevCommand())
 application.add(RunCommand())
