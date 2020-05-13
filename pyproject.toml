@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.0.8"
+version = "0.0.9"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -42,6 +42,7 @@ python = "^3.7"
 # Interface
 cleo = "~0.7.6"
 bullet = "^2.1.0"
+ipython = "^7.12.0"
 
 # Automation
 splinter = "~0.12.0" # 0.13 has blocking bug: https://github.com/cobrateam/splinter/issues/748
@@ -86,7 +87,6 @@ pyinstaller = "*"
 sniffer = "*"
 MacFSEvents = { version = "*", platform = "darwin" }
 pync = { version = "*", platform = "darwin" }
-ipython = "^7.12.0"
 
 [tool.poetry.scripts]
 
