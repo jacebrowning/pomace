@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.0.9"
+version = "0.0.10"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -21,7 +21,7 @@ keywords = [
     "splinter",
 ]
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 3 - Alpha",
     "Environment :: Console",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
@@ -46,7 +46,7 @@ ipython = "^7.12.0"
 
 # Automation
 splinter = "~0.12.0" # 0.13 has blocking bug: https://github.com/cobrateam/splinter/issues/748
-webdriver_manager = "^2.3.0"
+webdriver_manager = "^2.5.0"
 
 # Persistence
 datafiles = "0.10b1"
