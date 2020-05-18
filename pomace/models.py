@@ -99,7 +99,7 @@ class Action:
             return True
 
 
-@datafile("./.pomace/{self.domain}/p/{self.path}/v/{self.variant}.yml", defaults=True)
+@datafile("./sites/{self.domain}/{self.path}/{self.variant}.yml", defaults=True)
 class Page:
 
     domain: str

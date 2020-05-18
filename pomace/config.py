@@ -36,7 +36,7 @@ class Site:
         return f'http://{self.domain}'
 
 
-@datafile("./.pomace.yml", defaults=True)
+@datafile("./pomace.yml", defaults=True)
 class Settings:
     browser: Browser = field(default_factory=Browser)
     url: str = ''

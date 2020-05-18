@@ -386,7 +386,7 @@ marker = "python_version > \"2.7\""
 name = "joblib"
 optional = false
 python-versions = ">=3.6"
-version = "0.15.0"
+version = "0.15.1"
 
 [[package]]
 category = "dev"
@@ -503,7 +503,7 @@ description = "More routines for operating on iterables, beyond itertools"
 name = "more-itertools"
 optional = false
 python-versions = ">=3.5"
-version = "8.2.0"
+version = "8.3.0"
 
 [[package]]
 category = "dev"
@@ -1064,7 +1064,7 @@ description = "Library provides the way to automatically manage drivers for diff
 name = "webdriver-manager"
 optional = false
 python-versions = ">=3.6"
-version = "2.5.0"
+version = "2.5.1"
 
 [package.dependencies]
 configparser = "*"
@@ -1262,8 +1262,8 @@ jinja2 = [
     {file = "Jinja2-2.11.2.tar.gz", hash = "sha256:89aab215427ef59c34ad58735269eb58b1a5808103067f7bb9d5836c651b3bb0"},
 ]
 joblib = [
-    {file = "joblib-0.15.0-py3-none-any.whl", hash = "sha256:a55f5268c5e402e4a892202089ebda1730db81e82f704d2bee8a6bc499ebc264"},
-    {file = "joblib-0.15.0.tar.gz", hash = "sha256:f8f84dcef519233be4ede1c64fd1f2d48b1e8bbb632d1013ebca75f8b678ee72"},
+    {file = "joblib-0.15.1-py3-none-any.whl", hash = "sha256:6825784ffda353cc8a1be573118085789e5b5d29401856b35b756645ab5aecb5"},
+    {file = "joblib-0.15.1.tar.gz", hash = "sha256:61e49189c84b3c5d99a969d314853f4d1d263316cc694bec17548ebaa9c47b6e"},
 ]
 lazy-object-proxy = [
     {file = "lazy-object-proxy-1.4.3.tar.gz", hash = "sha256:f3900e8a5de27447acbf900b4750b0ddfd7ec1ea7fbaf11dfa911141bc522af0"},
@@ -1351,8 +1351,8 @@ mkdocs = [
     {file = "mkdocs-1.1.2.tar.gz", hash = "sha256:f0b61e5402b99d7789efa032c7a74c90a20220a9c81749da06dbfbcbd52ffb39"},
 ]
 more-itertools = [
-    {file = "more-itertools-8.2.0.tar.gz", hash = "sha256:b1ddb932186d8a6ac451e1d95844b382f55e12686d51ca0c68b6f61f2ab7a507"},
-    {file = "more_itertools-8.2.0-py3-none-any.whl", hash = "sha256:5dd8bcf33e5f9513ffa06d5ad33d78f31e1931ac9a18f33d37e77a180d393a7c"},
+    {file = "more-itertools-8.3.0.tar.gz", hash = "sha256:558bb897a2232f5e4f8e2399089e35aecb746e1f9191b6584a151647e89267be"},
+    {file = "more_itertools-8.3.0-py3-none-any.whl", hash = "sha256:7818f596b1e87be009031c7653d01acc46ed422e6656b394b0f765ce66ed4982"},
 ]
 mypy = [
     {file = "mypy-0.761-cp35-cp35m-macosx_10_6_x86_64.whl", hash = "sha256:7f672d02fffcbace4db2b05369142e0506cdcde20cea0e07c7c2171c4fd11dd6"},
@@ -1628,7 +1628,7 @@ wcwidth = [
     {file = "wcwidth-0.1.9.tar.gz", hash = "sha256:ee73862862a156bf77ff92b09034fc4825dd3af9cf81bc5b360668d425f3c5f1"},
 ]
 webdriver-manager = [
-    {file = "webdriver_manager-2.5.0-py2.py3-none-any.whl", hash = "sha256:7fe63dd682cd85b200cc4ab5c363851f7d4cdb14b0fa33e446758dabc517905c"},
+    {file = "webdriver_manager-2.5.1-py2.py3-none-any.whl", hash = "sha256:2ecefc13f50453a7b143b50a7a1cacc8ef8e2de75572a392978566ffbcab95ac"},
 ]
 wrapt = [
     {file = "wrapt-1.12.1.tar.gz", hash = "sha256:b62ffa81fb85f4332a4f609cab4ac40709470da05643a082ec1eb88e6d9b97d7"},
