@@ -84,6 +84,7 @@ def describe_page():
             new_action = getattr(page, 'fill_password')
             expect(new_action.verb) == 'fill'
             expect(new_action.name) == 'password'
+            expect(len(new_action.locators)) > 1
 
         def it_rejects_invalid_actions(expect, page):
             with expect.raises(AttributeError):
