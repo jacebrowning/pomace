@@ -53,6 +53,7 @@ datafiles = "0.10b1"
 parse = "^1.14.0"
 
 # Utilities
+inflection = "~0.4.0"
 minilog = "1.6b5"
 
 [tool.poetry.dev-dependencies]

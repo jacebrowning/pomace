@@ -59,6 +59,11 @@ class Action:
     def _verb(self) -> Verb:
         return Verb(self.verb)
 
+    def __post_init__(self):
+        if self.verb and len(self.locators) <= 1:
+            for mode, value in self._verb.get_default_locators(self.name):
+                self.locators.append(Locator(mode, value))
+
     def __str__(self):
         return f'{self.verb}_{self.name}'
 

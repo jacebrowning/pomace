@@ -1,6 +1,8 @@
 import time
 from enum import Enum
+from typing import Iterator, Tuple
 
+import inflection
 from selenium.webdriver.common.keys import Keys
 
 from . import shared
@@ -43,6 +45,17 @@ class Verb(Enum):
         if self in {self.CLICK}:
             return 1.0
         return 0.0
+
+    def get_default_locators(self, name: str) -> Iterator[Tuple[str, str]]:
+        if self is self.CLICK:
+            yield Mode.TEXT.value, inflection.titleize(name)
+            yield Mode.TEXT.value, inflection.humanize(name)
+        elif self is self.FILL:
+            yield Mode.NAME.value, name
+            yield Mode.NAME.value, inflection.dasherize(name)
+            yield Mode.ID.value, name
+            yield Mode.ID.value, inflection.dasherize(name)
+            yield Mode.CSS.value, f'[aria-label="{inflection.titleize(name)}"]'
 
     def post_action(self, *, delay: float = 0.0):
         if self is self.FILL:
