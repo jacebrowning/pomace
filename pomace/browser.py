@@ -47,8 +47,15 @@ def resize(browser: Browser):
     log.debug(f'Resized browser: {size}')
 
 
+def save_url(browser: Browser):
+    if settings.browser != browser.url:
+        log.debug(f"Saving last browser url: {browser.url}")
+        settings.url = browser.url
+
+
 def save_size(browser: Browser):
     size = browser.driver.get_window_size()
-    settings.browser.width = size['width']
-    settings.browser.height = size['height']
-    log.debug(f'Saved new browser size: {size}')
+    if size != (settings.browser.width, settings.browser.height):
+        log.debug(f'Saving last browser size: {size}')
+        settings.browser.width = size['width']
+        settings.browser.height = size['height']

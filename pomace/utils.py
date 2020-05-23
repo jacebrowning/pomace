@@ -21,6 +21,7 @@ def quit_browser(silence_logging: bool = False):
     if silence_logging:
         log.silence('pomace', 'selenium', allow_warning=True)
     try:
+        browser.save_url(shared.browser)
         browser.save_size(shared.browser)
         shared.browser.quit()
     except Exception as e:

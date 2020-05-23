@@ -49,7 +49,7 @@ splinter = "~0.12.0" # 0.13 has blocking bug: https://github.com/cobrateam/splin
 webdriver_manager = "^2.5.0"
 
 # Persistence
-datafiles = "0.10b1"
+datafiles = "0.10b2"
 parse = "^1.14.0"
 
 # Utilities

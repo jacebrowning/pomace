@@ -27,6 +27,17 @@ def describe_locator():
             locator.value = ''
             expect(bool(locator)) == False
 
+    def describe_sort():
+        def it_orders_by_score(expect):
+            locators = [
+                Locator('name', 'bbb', score=0.5),
+                Locator('name', 'aaa', score=0.6),
+                Locator('name', 'BBB', score=0.6),
+                Locator('name', 'AAA', score=0.7),
+                Locator('name', 'zzz', score=0.8),
+            ]
+            expect(sorted(locators)) == locators
+
     def describe_find():
         def it_returns_callable(expect, mockbrowser, locator):
             expect(locator.find()) == '<mockelement: name=email>'

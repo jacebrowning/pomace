@@ -222,13 +222,13 @@ description = "File-based ORM for dataclasses."
 name = "datafiles"
 optional = false
 python-versions = ">=3.7,<4.0"
-version = "0.10b1"
+version = "0.10b2"
 
 [package.dependencies]
 PyYAML = ">=5.2,<6.0"
 cached_property = ">=1.5,<2.0"
 classproperties = ">=0.1.3,<0.2.0"
-minilog = ">=1.4.1,<2.0.0"
+minilog = ">=1.6b5,<2.0"
 parse = ">=1.12,<2.0"
 "ruamel.yaml" = ">=0.16.10,<0.17.0"
 tomlkit = ">=0.5.3,<0.6.0"
@@ -777,15 +777,15 @@ category = "dev"
 description = "Pytest plugin for measuring coverage."
 name = "pytest-cov"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-version = "2.8.1"
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+version = "2.9.0"
 
 [package.dependencies]
 coverage = ">=4.4"
 pytest = ">=3.6"
 
 [package.extras]
-testing = ["fields", "hunter", "process-tests (2.0.2)", "six", "virtualenv"]
+testing = ["fields", "hunter", "process-tests (2.0.2)", "six", "pytest-xdist", "virtualenv"]
 
 [[package]]
 category = "dev"
@@ -931,7 +931,7 @@ description = "Python 2 and 3 compatibility utilities"
 name = "six"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
-version = "1.14.0"
+version = "1.15.0"
 
 [[package]]
 category = "dev"
@@ -1072,7 +1072,7 @@ description = "Library provides the way to automatically manage drivers for diff
 name = "webdriver-manager"
 optional = false
 python-versions = ">=3.6"
-version = "2.5.1"
+version = "2.5.2"
 
 [package.dependencies]
 configparser = "*"
@@ -1101,7 +1101,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "2941c54f7b1f9c0c4ca5380e2a4bd86b320a7d207e94e719e2fc2691025e5497"
+content-hash = "89c227b525cbbf9035718c9ea383096a9f3e48083b2ede6951b772bff2ce2579"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -1218,8 +1218,8 @@ crayons = [
     {file = "crayons-0.3.0.tar.gz", hash = "sha256:50e5fa729d313e2c607ae8bf7b53bb487652e10bd8e7a1e08c4bc8bf62755ffc"},
 ]
 datafiles = [
-    {file = "datafiles-0.10b1-py3-none-any.whl", hash = "sha256:450b4a05f9c5164b1e290781854ec9ff4778cee165e057d002871cfe150c8dc2"},
-    {file = "datafiles-0.10b1.tar.gz", hash = "sha256:12247f37cc3467da8196a41951821ca9a259d06ad3db124f019d54df2a9f80c7"},
+    {file = "datafiles-0.10b2-py3-none-any.whl", hash = "sha256:169c70c78561eab264de1fe3bb29722c4bbedbe8980fb90f444bcff60ab0f320"},
+    {file = "datafiles-0.10b2.tar.gz", hash = "sha256:e67f9b113d062dd71c6c7761834afe61205a486521620823200d492f87aec1e9"},
 ]
 decorator = [
     {file = "decorator-4.4.2-py2.py3-none-any.whl", hash = "sha256:41fa54c2a0cc4ba648be4fd43cff00aedf5b9465c9bf18d64325bc225f08f760"},
@@ -1464,8 +1464,8 @@ pytest = [
     {file = "pytest-5.4.2.tar.gz", hash = "sha256:eb2b5e935f6a019317e455b6da83dd8650ac9ffd2ee73a7b657a30873d67a698"},
 ]
 pytest-cov = [
-    {file = "pytest-cov-2.8.1.tar.gz", hash = "sha256:cc6742d8bac45070217169f5f72ceee1e0e55b0221f54bcf24845972d3a47f2b"},
-    {file = "pytest_cov-2.8.1-py2.py3-none-any.whl", hash = "sha256:cdbdef4f870408ebdbfeb44e63e07eb18bb4619fae852f6e760645fa36172626"},
+    {file = "pytest-cov-2.9.0.tar.gz", hash = "sha256:b6a814b8ed6247bd81ff47f038511b57fe1ce7f4cc25b9106f1a4b106f1d9322"},
+    {file = "pytest_cov-2.9.0-py2.py3-none-any.whl", hash = "sha256:c87dfd8465d865655a8213859f1b4749b43448b5fae465cb981e16d52a811424"},
 ]
 pytest-describe = [
     {file = "pytest-describe-1.0.0.tar.gz", hash = "sha256:3e2ea0e77efa09edb98cf90423bf1da21a462ed90bd3120f8f98fe7519a167d5"},
@@ -1561,8 +1561,8 @@ selenium = [
     {file = "selenium-3.141.0.tar.gz", hash = "sha256:deaf32b60ad91a4611b98d8002757f29e6f2c2d5fcaf202e1c9ad06d6772300d"},
 ]
 six = [
-    {file = "six-1.14.0-py2.py3-none-any.whl", hash = "sha256:8f3cd2e254d8f793e7f3d6d9df77b92252b52637291d0f0da013c76ea2724b6c"},
-    {file = "six-1.14.0.tar.gz", hash = "sha256:236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a"},
+    {file = "six-1.15.0-py2.py3-none-any.whl", hash = "sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced"},
+    {file = "six-1.15.0.tar.gz", hash = "sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259"},
 ]
 sniffer = [
     {file = "sniffer-0.4.1-py2.py3-none-any.whl", hash = "sha256:f120843fe152d0e380402fc11313b151e2044c47fdd36895de2efedc8624dbb8"},
@@ -1640,7 +1640,7 @@ wcwidth = [
     {file = "wcwidth-0.1.9.tar.gz", hash = "sha256:ee73862862a156bf77ff92b09034fc4825dd3af9cf81bc5b360668d425f3c5f1"},
 ]
 webdriver-manager = [
-    {file = "webdriver_manager-2.5.1-py2.py3-none-any.whl", hash = "sha256:2ecefc13f50453a7b143b50a7a1cacc8ef8e2de75572a392978566ffbcab95ac"},
+    {file = "webdriver_manager-2.5.2-py2.py3-none-any.whl", hash = "sha256:89ff57f52b166e47ac157924c4d46926abc44bf510a7b9e905dd2a615e775586"},
 ]
 wrapt = [
     {file = "wrapt-1.12.1.tar.gz", hash = "sha256:b62ffa81fb85f4332a4f609cab4ac40709470da05643a082ec1eb88e6d9b97d7"},

@@ -15,9 +15,9 @@ from .types import URL
 @datafile(order=True)
 class Locator:
 
-    mode: str = ''
-    value: str = ''
-    index: int = 0
+    mode: str = field(default='', compare=False)
+    value: str = field(default='', compare=False)
+    index: int = field(default=0, compare=False)
     score: float = field(default=0.5, compare=True, repr=False)
 
     @property
@@ -40,12 +40,18 @@ class Locator:
 
     def increase_score(self):
         if self.score:
-            self.score = min(1.0, self.score * 1.25)
+            new_score = min(1.0, self.score * 1.25)
         else:
-            self.score = 0.1
+            new_score = 0.1
+        if new_score > self.score:
+            log.debug(f'Increasing score of {self} to {new_score}')
+            self.score = new_score
 
     def decrease_score(self):
-        self.score = round(self.score * 0.5, 4) // 10
+        new_score = round(self.score * 0.5, 4) // 10
+        if new_score < self.score:
+            log.debug(f'Decreasing score of {self} to {new_score}')
+            self.score = new_score
 
 
 @datafile
@@ -146,13 +152,13 @@ class Page:
             )
             return False
 
-        log.debug('Checking for expected elements')
+        log.debug('Checking that all expected elements can be found')
         for locator in self.active_locators:
             if locator and not locator.find():
                 log.debug(f'{self!r} is inactive - Unable to find: {locator!r}')
                 return False
 
-        log.debug('Checking for unexpected elements')
+        log.debug('Checking that no unexpected elements can be found')
         for locator in self.inactive_locators:
             if locator and locator.find():
                 log.debug(f'{self!r} is inactive - Found unexpected: {locator!r}')
