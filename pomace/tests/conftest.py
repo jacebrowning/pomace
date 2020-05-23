@@ -31,7 +31,6 @@ def mockbrowser(monkeypatch):
 
 
 def pytest_configure(config):
-    """Disable verbose output when running tests."""
     log.init(debug=True)
 
     terminal = config.pluginmanager.getplugin('terminal')
@@ -39,5 +38,4 @@ def pytest_configure(config):
 
 
 def pytest_runtest_setup(item):
-    """Disable file storage during unit tests."""
     datafiles.settings.HOOKS_ENABLED = False
