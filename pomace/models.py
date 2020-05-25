@@ -18,7 +18,7 @@ class Locator:
     mode: str = field(default='', compare=False)
     value: str = field(default='', compare=False)
     index: int = field(default=0, compare=False)
-    score: float = field(default=0.5, compare=True, repr=False)
+    score: float = field(default=0.5, compare=True)
 
     @property
     def _mode(self) -> Mode:
