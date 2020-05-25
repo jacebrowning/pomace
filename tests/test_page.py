@@ -10,6 +10,7 @@ def describe_persistence():
         )
         page.actions = []
         page.fill_search("foobar")
+        # page.fill_search("foobar")  # second attribute access triggers save
 
         page = pomace.visit(
             "https://www.wikipedia.org", browser='chrome', headless=True

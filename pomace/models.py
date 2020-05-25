@@ -1,7 +1,7 @@
 from typing import Callable, List, Optional, Tuple
 
 import log
-from datafiles import datafile, field
+from datafiles import datafile, field, mapper
 from selenium.common.exceptions import WebDriverException
 from splinter.driver.webdriver import WebDriverElement
 from splinter.exceptions import ElementDoesNotExist
@@ -40,7 +40,7 @@ class Locator:
 
     def increase_score(self):
         if self.score:
-            new_score = min(1.0, self.score * 1.25)
+            new_score = round(min(1.0, self.score * 1.25), 4)
         else:
             new_score = 0.1
         if new_score > self.score:
@@ -48,7 +48,7 @@ class Locator:
             self.score = new_score
 
     def decrease_score(self):
-        new_score = round(self.score * 0.5, 4) // 10
+        new_score = round(self.score * 0.5, 4)
         if new_score < self.score:
             log.debug(f'Decreasing score of {self} to {new_score}')
             self.score = new_score
@@ -78,6 +78,11 @@ class Action:
 
     def __call__(self, *args, **kwargs) -> 'Page':
         page = kwargs.pop('_page', None)
+        page = self._call_method(page, *args, **kwargs)
+        self.datafile.save()
+        return page
+
+    def _call_method(self, page: Optional['Page'], *args, **kwargs) -> 'Page':
         for locator in sorted(self.locators, reverse=True):
             if locator:
                 log.debug(f'Using {locator} to find {self.name!r}')
@@ -110,7 +115,9 @@ class Action:
             return True
 
 
-@datafile("./sites/{self.domain}/{self.path}/{self.variant}.yml", defaults=True)
+@datafile(
+    "./sites/{self.domain}/{self.path}/{self.variant}.yml", defaults=True, manual=True
+)
 class Page:
 
     domain: str
@@ -199,6 +206,9 @@ class Page:
 
             if Verb.validate(verb):
                 action = Action(verb, name)
+                setattr(
+                    action, 'datafile', mapper.create_mapper(action, root=self.datafile)
+                )
                 self.actions.append(action)
                 return action
 
