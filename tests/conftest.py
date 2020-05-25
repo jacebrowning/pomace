@@ -6,7 +6,8 @@ import datafiles
 import log
 import pytest
 
-from pomace.config import settings
+from pomace import shared, utils
+from pomace.config import settings as _settings
 
 
 def pytest_configure(config):
@@ -22,7 +23,15 @@ def pytest_runtest_setup(item):
 
 
 @pytest.fixture(scope='session', autouse=True)
-def backup_settings():
-    backup = settings.datafile.text
-    yield
-    settings.datafile.text = backup
+def settings():
+    backup = _settings.datafile.text
+    yield _settings
+    _settings.datafile.text = backup
+
+
+@pytest.fixture
+def browser(settings):
+    settings.browser.name = 'chrome'
+    settings.browser.headless = True
+    utils.launch_browser()
+    return shared.browser
