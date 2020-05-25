@@ -33,5 +33,6 @@ def settings():
 def browser(settings):
     settings.browser.name = 'chrome'
     settings.browser.headless = True
+    settings.url = "http://example.com"
     utils.launch_browser()
     return shared.browser
