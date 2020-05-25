@@ -1,20 +1,15 @@
 # pylint: disable=unused-variable,unused-argument,expression-not-assigned
 
-import pomace
+from pomace.models import Page
 
 
 def describe_persistence():
-    def it_saves_locator_scores(expect):
-        page = pomace.visit(
-            "https://www.wikipedia.org", browser='chrome', headless=True
-        )
+    def it_saves_locator_scores(expect, browser):
+        page = Page.at("https://www.wikipedia.org")
         page.actions = []
         page.fill_search("foobar")
-        # page.fill_search("foobar")  # second attribute access triggers save
 
-        page = pomace.visit(
-            "https://www.wikipedia.org", browser='chrome', headless=True
-        )
+        page = Page.at("https://www.wikipedia.org")
         locators = sorted(page.fill_search.locators)
         good_locator = locators[-1]
         bad_locator = locators[0]
