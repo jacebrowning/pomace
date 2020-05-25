@@ -54,7 +54,7 @@ parse = "^1.14.0"
 
 # Utilities
 inflection = "~0.4.0"
-minilog = "1.6b5"
+minilog = "^1.6"
 
 [tool.poetry.dev-dependencies]
 

@@ -483,7 +483,7 @@ description = "Minimalistic wrapper for Python logging."
 name = "minilog"
 optional = false
 python-versions = ">=3.6,<4.0"
-version = "1.6b5"
+version = "1.6"
 
 [[package]]
 category = "dev"
@@ -1101,7 +1101,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "89c227b525cbbf9035718c9ea383096a9f3e48083b2ede6951b772bff2ce2579"
+content-hash = "afae2a45b6be7682b64aaf20173f184d1c3d0bb6f294fa8ab21ac5d8b67d39e7"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -1355,8 +1355,8 @@ mccabe = [
     {file = "mccabe-0.6.1.tar.gz", hash = "sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f"},
 ]
 minilog = [
-    {file = "minilog-1.6b5-py3-none-any.whl", hash = "sha256:ae2e1099e8dd52352ca934a505a0e86184de659c1f08cee322c0975ce59bed01"},
-    {file = "minilog-1.6b5.tar.gz", hash = "sha256:34549d376da07499a298753d8f66c2972e98557a819266c0cee868038bf4e0c3"},
+    {file = "minilog-1.6-py3-none-any.whl", hash = "sha256:e999fffce1912560974e9360b1aa0b970f0a2f3dba3b50ffacd5ffa68b27d84c"},
+    {file = "minilog-1.6.tar.gz", hash = "sha256:0dbbe6d8db9e45b3fb1e1975cf8d7f6b8a22446a6e6879992d0dbda3c7431da7"},
 ]
 mkdocs = [
     {file = "mkdocs-1.1.2-py3-none-any.whl", hash = "sha256:096f52ff52c02c7e90332d2e53da862fde5c062086e1b5356a6e392d5d60f5e9"},
