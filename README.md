@@ -14,28 +14,16 @@ This project was generated with [cookiecutter](https://github.com/audreyr/cookie
 
 ## Requirements
 
-- Python 3.8+
+- Python 3.7+
 
 ## Installation
 
-Install it directly into an activated virtual environment:
+On macOS:
 
-```text
-$ pip install pomace
 ```
-
-or add it to your [Poetry](https://poetry.eustace.io/) project:
-
-```text
-$ poetry add pomace
-```
-
-# Usage
-
-After installation, the package can imported:
-
-```text
-$ python
->>> import pomace
->>> pomace.__version__
+$ brew install pipx
+$ pipx ensurepath
+$ pipx install pomace
+$ pomace dev
+$ pomace run
 ```
