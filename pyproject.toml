@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.0.13"
+version = "0.0.14"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -49,7 +49,7 @@ splinter = "~0.12.0" # 0.13 has blocking bug: https://github.com/cobrateam/splin
 webdriver_manager = "^2.5.0"
 
 # Persistence
-datafiles = "0.10b3"
+datafiles = "0.10b4"
 parse = "^1.14.0"
 
 # Utilities
