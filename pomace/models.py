@@ -1,3 +1,4 @@
+from contextlib import suppress
 from typing import Callable, List, Optional, Tuple
 
 import log
@@ -200,6 +201,9 @@ class Page:
         if '_' in value:
             verb, name = value.split('_', 1)
 
+            with suppress(FileNotFoundError):
+                self.datafile.load()
+
             for action in self.actions:
                 if action.name == name and action.verb == verb:
                     return action
@@ -243,4 +247,5 @@ def autopage() -> Page:
 
     log.info(f'Creating new page: {shared.browser.url}')
     page = Page.at(shared.browser.url)
+    page.datafile.save()
     return page
