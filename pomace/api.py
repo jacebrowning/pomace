@@ -1,4 +1,7 @@
 import atexit
+import inspect
+import os
+from pathlib import Path
 from typing import Optional
 
 import log
@@ -30,6 +33,10 @@ def visit(
     if utils.launch_browser(delay):
         log.silence('urllib3.connectionpool')
         atexit.register(utils.quit_browser, silence_logging=True)
+
+    frame = inspect.getouterframes(inspect.currentframe())[1]
+    path = Path(frame.filename)
+    os.chdir(path.parent)
 
     return models.autopage()
 
