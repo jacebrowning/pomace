@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.0.16"
+version = "0.0.17"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -53,6 +53,7 @@ datafiles = "0.10b4"
 parse = "^1.14.0"
 
 # Utilities
+faker = "^4.1.1"
 inflection = "~0.4.0"
 minilog = "^1.6"
 

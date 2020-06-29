@@ -10,6 +10,12 @@ from . import cli, models, utils
 from .config import settings
 
 
+__all__ = ['fake', 'prompt', 'visit']
+
+
+fake = utils.Fake()
+
+
 def visit(
     url: str = '',
     *,

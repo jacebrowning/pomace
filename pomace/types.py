@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import Optional
 from urllib.parse import urlparse
 
@@ -51,3 +52,19 @@ class URL:
     @property
     def fragment(self) -> str:
         return urlparse(self.value).fragment.replace('/', '_').strip('_')
+
+
+@dataclass
+class Person:
+    first_name: str
+    last_name: str
+    email_address: str
+    zip_code: str
+
+    @property
+    def email(self) -> str:
+        return self.email_address
+
+    @property
+    def zip(self) -> str:
+        return self.zip_code
