@@ -1,3 +1,3 @@
-# 0.1 (alpha)
+# 0.1 (2020-07-03)
 
-- Initial pre-alpha release.
+- Initial release.
