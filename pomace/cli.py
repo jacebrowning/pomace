@@ -19,33 +19,51 @@ except ImportError:
 
 
 def prompt_for_browser_if_unset():
-    if not settings.browser.name and bullet:
-        cli = bullet.Bullet(
-            prompt="\nSelect a browser for automation: ",
-            bullet=" ● ",
-            choices=browser.NAMES,
-        )
-        settings.browser.name = cli.launch().lower()
+    if settings.browser.name:
+        return
+
+    if 'CI' in os.environ or not bullet:
+        settings.browser.name = 'firefox'
+        return
+
+    cli = bullet.Bullet(
+        prompt="\nSelect a browser for automation: ",
+        bullet=" ● ",
+        choices=browser.NAMES,
+    )
+    settings.browser.name = cli.launch().lower()
 
 
 def prompt_for_url_if_unset():
-    if not settings.url and bullet:
-        domains = [p.domain for p in models.Page.objects.all()]
-        if domains:
-            cli = bullet.Bullet(
-                prompt="\nStarting domain: ", bullet=" ● ", choices=list(set(domains))
-            )
-        else:
-            cli = bullet.Input(prompt="\nStarting domain: ", strip=True)
-        domain = cli.launch()
-        settings.url = f"https://{domain}"
+    if settings.url:
+        return
+
+    if 'CI' in os.environ or not bullet:
+        settings.url = 'http://example.com'
+        return
+
+    domains = [p.domain for p in models.Page.objects.all()]
+    if domains:
+        cli = bullet.Bullet(
+            prompt="\nStarting domain: ", bullet=" ● ", choices=list(set(domains))
+        )
+    else:
+        cli = bullet.Input(prompt="\nStarting domain: ", strip=True)
+    domain = cli.launch()
+    settings.url = f"https://{domain}"
 
 
 def prompt_for_secret_if_unset(name: str):
-    if bullet:
-        cli = bullet.Input(prompt=f"{name}: ")
-        value = settings.get_secret(name) or cli.launch()
-        settings.set_secret(name, value)
+    if settings.get_secret(name):
+        return
+
+    if 'CI' in os.environ or not bullet:
+        settings.set_secret(name, '<unset>')
+        return
+
+    cli = bullet.Input(prompt=f"{name}: ")
+    value = cli.launch()
+    settings.set_secret(name, value)
 
 
 class BaseCommand(Command):
