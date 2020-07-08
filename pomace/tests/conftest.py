@@ -17,6 +17,8 @@ class MockLinks:
 
 class MockBrowser:
 
+    url = 'http://example.com'
+
     html = "Hello, world!"
 
     def find_by_name(self, value):
