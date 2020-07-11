@@ -1,3 +1,4 @@
+import random
 import time
 
 import faker
@@ -18,9 +19,20 @@ class Fake:
 
     @property
     def person(self) -> Person:
-        first, last = self.first_name, self.last_name
-        email = f'{first}{last}@{self.free_email_domain}'.lower()
-        return Person(first, last, email, self.postcode)
+        if random.random() > 0.5:
+            prefix, first_name, last_name = (
+                self.prefix_female,
+                self.first_name_female,
+                self.last_name,
+            )
+        else:
+            prefix, first_name, last_name = (
+                self.prefix_male,
+                self.first_name_male,
+                self.last_name,
+            )
+        email_address = f'{first_name}{last_name}@{self.free_email_domain}'.lower()
+        return Person(prefix, first_name, last_name, email_address, self.postcode)
 
 
 def launch_browser(delay: float = 0.0) -> bool:

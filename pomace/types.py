@@ -56,10 +56,15 @@ class URL:
 
 @dataclass
 class Person:
+    honorific: str
     first_name: str
     last_name: str
     email_address: str
     zip_code: str
+
+    @property
+    def prefix(self) -> str:
+        return self.honorific
 
     @property
     def email(self) -> str:

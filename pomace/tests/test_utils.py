@@ -14,3 +14,6 @@ def describe_fake():
         def it_includes_name_in_email(expect, fake):
             person = fake.person
             expect(person.email).icontains(person.last_name)
+
+        def it_includes_honorific(expect, fake):
+            expect(fake.person.honorific).contains(".")
