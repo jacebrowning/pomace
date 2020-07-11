@@ -23,7 +23,7 @@ def prompt_for_browser_if_unset():
         return
 
     if 'CI' in os.environ or not bullet:
-        settings.browser.name = 'firefox'
+        settings.browser.name = os.getenv('BROWSER', 'firefox')
         return
 
     cli = bullet.Bullet(
