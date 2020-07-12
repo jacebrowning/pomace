@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.2b3"
+version = "0.2b4"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"

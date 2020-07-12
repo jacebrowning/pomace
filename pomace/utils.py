@@ -1,5 +1,8 @@
+import inspect
+import os
 import random
 import time
+from pathlib import Path
 
 import faker
 import log
@@ -55,3 +58,24 @@ def quit_browser(silence_logging: bool = False):
         shared.browser.quit()
     except Exception as e:
         log.debug(e)
+
+
+def locate_models():
+    cwd = Path.cwd()
+
+    for frame in inspect.getouterframes(inspect.currentframe()):
+        if 'pomace' not in frame.filename or 'pomace/tests' in frame.filename:
+            path = Path(frame.filename)
+            log.debug(f"Found caller's package directory: {path.parent}")
+            os.chdir(path.parent)
+            return
+
+    if (cwd / 'sites').is_dir():
+        log.debug(f"Found models in current directory: {cwd}")
+        return
+
+    for path in cwd.iterdir():
+        if (path / 'sites').is_dir():
+            log.debug(f"Found models in package directory: {path}")
+            os.chdir(path)
+            return

@@ -75,6 +75,7 @@ class BaseCommand(Command):
         prompt_for_browser_if_unset()
         prompt_for_url_if_unset()
         utils.launch_browser()
+        utils.locate_models()
         try:
             self.run_loop()
         finally:
