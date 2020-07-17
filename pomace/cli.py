@@ -54,7 +54,7 @@ def prompt_for_url_if_unset():
 
 
 def prompt_for_secret_if_unset(name: str):
-    if settings.get_secret(name):
+    if settings.get_secret(name, _log=False):
         return
 
     if 'CI' in os.environ or not bullet:

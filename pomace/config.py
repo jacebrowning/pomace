@@ -45,26 +45,27 @@ class Settings:
     def __getattr__(self, name):
         return self.get_secret(name) or object.__getattribute__(self, name)
 
-    def get_secret(self, name) -> Optional[str]:
+    def get_secret(self, name, *, _log=True) -> Optional[str]:
         domain = URL(shared.browser.url).domain
         for site in self.secrets:
             if site.domain == domain:
                 for secret in site.data:
                     if secret.name == name:
                         return secret.value
-        log.info(f'Secret {name!r} not set for {domain}')
+        if _log:
+            log.info(f'Secret {name!r} not set for {domain}')
         return None
 
     def set_secret(self, name, value):
         domain = URL(shared.browser.url).domain
-        site = self._get_site(domain, create=True)
-        if site:
-            for secret in site.data:
-                if secret.name == name:
-                    secret.value = value
-                    break
-            else:
-                site.data.append(Secret(name, value))
+        self._ensure_site(domain)
+        site: Site = self._get_site(domain)  # type: ignore
+        for secret in site.data:
+            if secret.name == name:
+                secret.value = value
+                break
+        else:
+            site.data.append(Secret(name, value))
 
     def update_secret(self, name, value):
         domain = URL(shared.browser.url).domain
@@ -76,17 +77,16 @@ class Settings:
                     return
         log.info(f'Secret {name!r} not set for {domain}')
 
-    def _get_site(self, domain: str, *, create=False) -> Optional[Site]:
+    def _get_site(self, domain: str) -> Optional[Site]:
         for site in self.secrets:
             if site.domain == domain:
                 return site
+        return None
 
-        if create:
+    def _ensure_site(self, domain: str):
+        if not self._get_site(domain):
             site = Site(domain)
             self.secrets.append(site)
-            return site
-
-        return None
 
 
 settings = Settings()
