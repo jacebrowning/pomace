@@ -1,4 +1,5 @@
 import atexit
+import inspect
 from typing import Optional
 
 import log
@@ -37,7 +38,7 @@ def visit(
         log.silence('urllib3.connectionpool')
         atexit.register(utils.quit_browser, silence_logging=True)
 
-    utils.locate_models()
+    utils.locate_models(caller=inspect.currentframe())
 
     return models.autopage()
 
