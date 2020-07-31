@@ -40,6 +40,9 @@ class URL:
     def __ne__(self, other):
         return not self.__eq__(other)
 
+    def __contains__(self, value):
+        return value in self.value
+
     @property
     def domain(self) -> str:
         return urlparse(self.value).netloc
