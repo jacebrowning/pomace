@@ -64,7 +64,11 @@ def locate_models():
     cwd = Path.cwd()
 
     for frame in inspect.getouterframes(inspect.currentframe()):
-        if 'pomace' not in frame.filename or 'pomace/tests' in frame.filename:
+        if (
+            'pomace' not in frame.filename
+            and 'cleo' not in frame.filename
+            or 'pomace/tests' in frame.filename
+        ):
             path = Path(frame.filename)
             log.debug(f"Found caller's package directory: {path.parent}")
             os.chdir(path.parent)
