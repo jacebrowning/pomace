@@ -1,7 +1,7 @@
 # pylint: disable=no-self-use
 
 import os
-from importlib import reload
+from importlib import import_module, reload
 
 import log
 from cleo import Application, Command
@@ -95,11 +95,11 @@ class BaseCommand(Command):
             settings.url = "https://" + self.option("domain")
 
 
-class DevCommand(BaseCommand):
+class ShellCommand(BaseCommand):
     """
     Launch an interactive shell
 
-    dev
+    shell
         {--browser= : Browser to use for automation}
         {--headless : Run the specified browser in a headless mode}
         {--domain= : Starting domain for the automation}
@@ -108,6 +108,7 @@ class DevCommand(BaseCommand):
 
     def run_loop(self):
         # pylint: disable=unused-variable
+        pomace = import_module('pomace')
         Page = models.Page
         autopage = models.autopage
         page = autopage()
@@ -158,5 +159,5 @@ class RunCommand(BaseCommand):
 
 
 application = Application()
-application.add(DevCommand())
+application.add(ShellCommand())
 application.add(RunCommand())

@@ -24,6 +24,6 @@ On macOS:
 $ brew install pipx
 $ pipx ensurepath
 $ pipx install pomace
-$ pomace dev
+$ pomace shell
 $ pomace run
 ```
