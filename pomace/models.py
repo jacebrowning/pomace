@@ -175,6 +175,10 @@ class Page:
         log.debug(f'{self!r} is active')
         return True
 
+    @property
+    def html(self) -> str:
+        return shared.browser.html
+
     def __repr__(self):
         if self.variant == 'default':
             return f"Page.at('{self.url.value}')"
@@ -219,7 +223,7 @@ class Page:
         return object.__getattribute__(self, value)
 
     def __contains__(self, value):
-        return value in shared.browser.html
+        return value in self.html
 
     def perform(self, name: str, *, prompt: Callable) -> Tuple['Page', bool]:
         action = getattr(self, name)

@@ -1,3 +1,7 @@
+# 0.3 (unreleased)
+
+- Added `html` property to pages.
+
 # 0.2 (2020-08-10)
 
 - Added support for `$BROWSER` environment variable on CI.
