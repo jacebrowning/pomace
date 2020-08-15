@@ -19,4 +19,5 @@ def describe_verb():
                 ('id', "first_name"),
                 ('id', "first-name"),
                 ('css', '[aria-label="First Name"]'),
+                ('id', "FirstName"),
             ]

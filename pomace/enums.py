@@ -56,6 +56,7 @@ class Verb(Enum):
             yield Mode.ID.value, name
             yield Mode.ID.value, inflection.dasherize(name)
             yield Mode.CSS.value, f'[aria-label="{inflection.titleize(name)}"]'
+            yield Mode.ID.value, inflection.titleize(name).replace(' ', '')
 
     def post_action(self, *, delay: float = 0.0):
         if self is self.FILL:
