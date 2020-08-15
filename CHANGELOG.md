@@ -1,6 +1,6 @@
 # 0.3 (unreleased)
 
-- Added `html` property to pages.
+- Added `text` and `html` properties to pages.
 
 # 0.2 (2020-08-10)
 

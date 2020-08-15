@@ -2,6 +2,7 @@ from contextlib import suppress
 from typing import Callable, List, Optional, Tuple
 
 import log
+from bs4 import BeautifulSoup
 from datafiles import datafile, field, mapper
 from selenium.common.exceptions import WebDriverException
 from splinter.driver.webdriver import WebDriverElement
@@ -176,8 +177,12 @@ class Page:
         return True
 
     @property
-    def html(self) -> str:
+    def text(self) -> str:
         return shared.browser.html
+
+    @property
+    def html(self) -> BeautifulSoup:
+        return BeautifulSoup(self.text, 'html.parser')
 
     def __repr__(self):
         if self.variant == 'default':
@@ -223,7 +228,7 @@ class Page:
         return object.__getattribute__(self, value)
 
     def __contains__(self, value):
-        return value in self.html
+        return value in self.text
 
     def perform(self, name: str, *, prompt: Callable) -> Tuple['Page', bool]:
         action = getattr(self, name)
