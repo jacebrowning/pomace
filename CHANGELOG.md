@@ -1,6 +1,7 @@
 # 0.3 (unreleased)
 
 - Added `text` and `html` properties to pages.
+- Updated actions to support `delay=0` override.
 
 # 0.2 (2020-08-10)
 

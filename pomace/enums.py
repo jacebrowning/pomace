@@ -1,6 +1,6 @@
 import time
 from enum import Enum
-from typing import Iterator, Tuple
+from typing import Iterator, Optional, Tuple
 
 import inflection
 from selenium.webdriver.common.keys import Keys
@@ -58,8 +58,10 @@ class Verb(Enum):
             yield Mode.CSS.value, f'[aria-label="{inflection.titleize(name)}"]'
             yield Mode.ID.value, inflection.titleize(name).replace(' ', '')
 
-    def post_action(self, *, delay: float = 0.0):
+    def post_action(self, *, delay: Optional[float] = None):
+        if delay is None:
+            delay = self.delay
         if self is self.FILL:
             element = shared.browser.driver.switch_to.active_element
             element.send_keys(Keys.TAB)
-        time.sleep(delay or self.delay)
+        time.sleep(delay)
