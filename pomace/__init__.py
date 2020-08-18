@@ -1,6 +1,8 @@
 from pkg_resources import DistributionNotFound, get_distribution
 
 from .api import *
+from .models import *
+from .types import *
 
 
 try:

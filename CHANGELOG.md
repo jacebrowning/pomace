@@ -2,6 +2,7 @@
 
 - Added `text` and `html` properties to pages.
 - Updated actions to support `delay=0` override.
+- Updated `URL` to support comparison to strings.
 
 # 0.2 (2020-08-10)
 

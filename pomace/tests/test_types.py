@@ -46,6 +46,10 @@ def describe_url():
             expect(pattern) != URL('http://example.com/')
             expect(pattern) != URL('http://example.com/p/foo/bar')
 
+        def it_can_be_compared_to_str(expect, url):
+            expect(url) == str(url)
+            expect(url) != str(url) + '_extra'
+
     def describe_contains():
         def it_checks_url_contents(expect, url):
             expect(url).contains("foo/bar")

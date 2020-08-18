@@ -14,6 +14,9 @@ from .enums import Mode, Verb
 from .types import URL
 
 
+__all__ = ['Locator', 'Action', 'Page']
+
+
 @datafile(order=True)
 class Locator:
 

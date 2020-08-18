@@ -5,6 +5,9 @@ from urllib.parse import urlparse
 from parse import parse
 
 
+__all__ = ['URL']
+
+
 class URL:
 
     ROOT = '@'
@@ -25,16 +28,21 @@ class URL:
         return self.value
 
     def __eq__(self, other):
+        if not isinstance(other, self.__class__):
+            return str(self) == str(other)
+
         if self.domain != other.domain:
             return False
         if self.path == other.path:
             return True
+
         result = parse(self.path, other.path)
         if not result:
             return False
         for value in result.named.values():
             if '/' in value:
                 return False
+
         return True
 
     def __ne__(self, other):
