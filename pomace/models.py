@@ -134,6 +134,9 @@ class Page:
 
     actions: List[Action] = field(default_factory=lambda: [Action()])
 
+    _text = None
+    _html = None
+
     @classmethod
     def at(cls, url: str, *, variant: str = '') -> 'Page':
         if shared.browser.url != url:
@@ -181,11 +184,15 @@ class Page:
 
     @property
     def text(self) -> str:
-        return shared.browser.html
+        if not self._text:
+            self._text = shared.browser.html
+        return self._text
 
     @property
     def html(self) -> BeautifulSoup:
-        return BeautifulSoup(self.text, 'html.parser')
+        if not self._html:
+            self._html = BeautifulSoup(self.text, 'html.parser')
+        return self._html
 
     def __repr__(self):
         if self.variant == 'default':
