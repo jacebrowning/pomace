@@ -2,6 +2,7 @@
 
 import atexit as _atexit
 
+import pomace
 from pomace import cli as _cli, utils as _utils
 from pomace.config import settings
 from pomace.models import Page, autopage
