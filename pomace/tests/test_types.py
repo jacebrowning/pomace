@@ -48,6 +48,7 @@ def describe_url():
 
         def it_can_be_compared_to_str(expect, url):
             expect(url) == str(url)
+            expect(url) == str(url) + '/'
             expect(url) != str(url) + '_extra'
 
     def describe_contains():

@@ -29,7 +29,7 @@ class URL:
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
-            return str(self) == str(other)
+            return str(self) == str(other).strip('/')
 
         if self.domain != other.domain:
             return False
