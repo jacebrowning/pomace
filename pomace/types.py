@@ -1,7 +1,9 @@
+import random
 from dataclasses import dataclass
 from typing import Optional
 from urllib.parse import urlparse
 
+import zipcodes
 from parse import parse
 
 
@@ -70,12 +72,24 @@ class Person:
     honorific: str
     first_name: str
     last_name: str
+    phone_number: str
     email_address: str
+    address: str
+    city: str
+    state: str
     zip_code: str
 
     @property
     def prefix(self) -> str:
         return self.honorific
+
+    @property
+    def phone(self) -> str:
+        return self.phone_number
+
+    @property
+    def cell_phone(self) -> str:
+        return self.phone_number
 
     @property
     def email(self) -> str:
@@ -84,3 +98,38 @@ class Person:
     @property
     def zip(self) -> str:
         return self.zip_code
+
+    @classmethod
+    def random(cls, fake) -> 'Person':
+        if random.random() > 0.5:
+            prefix, first_name, last_name = (
+                fake.prefix_female,
+                fake.first_name_female,
+                fake.last_name,
+            )
+        else:
+            prefix, first_name, last_name = (
+                fake.prefix_male,
+                fake.first_name_male,
+                fake.last_name,
+            )
+        phone_number = str(random.randint(1000000000, 9999999999))
+        email_address = f'{first_name}{last_name}@{fake.free_email_domain}'.lower()
+        place = random.choice(zipcodes.filter_by())
+        number = random.randint(50, 200)
+        street = random.choice(["First", "Second", "Third", "Fourth", "Park", "Main"])
+        if random.random() < 0.75:
+            place["address"] = f"{number} {street} St."
+        else:
+            place["address"] = fake.street_address
+        return cls(
+            prefix,
+            first_name,
+            last_name,
+            phone_number,
+            email_address,
+            place["address"],
+            place["city"],
+            place["state"],
+            place["zip_code"],
+        )

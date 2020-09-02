@@ -1,6 +1,5 @@
 import inspect
 import os
-import random
 import time
 from pathlib import Path
 
@@ -22,20 +21,7 @@ class Fake:
 
     @property
     def person(self) -> Person:
-        if random.random() > 0.5:
-            prefix, first_name, last_name = (
-                self.prefix_female,
-                self.first_name_female,
-                self.last_name,
-            )
-        else:
-            prefix, first_name, last_name = (
-                self.prefix_male,
-                self.first_name_male,
-                self.last_name,
-            )
-        email_address = f'{first_name}{last_name}@{self.free_email_domain}'.lower()
-        return Person(prefix, first_name, last_name, email_address, self.postcode)
+        return Person.random(self)
 
 
 def launch_browser(delay: float = 0.0) -> bool:

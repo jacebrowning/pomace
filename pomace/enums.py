@@ -50,7 +50,7 @@ class Verb(Enum):
         if self is self.CLICK:
             yield Mode.TEXT.value, inflection.titleize(name)
             yield Mode.TEXT.value, inflection.humanize(name)
-        elif self is self.FILL:
+        elif self in {self.FILL, self.SELECT}:
             yield Mode.NAME.value, name
             yield Mode.NAME.value, inflection.dasherize(name)
             yield Mode.ID.value, name
