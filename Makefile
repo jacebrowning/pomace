@@ -25,7 +25,7 @@ watch: install .clean-test ## Continuously run all CI tasks when files chanage
 
 .PHONY: run ## Start the program
 run: install
-	poetry run pomace run
+	poetry run python $(PACKAGE)/__main__.py run
 
 .PHONY: ipython ## Launch an IPython session
 ipython: install
@@ -62,7 +62,7 @@ endif
 
 .PHONY: format
 format: install
-	poetry run isort $(PACKAGES) notebooks --recursive --apply
+	poetry run isort $(PACKAGES) notebooks
 	poetry run black $(PACKAGES) notebooks
 	@ echo
 
