@@ -267,7 +267,7 @@ python-versions = "*"
 
 [[package]]
 name = "faker"
-version = "4.4.0"
+version = "4.9.0"
 description = "Faker is a Python package that generates fake data for you."
 category = "main"
 optional = false
@@ -473,11 +473,11 @@ altgraph = ">=0.15"
 
 [[package]]
 name = "markdown"
-version = "3.2.2"
+version = "3.3"
 description = "Python implementation of Markdown."
 category = "dev"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.6"
 
 [package.dependencies]
 importlib-metadata = {version = "*", markers = "python_version < \"3.8\""}
@@ -1065,7 +1065,7 @@ python-versions = ">= 3.5"
 
 [[package]]
 name = "tqdm"
-version = "4.50.0"
+version = "4.50.2"
 description = "Fast, Extensible Progress Meter"
 category = "dev"
 optional = false
@@ -1303,8 +1303,8 @@ docopt = [
     {file = "docopt-0.6.2.tar.gz", hash = "sha256:49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"},
 ]
 faker = [
-    {file = "Faker-4.4.0-py3-none-any.whl", hash = "sha256:6d57066eb7a0dd089f85cee99d0e75a7dcd86d74f9d5af7ccc4ace204b994cd6"},
-    {file = "Faker-4.4.0.tar.gz", hash = "sha256:a69c06e1f160e14a6da96ef6bff98e7b931f8e30d4e4e8ba399aff859965bb19"},
+    {file = "Faker-4.9.0-py3-none-any.whl", hash = "sha256:934660336924f4453733baebc74ad9c9b237155a17781990808c00801e63d557"},
+    {file = "Faker-4.9.0.tar.gz", hash = "sha256:5ca203eb9adaf6a9d1517a4d4a35a4d587f373639ed31da82b0f2e31abc2397a"},
 ]
 freezegun = [
     {file = "freezegun-1.0.0-py2.py3-none-any.whl", hash = "sha256:02b35de52f4699a78f6ac4518e4cd3390dddc43b0aeb978335a8f270a2d9668b"},
@@ -1387,8 +1387,8 @@ macholib = [
     {file = "macholib-1.14.tar.gz", hash = "sha256:0c436bc847e7b1d9bda0560351bf76d7caf930fb585a828d13608839ef42c432"},
 ]
 markdown = [
-    {file = "Markdown-3.2.2-py3-none-any.whl", hash = "sha256:c467cd6233885534bf0fe96e62e3cf46cfc1605112356c4f9981512b8174de59"},
-    {file = "Markdown-3.2.2.tar.gz", hash = "sha256:1fafe3f1ecabfb514a5285fca634a53c1b32a81cb0feb154264d55bf2ff22c17"},
+    {file = "Markdown-3.3-py3-none-any.whl", hash = "sha256:fbb1ba54ca41e8991dc5a561d9c6f752f5e4546f8750e56413ea50f2385761d3"},
+    {file = "Markdown-3.3.tar.gz", hash = "sha256:4f4172a4e989b97f96860fa434b89895069c576e2b537c4b4eed265266a7affc"},
 ]
 markupsafe = [
     {file = "MarkupSafe-1.1.1-cp27-cp27m-macosx_10_6_intel.whl", hash = "sha256:09027a7803a62ca78792ad89403b1b7a73a01c8cb65909cd876f7fcebd79b161"},
@@ -1615,6 +1615,12 @@ regex = [
     {file = "regex-2020.9.27-cp38-cp38-manylinux2010_x86_64.whl", hash = "sha256:8d69cef61fa50c8133382e61fd97439de1ae623fe943578e477e76a9d9471637"},
     {file = "regex-2020.9.27-cp38-cp38-win32.whl", hash = "sha256:f2388013e68e750eaa16ccbea62d4130180c26abb1d8e5d584b9baf69672b30f"},
     {file = "regex-2020.9.27-cp38-cp38-win_amd64.whl", hash = "sha256:4318d56bccfe7d43e5addb272406ade7a2274da4b70eb15922a071c58ab0108c"},
+    {file = "regex-2020.9.27-cp39-cp39-manylinux1_i686.whl", hash = "sha256:84cada8effefe9a9f53f9b0d2ba9b7b6f5edf8d2155f9fdbe34616e06ececf81"},
+    {file = "regex-2020.9.27-cp39-cp39-manylinux1_x86_64.whl", hash = "sha256:816064fc915796ea1f26966163f6845de5af78923dfcecf6551e095f00983650"},
+    {file = "regex-2020.9.27-cp39-cp39-manylinux2010_i686.whl", hash = "sha256:5d892a4f1c999834eaa3c32bc9e8b976c5825116cde553928c4c8e7e48ebda67"},
+    {file = "regex-2020.9.27-cp39-cp39-manylinux2010_x86_64.whl", hash = "sha256:c9443124c67b1515e4fe0bb0aa18df640965e1030f468a2a5dc2589b26d130ad"},
+    {file = "regex-2020.9.27-cp39-cp39-win32.whl", hash = "sha256:49f23ebd5ac073765ecbcf046edc10d63dcab2f4ae2bce160982cb30df0c0302"},
+    {file = "regex-2020.9.27-cp39-cp39-win_amd64.whl", hash = "sha256:3d20024a70b97b4f9546696cbf2fd30bae5f42229fbddf8661261b1eaff0deb7"},
     {file = "regex-2020.9.27.tar.gz", hash = "sha256:a6f32aea4260dfe0e55dc9733ea162ea38f0ea86aa7d0f77b15beac5bf7b369d"},
 ]
 requests = [
@@ -1697,8 +1703,8 @@ tornado = [
     {file = "tornado-6.0.4.tar.gz", hash = "sha256:0fe2d45ba43b00a41cd73f8be321a44936dc1aba233dee979f17a042b83eb6dc"},
 ]
 tqdm = [
-    {file = "tqdm-4.50.0-py2.py3-none-any.whl", hash = "sha256:2dd75fdb764f673b8187643496fcfbeac38348015b665878e582b152f3391cdb"},
-    {file = "tqdm-4.50.0.tar.gz", hash = "sha256:93b7a6a9129fce904f6df4cf3ae7ff431d779be681a95c3344c26f3e6c09abfa"},
+    {file = "tqdm-4.50.2-py2.py3-none-any.whl", hash = "sha256:43ca183da3367578ebf2f1c2e3111d51ea161ed1dc4e6345b86e27c2a93beff7"},
+    {file = "tqdm-4.50.2.tar.gz", hash = "sha256:69dfa6714dee976e2425a9aab84b622675b7b1742873041e3db8a8e86132a4af"},
 ]
 traitlets = [
     {file = "traitlets-5.0.4-py3-none-any.whl", hash = "sha256:9664ec0c526e48e7b47b7d14cd6b252efa03e0129011de0a9c1d70315d4309c3"},

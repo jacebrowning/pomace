@@ -1,3 +1,7 @@
+# 0.4 (beta)
+
+- Fixed handling of automatic browser updates.
+
 # 0.3 (2020-10-01)
 
 - Added `text` and `html` properties to pages.

@@ -32,6 +32,9 @@ def launch() -> Browser:
     except Exception as e:  # pylint: disable=broad-except
         log.debug(str(e))
 
+        if "exited process" in str(e):
+            sys.exit("Browser update prevented launch. Please try again.")
+
         for driver, manager in WEBDRIVER_MANAGERS.items():
             if driver in str(e).lower():
                 options["executable_path"] = manager().install()
