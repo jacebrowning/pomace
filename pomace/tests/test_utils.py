@@ -17,3 +17,6 @@ def describe_fake():
 
         def it_includes_honorific(expect, fake):
             expect(fake.person.honorific).is_not(None)
+
+        def it_includes_county(expect, fake):
+            expect(fake.person.county).is_not(None)

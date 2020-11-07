@@ -8,7 +8,12 @@ def describe_verb():
         def when_click(expect):
             verb = Verb('click')
             locators = list(verb.get_default_locators('send_email'))
-            expect(locators) == [('text', "Send Email"), ('text', "Send email")]
+            expect(locators) == [
+                ('text', "Send Email"),
+                ('text', "Send email"),
+                ('value', "Send Email"),
+                ('value', "Send email"),
+            ]
 
         def when_fill(expect):
             verb = Verb('fill')

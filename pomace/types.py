@@ -77,6 +77,7 @@ class Person:
     address: str
     city: str
     state: str
+    county: str
     zip_code: str
 
     @property
@@ -130,6 +131,7 @@ class Person:
             email_address,
             place["address"],
             place["city"],
-            place["state"],
+            place['state'],
+            place["county"],
             place["zip_code"],
         )

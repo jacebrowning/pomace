@@ -12,7 +12,7 @@ from pomace.config import settings as _settings
 
 def pytest_configure(config):
     log.init(debug=True)
-    log.silence('parse', 'selenium', 'urllib3', allow_info=True)
+    log.silence('parse', 'faker', 'selenium', 'urllib3', allow_info=True)
 
     terminal = config.pluginmanager.getplugin('terminal')
     terminal.TerminalReporter.showfspath = False
