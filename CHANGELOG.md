@@ -1,4 +1,4 @@
-# 0.4 (beta)
+# 0.4 (2020-11-14)
 
 - Fixed handling of automatic browser updates.
 
