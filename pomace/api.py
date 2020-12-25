@@ -8,16 +8,16 @@ from . import cli, models, utils
 from .config import settings
 
 
-__all__ = ['fake', 'prompt', 'visit']
+__all__ = ["fake", "prompt", "visit"]
 
 
 fake = utils.Fake()
 
 
 def visit(
-    url: str = '',
+    url: str = "",
     *,
-    browser: str = '',
+    browser: str = "",
     headless: Optional[bool] = None,
     delay: float = 0.0,
 ) -> models.Page:
@@ -35,7 +35,7 @@ def visit(
         settings.browser.headless = headless
 
     if utils.launch_browser(delay):
-        log.silence('urllib3.connectionpool')
+        log.silence("urllib3.connectionpool")
         atexit.register(utils.quit_browser, silence_logging=True)
 
     utils.locate_models(caller=inspect.currentframe())

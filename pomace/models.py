@@ -14,14 +14,14 @@ from .enums import Mode, Verb
 from .types import URL
 
 
-__all__ = ['Locator', 'Action', 'Page']
+__all__ = ["Locator", "Action", "Page"]
 
 
 @datafile(order=True)
 class Locator:
 
-    mode: str = field(default='', compare=False)
-    value: str = field(default='', compare=False)
+    mode: str = field(default="", compare=False)
+    value: str = field(default="", compare=False)
     index: int = field(default=0, compare=False)
     uses: int = field(default=0, compare=True)
 
@@ -33,7 +33,7 @@ class Locator:
         return Mode(self.mode)
 
     def __repr__(self) -> str:
-        return f'<locator {self.mode}={self.value}>'
+        return f"<locator {self.mode}={self.value}>"
 
     def __bool__(self) -> bool:
         return bool(self.mode and self.value)
@@ -43,26 +43,26 @@ class Locator:
         try:
             element = elements[self.index]
         except ElementDoesNotExist:
-            log.debug(f'{self} unable to find element')
+            log.debug(f"{self} unable to find element")
             return None
         else:
-            log.debug(f'{self} found element: {element}')
+            log.debug(f"{self} found element: {element}")
             return element
 
     def score(self, value: int):
         previous = self.uses
         self.uses = max(self.MIN_USES, min(self.MAX_USES, self.uses + value))
         if self.uses > previous:
-            log.debug(f'Increased {self} uses to {self.uses}')
+            log.debug(f"Increased {self} uses to {self.uses}")
         elif self.uses < previous:
-            log.debug(f'Decreased {self} uses to {self.uses}')
+            log.debug(f"Decreased {self} uses to {self.uses}")
 
 
 @datafile
 class Action:
 
-    verb: str = ''
-    name: str = ''
+    verb: str = ""
+    name: str = ""
     locators: List[Locator] = field(default_factory=lambda: [Locator()])
 
     @property
@@ -75,21 +75,21 @@ class Action:
                 self.locators.append(Locator(mode, value))
 
     def __str__(self):
-        return f'{self.verb}_{self.name}'
+        return f"{self.verb}_{self.name}"
 
     def __bool__(self) -> bool:
         return bool(self.verb and self.name)
 
-    def __call__(self, *args, **kwargs) -> 'Page':
-        page = kwargs.pop('_page', None)
+    def __call__(self, *args, **kwargs) -> "Page":
+        page = kwargs.pop("_page", None)
         page = self._call_method(page, *args, **kwargs)
         self.datafile.save()
         return page
 
-    def _call_method(self, page: Optional['Page'], *args, **kwargs) -> 'Page':
+    def _call_method(self, page: Optional["Page"], *args, **kwargs) -> "Page":
         for locator in sorted(self.locators, reverse=True):
             if locator:
-                log.debug(f'Using {locator} to find {self.name!r}')
+                log.debug(f"Using {locator} to find {self.name!r}")
                 element = locator.find()
                 if element:
                     if self._perform_action(element, *args, **kwargs):
@@ -97,7 +97,7 @@ class Action:
                         break
             locator.score(-1)
         else:
-            log.error(f'No locators able to find {self.name!r}')
+            log.error(f"No locators able to find {self.name!r}")
             if page:
                 return page
 
@@ -107,7 +107,7 @@ class Action:
         return autopage()
 
     def _perform_action(self, element: WebDriverElement, *args, **kwargs) -> bool:
-        delay = kwargs.pop('delay', 0.0)
+        delay = kwargs.pop("delay", 0.0)
         function = getattr(element, self.verb)
         try:
             function(*args, **kwargs)
@@ -126,7 +126,7 @@ class Page:
 
     domain: str
     path: str = URL.ROOT
-    variant: str = 'default'
+    variant: str = "default"
 
     active_locators: List[Locator] = field(default_factory=lambda: [Locator()])
     inactive_locators: List[Locator] = field(default_factory=lambda: [Locator()])
@@ -134,7 +134,7 @@ class Page:
     actions: List[Action] = field(default_factory=lambda: [Action()])
 
     @classmethod
-    def at(cls, url: str, *, variant: str = '') -> 'Page':
+    def at(cls, url: str, *, variant: str = "") -> "Page":
         if shared.browser.url != url:
             log.info(f"Visiting {url}")
             shared.browser.visit(url)
@@ -142,10 +142,10 @@ class Page:
         if shared.browser.url != url:
             log.info(f"Redirected to {url}")
 
-        kwargs = {'domain': URL(url).domain, 'path': URL(url).path}
+        kwargs = {"domain": URL(url).domain, "path": URL(url).path}
         variant = variant or URL(url).fragment
         if variant:
-            kwargs['variant'] = variant
+            kwargs["variant"] = variant
 
         return cls(**kwargs)  # type: ignore
 
@@ -155,27 +155,27 @@ class Page:
 
     @property
     def active(self) -> bool:
-        log.debug(f'Determining if {self!r} is active')
+        log.debug(f"Determining if {self!r} is active")
 
         if self.url != URL(shared.browser.url):
             log.debug(
-                f'{self!r} is inactive - URL does not match: {shared.browser.url}'
+                f"{self!r} is inactive - URL does not match: {shared.browser.url}"
             )
             return False
 
-        log.debug('Checking that all expected elements can be found')
+        log.debug("Checking that all expected elements can be found")
         for locator in self.active_locators:
             if locator and not locator.find():
-                log.debug(f'{self!r} is inactive - Unable to find: {locator!r}')
+                log.debug(f"{self!r} is inactive - Unable to find: {locator!r}")
                 return False
 
-        log.debug('Checking that no unexpected elements can be found')
+        log.debug("Checking that no unexpected elements can be found")
         for locator in self.inactive_locators:
             if locator and locator.find():
-                log.debug(f'{self!r} is inactive - Found unexpected: {locator!r}')
+                log.debug(f"{self!r} is inactive - Found unexpected: {locator!r}")
                 return False
 
-        log.debug(f'{self!r} is active')
+        log.debug(f"{self!r} is active")
         return True
 
     @property
@@ -184,17 +184,17 @@ class Page:
 
     @property
     def html(self) -> BeautifulSoup:
-        return BeautifulSoup(self.text, 'html.parser')
+        return BeautifulSoup(self.text, "html.parser")
 
     def __repr__(self):
-        if self.variant == 'default':
+        if self.variant == "default":
             return f"Page.at('{self.url.value}')"
         return f"Page.at('{self.url.value}', variant='{self.variant}')"
 
     def __str__(self):
-        if self.variant == 'default':
-            return f'{self.url}'
-        return f'{self.url} ({self.variant})'
+        if self.variant == "default":
+            return f"{self.url}"
+        return f"{self.url} ({self.variant})"
 
     def __dir__(self):
         names = []
@@ -209,8 +209,8 @@ class Page:
         return names
 
     def __getattr__(self, value: str) -> Action:
-        if '_' in value:
-            verb, name = value.split('_', 1)
+        if "_" in value:
+            verb, name = value.split("_", 1)
 
             with suppress(FileNotFoundError):
                 self.datafile.load()
@@ -222,7 +222,7 @@ class Page:
             if Verb.validate(verb):
                 action = Action(verb, name)
                 setattr(
-                    action, 'datafile', mapper.create_mapper(action, root=self.datafile)
+                    action, "datafile", mapper.create_mapper(action, root=self.datafile)
                 )
                 self.actions.append(action)
                 return action
@@ -232,9 +232,9 @@ class Page:
     def __contains__(self, value):
         return value in self.text
 
-    def perform(self, name: str, *, prompt: Callable) -> Tuple['Page', bool]:
+    def perform(self, name: str, *, prompt: Callable) -> Tuple["Page", bool]:
         action = getattr(self, name)
-        if action.verb in {'fill', 'select'}:
+        if action.verb in {"fill", "select"}:
             value = settings.get_secret(action.name) or prompt()
             settings.update_secret(action.name, value)
             page = action(value, _page=self)
@@ -253,10 +253,10 @@ def autopage() -> Page:
     if matching_pages:
         if len(matching_pages) > 1:
             for page in matching_pages:
-                log.warn(f'Multiple pages matched: {page}')
+                log.warn(f"Multiple pages matched: {page}")
         return matching_pages[0]
 
-    log.info(f'Creating new page: {shared.browser.url}')
+    log.info(f"Creating new page: {shared.browser.url}")
     page = Page.at(shared.browser.url)
     page.datafile.save()
     return page

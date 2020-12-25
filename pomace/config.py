@@ -7,12 +7,12 @@ from . import shared
 from .types import URL
 
 
-log.silence('datafiles', allow_warning=True)
+log.silence("datafiles", allow_warning=True)
 
 
 @datafile
 class Browser:
-    name: str = ''
+    name: str = ""
     width: int = 1366
     height: int = 768
     headless: bool = False
@@ -28,18 +28,18 @@ class Secret:
 class Site:
     domain: str
     data: List[Secret] = field(
-        default_factory=lambda: [Secret('username', ''), Secret('password', '')]
+        default_factory=lambda: [Secret("username", ""), Secret("password", "")]
     )
 
     @property
     def url(self) -> str:
-        return f'http://{self.domain}'
+        return f"http://{self.domain}"
 
 
 @datafile("./pomace.yml", defaults=True)
 class Settings:
     browser: Browser = field(default_factory=Browser)
-    url: str = ''
+    url: str = ""
     secrets: List[Site] = field(default_factory=list)
 
     def __getattr__(self, name):
@@ -53,7 +53,7 @@ class Settings:
                     if secret.name == name:
                         return secret.value
         if _log:
-            log.info(f'Secret {name!r} not set for {domain}')
+            log.info(f"Secret {name!r} not set for {domain}")
         return None
 
     def set_secret(self, name, value):
@@ -75,7 +75,7 @@ class Settings:
                 if secret.name == name:
                     secret.value = value
                     return
-        log.info(f'Secret {name!r} not set for {domain}')
+        log.info(f"Secret {name!r} not set for {domain}")
 
     def _get_site(self, domain: str) -> Optional[Site]:
         for site in self.secrets:

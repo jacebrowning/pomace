@@ -22,8 +22,8 @@ def prompt_for_browser_if_unset():
     if settings.browser.name:
         return
 
-    if 'CI' in os.environ or not bullet:
-        settings.browser.name = os.getenv('BROWSER', 'firefox')
+    if "CI" in os.environ or not bullet:
+        settings.browser.name = os.getenv("BROWSER", "firefox")
         return
 
     cli = bullet.Bullet(
@@ -38,8 +38,8 @@ def prompt_for_url_if_unset():
     if settings.url:
         return
 
-    if 'CI' in os.environ or not bullet:
-        settings.url = 'http://example.com'
+    if "CI" in os.environ or not bullet:
+        settings.url = "http://example.com"
         return
 
     domains = [p.domain for p in models.Page.objects.all()]
@@ -57,8 +57,8 @@ def prompt_for_secret_if_unset(name: str):
     if settings.get_secret(name, _log=False):
         return
 
-    if 'CI' in os.environ or not bullet:
-        settings.set_secret(name, '<unset>')
+    if "CI" in os.environ or not bullet:
+        settings.set_secret(name, "<unset>")
         return
 
     cli = bullet.Input(prompt=f"{name}: ")
@@ -70,7 +70,7 @@ class BaseCommand(Command):
     def handle(self):
         log.reset()
         log.init(verbosity=self.io.verbosity + 1)
-        log.silence('datafiles', allow_warning=True)
+        log.silence("datafiles", allow_warning=True)
         self.update_settings()
         prompt_for_browser_if_unset()
         prompt_for_url_if_unset()
@@ -108,7 +108,7 @@ class ShellCommand(BaseCommand):
 
     def run_loop(self):
         # pylint: disable=unused-variable
-        pomace = import_module('pomace')
+        pomace = import_module("pomace")
         Page = models.Page
         autopage = models.autopage
         page = autopage()

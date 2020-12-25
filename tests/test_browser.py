@@ -6,11 +6,11 @@ from pomace.config import settings
 
 def describe_launch():
     def it_requires_a_browser_to_be_set(expect):
-        settings.browser.name = ''
+        settings.browser.name = ""
         with expect.raises(SystemExit):
             browser.launch()
 
     def it_rejects_invalid_browsers(expect):
-        settings.browser.name = 'foobar'
+        settings.browser.name = "foobar"
         with expect.raises(SystemExit):
             browser.launch()

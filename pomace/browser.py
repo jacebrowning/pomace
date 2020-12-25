@@ -8,7 +8,7 @@ from webdriver_manager import chrome, firefox
 from .config import settings
 
 
-NAMES = ['Firefox', 'Chrome']
+NAMES = ["Firefox", "Chrome"]
 
 WEBDRIVER_MANAGERS = {
     "chromedriver": chrome.ChromeDriverManager,
@@ -47,7 +47,7 @@ def resize(browser: Browser):
     browser.driver.set_window_size(settings.browser.width, settings.browser.height)
     browser.driver.set_window_position(0, 0)
     size = browser.driver.get_window_size()
-    log.debug(f'Resized browser: {size}')
+    log.debug(f"Resized browser: {size}")
 
 
 def save_url(browser: Browser):
@@ -59,6 +59,6 @@ def save_url(browser: Browser):
 def save_size(browser: Browser):
     size = browser.driver.get_window_size()
     if size != (settings.browser.width, settings.browser.height):
-        log.debug(f'Saving last browser size: {size}')
-        settings.browser.width = size['width']
-        settings.browser.height = size['height']
+        log.debug(f"Saving last browser size: {size}")
+        settings.browser.width = size["width"]
+        settings.browser.height = size["height"]

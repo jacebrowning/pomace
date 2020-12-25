@@ -99,11 +99,6 @@ pync = { version = "*", platform = "darwin" }
 
 pomace = "pomace.cli:application.run"
 
-[tool.black]
-
-target-version = ["py36", "py37"]
-skip-string-normalization = true
-
 [build-system]
 
 requires = ["poetry-core>=1.0.0"]
