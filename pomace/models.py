@@ -87,6 +87,7 @@ class Action:
     def __call__(self, *args, **kwargs) -> "Page":
         page = kwargs.pop("_page", None)
         locator = kwargs.pop("_locator", "")
+
         if "=" in locator:
             mode, value = locator.split("=", 1)
             self.locators.insert(0, Locator(mode, value))
@@ -105,13 +106,16 @@ class Action:
             if locator or not shared.cli:
                 break
 
-            choices = [mode.value for mode in Mode]
+            choices = ["<cancel>"] + [mode.value for mode in Mode]
             command = shared.cli.Bullet(
                 prompt="\nSelect element locator: ",
                 bullet=" ● ",
                 choices=choices,
             )
             mode = command.launch()
+            if mode == "<cancel>":
+                print()
+                break
 
             command = shared.cli.Input("\nValue to match: ")
             value = command.launch()
