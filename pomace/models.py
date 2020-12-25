@@ -85,21 +85,50 @@ class Action:
         return bool(self.verb and self.name)
 
     def __call__(self, *args, **kwargs) -> "Page":
+        page = kwargs.pop("_page", None)
         locator = kwargs.pop("_locator", "")
-        if locator:
+
+        if "=" in locator:
             mode, value = locator.split("=", 1)
             self.locators.insert(0, Locator(mode, value))
             self.datafile.save()
 
-        page = kwargs.pop("_page", None)
-        page = self._call_method(page, *args, **kwargs)
-
+        page = self._call_method(page, locator, *args, **kwargs)
         self.datafile.save()
         page.clean()
 
         return page
 
-    def _call_method(self, page: Optional["Page"], *args, **kwargs) -> "Page":
+    def _call_method(self, page, locator, *args, **kwargs) -> "Page":
+        while self._finding_locator(*args, **kwargs):
+            log.error(f"No locators able to find {self.name!r}")
+
+            if locator or not shared.cli:
+                break
+
+            choices = ["<cancel>"] + [mode.value for mode in Mode]
+            command = shared.cli.Bullet(
+                prompt="\nSelect element locator: ",
+                bullet=" ● ",
+                choices=choices,
+            )
+            mode = command.launch()
+            if mode == "<cancel>":
+                print()
+                break
+
+            command = shared.cli.Input("\nValue to match: ")
+            value = command.launch()
+            print()
+
+            self.locators.append(Locator(mode, value))
+
+        if page and self._verb.updates:
+            return page
+
+        return autopage()
+
+    def _finding_locator(self, *args, **kwargs) -> bool:
         for locator in self.locators_sorted:
             if locator:
                 log.debug(f"Using {locator} to find {self.name!r}")
@@ -107,17 +136,9 @@ class Action:
                 if element:
                     if self._perform_action(element, *args, **kwargs):
                         locator.score(+1)
-                        break
+                        return False
             locator.score(-1)
-        else:
-            log.error(f"No locators able to find {self.name!r}")
-            if page:
-                return page
-
-        if page and self._verb.updates:
-            return page
-
-        return autopage()
+        return True
 
     def _perform_action(self, element: WebDriverElement, *args, **kwargs) -> bool:
         delay = kwargs.pop("delay", 0.0)

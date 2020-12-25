@@ -1,3 +1,8 @@
+# 0.5 (beta)
+
+- Added automatic cleanup of unused locators.
+- Added prompt when no locators match.
+
 # 0.4 (2020-11-14)
 
 - Fixed handling of automatic browser updates.

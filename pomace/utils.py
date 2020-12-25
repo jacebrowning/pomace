@@ -90,12 +90,10 @@ def launch_browser(delay: float = 0.0) -> bool:
     return did_launch
 
 
-def quit_browser(*, newline: bool = False, silent: bool = False) -> bool:
+def quit_browser(*, silence_logging: bool = False) -> bool:
     did_quit = False
 
-    if newline:
-        print()
-    if silent:
+    if silence_logging:
         log.silence("pomace", "selenium", allow_warning=True)
 
     if shared.browser:

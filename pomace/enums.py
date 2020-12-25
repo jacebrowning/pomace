@@ -10,14 +10,14 @@ from . import shared
 
 class Mode(Enum):
 
-    CSS = "css"
-    XPATH = "xpath"
-    TAG = "tag"
     NAME = "name"
+    ID = "id"
     TEXT = "text"
     PARTIAL_TEXT = "partial_text"
-    ID = "id"
     VALUE = "value"
+    CSS = "css"
+    TAG = "tag"
+    XPATH = "xpath"
 
     @property
     def finder(self):

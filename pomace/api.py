@@ -36,7 +36,7 @@ def visit(
 
     if utils.launch_browser(delay):
         log.silence("urllib3.connectionpool")
-        atexit.register(utils.quit_browser, silent=True)
+        atexit.register(utils.quit_browser, silence_logging=True)
 
     utils.locate_models(caller=inspect.currentframe())
 

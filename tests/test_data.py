@@ -23,13 +23,14 @@ def test_locators_can_added(expect, browser):
     page.fill_search("foobar", _locator="id=searchInput")
 
     page = Page.at("https://www.wikipedia.org")
-    expect(page.fill_search.locators).contains(Locator(mode="id", value="searchInput"))
+    locator = Locator(mode="id", value="searchInput")
+    expect(page.fill_search.locators).contains(locator)
 
 
 def test_unused_actions_are_removed_on_forced_cleanup(expect, browser):
     page = Page.at("https://www.wikipedia.org")
-    page.click_foobar()
-    expect(len(page.actions)) == 2
+    page.click_foobar(_locator="none")
+    previous_count = len(page.actions)
 
     page.clean(force=True)
-    expect(len(page.actions)) == 1
+    expect(len(page.actions)) < previous_count
