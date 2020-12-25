@@ -43,7 +43,17 @@ class Settings:
     secrets: List[Site] = field(default_factory=list)
 
     def __getattr__(self, name):
-        return self.get_secret(name) or object.__getattribute__(self, name)
+        if name.startswith("_") or not shared.cli:
+            return object.__getattribute__(self, name)
+
+        value = self.get_secret(name)
+        if value is not None:
+            return value
+
+        command = shared.cli.Input(prompt=f"{name}: ")
+        value = command.launch()
+        self.set_secret(name, value)
+        return value
 
     def get_secret(self, name, *, _log=True) -> Optional[str]:
         domain = URL(shared.browser.url).domain

@@ -7,49 +7,42 @@ import log
 from cleo import Application, Command
 from IPython import embed
 
-from . import browser, models, utils
+from . import browser, models, shared, utils
 from .config import settings
-
-
-try:
-    import bullet
-except ImportError:
-    bullet = None  # https://github.com/Mckinsey666/bullet/issues/2
-    log.warn("Interactive CLI prompts not yet supported on Windows")
 
 
 def prompt_for_browser_if_unset():
     if settings.browser.name:
         return
 
-    if "CI" in os.environ or not bullet:
+    if "CI" in os.environ or not shared.cli:
         settings.browser.name = os.getenv("BROWSER", "firefox")
         return
 
-    cli = bullet.Bullet(
+    command = shared.cli.Bullet(
         prompt="\nSelect a browser for automation: ",
         bullet=" ● ",
         choices=browser.NAMES,
     )
-    settings.browser.name = cli.launch().lower()
+    settings.browser.name = command.launch().lower()
 
 
 def prompt_for_url_if_unset():
     if settings.url:
         return
 
-    if "CI" in os.environ or not bullet:
+    if "CI" in os.environ or not shared.cli:
         settings.url = "http://example.com"
         return
 
     domains = [p.domain for p in models.Page.objects.all()]
     if domains:
-        cli = bullet.Bullet(
+        command = shared.cli.Bullet(
             prompt="\nStarting domain: ", bullet=" ● ", choices=list(set(domains))
         )
     else:
-        cli = bullet.Input(prompt="\nStarting domain: ", strip=True)
-    domain = cli.launch()
+        command = shared.cli.Input(prompt="\nStarting domain: ", strip=True)
+    domain = command.launch()
     settings.url = f"https://{domain}"
 
 
@@ -57,12 +50,12 @@ def prompt_for_secret_if_unset(name: str):
     if settings.get_secret(name, _log=False):
         return
 
-    if "CI" in os.environ or not bullet:
+    if "CI" in os.environ or not shared.cli:
         settings.set_secret(name, "<unset>")
         return
 
-    cli = bullet.Input(prompt=f"{name}: ")
-    value = cli.launch()
+    command = shared.cli.Input(prompt=f"{name}: ")
+    value = command.launch()
     settings.set_secret(name, value)
 
 
@@ -134,10 +127,10 @@ class RunCommand(BaseCommand):
         self.display_url(page)
         while True:
             choices = [self.RELOAD_ACTIONS] + dir(page)
-            cli = bullet.Bullet(
+            command = shared.cli.Bullet(
                 prompt="\nSelect an action: ", bullet=" ● ", choices=choices
             )
-            action = cli.launch()
+            action = command.launch()
             if action == self.RELOAD_ACTIONS:
                 reload(models)
                 self.clear_screen()
@@ -145,8 +138,8 @@ class RunCommand(BaseCommand):
                 self.display_url(page)
                 continue
 
-            cli = bullet.Input(prompt="\nValue: ")
-            page, transitioned = page.perform(action, prompt=cli.launch)
+            command = shared.cli.Input(prompt="\nValue: ")
+            page, transitioned = page.perform(action, prompt=command.launch)
             if transitioned:
                 self.clear_screen()
                 self.display_url(page)
