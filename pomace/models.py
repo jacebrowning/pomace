@@ -25,9 +25,6 @@ class Locator:
     index: int = field(default=0, compare=False)
     uses: int = field(default=0, compare=True)
 
-    MIN_USES = -1
-    MAX_USES = 99
-
     @property
     def _mode(self) -> Mode:
         return Mode(self.mode)
@@ -51,7 +48,10 @@ class Locator:
 
     def score(self, value: int):
         previous = self.uses
-        self.uses = max(self.MIN_USES, min(self.MAX_USES, self.uses + value))
+        if value > 0:
+            self.uses = min(99, max(1, self.uses + value))
+        else:
+            self.uses = max(-1, self.uses + value)
         if self.uses > previous:
             log.debug(f"Increased {self} uses to {self.uses}")
         elif self.uses < previous:
@@ -64,6 +64,10 @@ class Action:
     verb: str = ""
     name: str = ""
     locators: List[Locator] = field(default_factory=lambda: [Locator()])
+
+    @property
+    def locators_sorted(self) -> List[Locator]:
+        return [x for x in sorted(self.locators, reverse=True) if x]
 
     @property
     def _verb(self) -> Verb:
@@ -81,13 +85,22 @@ class Action:
         return bool(self.verb and self.name)
 
     def __call__(self, *args, **kwargs) -> "Page":
+        locator = kwargs.pop("_locator", "")
+        if locator:
+            mode, value = locator.split("=", 1)
+            self.locators.insert(0, Locator(mode, value))
+            self.datafile.save()
+
         page = kwargs.pop("_page", None)
         page = self._call_method(page, *args, **kwargs)
+
         self.datafile.save()
+        page.clean()
+
         return page
 
     def _call_method(self, page: Optional["Page"], *args, **kwargs) -> "Page":
-        for locator in sorted(self.locators, reverse=True):
+        for locator in self.locators_sorted:
             if locator:
                 log.debug(f"Using {locator} to find {self.name!r}")
                 element = locator.find()
@@ -117,6 +130,28 @@ class Action:
         else:
             self._verb.post_action(delay=delay)
             return True
+
+    def clean(self, *, force: bool = False) -> int:
+        unused_locators = []
+        remove_unused_locators = force
+
+        for locator in self.locators:
+            if locator.uses <= 0:
+                unused_locators.append(locator)
+            if locator.uses >= 99:
+                remove_unused_locators = True
+
+        log.debug(f"Found {len(unused_locators)} unused locators for {self}")
+        if not remove_unused_locators:
+            return 0
+
+        if unused_locators:
+            log.info(f"Cleaning up locators for {self}")
+            for locator in unused_locators:
+                log.info(f"Removed unused {locator}")
+                self.locators.remove(locator)
+
+        return len(unused_locators)
 
 
 @datafile(
@@ -241,6 +276,31 @@ class Page:
         else:
             page = action(_page=self)
         return page, page != self
+
+    def clean(self, *, force: bool = False) -> int:
+        count = 0
+
+        unused_actions = []
+        remove_unused_actions = force
+
+        for action in self.actions:
+            if all(locator.uses <= 0 for locator in action.locators):
+                unused_actions.append(action)
+
+        log.debug(f"Found {len(unused_actions)} unused actions for {self}")
+        if unused_actions and remove_unused_actions:
+            log.info(f"Cleaning up actions for {self}")
+            for action in unused_actions:
+                log.info(f"Removed unused {action}")
+                self.actions.remove(action)
+
+        for action in self.actions:
+            count += action.clean(force=force)
+
+        if count:
+            self.datafile.save()
+
+        return count
 
 
 def autopage() -> Page:

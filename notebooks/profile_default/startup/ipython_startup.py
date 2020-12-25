@@ -30,6 +30,7 @@ def _display_settings():
 
     if line:
         print(line)
+    print()
 
 
 if __name__ == "__main__":

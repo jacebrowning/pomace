@@ -22,8 +22,7 @@ def launch() -> Browser:
     if not settings.browser.name:
         sys.exit("No browser specified")
 
-    # TODO: Only log when not IPython
-    # log.info(f'Launching browser: {settings.browser.name}')
+    log.info(f"Launching browser: {settings.browser.name}")
 
     try:
         return Browser(settings.browser.name, **options)

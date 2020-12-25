@@ -48,11 +48,13 @@ def describe_locator():
 
     def describe_score():
         def it_tops_out_at_max_value(expect, locator):
-            locator.score(+999)
+            locator.score(+99)
+            locator.score(+1)
             expect(locator.uses) == 99
 
         def it_bottoms_out_at_min_value(expect, locator):
-            locator.score(-999)
+            locator.score(-1)
+            locator.score(-1)
             expect(locator.uses) == -1
 
 
@@ -66,6 +68,35 @@ def describe_action():
             expect(bool(action)) == True
             action.name = ""
             expect(bool(action)) == False
+
+    def describe_clean():
+        def it_removes_unused_locators(expect, action):
+            previous_count = len(action.locators)
+            action.locators[0].uses = -1
+            action.locators[1].uses = 99
+
+            expect(action.clean()) == previous_count - 1
+            expect(len(action.locators)) == 1
+
+        def it_requires_one_locator_to_exceed_usage_threshold(expect, action):
+            previous_count = len(action.locators)
+            action.locators[0].uses = 98
+
+            expect(action.clean()) == 0
+            expect(len(action.locators)) == previous_count
+
+        def it_can_be_forced(expect, action):
+            previous_count = len(action.locators)
+            action.locators[0].uses = 1
+
+            expect(action.clean(force=True)) == previous_count - 1
+            expect(len(action.locators)) == 1
+
+        def it_keeps_used_locators(expect, action):
+            action.locators = [Locator("mode", "value", uses=1)]
+
+            expect(action.clean(force=True)) == 0
+            expect(len(action.locators)) == 1
 
 
 def describe_page():
