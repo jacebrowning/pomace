@@ -2,6 +2,8 @@
 
 # pylint: disable=unused-argument,redefined-outer-name
 
+import os
+
 import datafiles
 import log
 import pytest
@@ -31,6 +33,9 @@ def settings():
 
 @pytest.fixture
 def browser(settings):
+    if "APPVEYOR" in os.environ:
+        # TODO: https://github.com/jacebrowning/pomace/issues/42
+        pytest.skip("Launching browsers on AppVeyor causes build timeouts")
     settings.browser.name = "chrome"
     settings.browser.headless = True
     settings.url = "http://example.com"
