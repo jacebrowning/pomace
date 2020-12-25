@@ -4,7 +4,7 @@ from pomace.models import Page
 
 
 def describe_persistence():
-    def it_saves_locator_scores(expect, browser):
+    def it_saves_locator_uses(expect, browser):
         page = Page.at("https://www.wikipedia.org")
         page.actions = []
         page.fill_search("foobar")
@@ -14,5 +14,5 @@ def describe_persistence():
         good_locator = locators[-1]
         bad_locator = locators[0]
 
-        expect(good_locator.score) > 0.5
-        expect(bad_locator.score) < 0.5
+        expect(good_locator.uses) > 0
+        expect(bad_locator.uses) <= 0

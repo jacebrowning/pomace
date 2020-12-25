@@ -23,11 +23,17 @@ class Locator:
     mode: str = field(default='', compare=False)
     value: str = field(default='', compare=False)
     index: int = field(default=0, compare=False)
-    score: float = field(default=0.5, compare=True)
+    uses: int = field(default=0, compare=True)
+
+    MIN_USES = -1
+    MAX_USES = 99
 
     @property
     def _mode(self) -> Mode:
         return Mode(self.mode)
+
+    def __repr__(self) -> str:
+        return f'<locator {self.mode}={self.value}>'
 
     def __bool__(self) -> bool:
         return bool(self.mode and self.value)
@@ -43,20 +49,13 @@ class Locator:
             log.debug(f'{self} found element: {element}')
             return element
 
-    def increase_score(self):
-        if self.score:
-            new_score = round(min(1.0, self.score * 1.25), 4)
-        else:
-            new_score = 0.1
-        if new_score > self.score:
-            log.debug(f'Increasing score of {self} to {new_score}')
-            self.score = new_score
-
-    def decrease_score(self):
-        new_score = round(self.score * 0.5, 4)
-        if new_score < self.score:
-            log.debug(f'Decreasing score of {self} to {new_score}')
-            self.score = new_score
+    def score(self, value: int):
+        previous = self.uses
+        self.uses = max(self.MIN_USES, min(self.MAX_USES, self.uses + value))
+        if self.uses > previous:
+            log.debug(f'Increased {self} uses to {self.uses}')
+        elif self.uses < previous:
+            log.debug(f'Decreased {self} uses to {self.uses}')
 
 
 @datafile
@@ -94,9 +93,9 @@ class Action:
                 element = locator.find()
                 if element:
                     if self._perform_action(element, *args, **kwargs):
-                        locator.increase_score()
+                        locator.score(+1)
                         break
-            locator.decrease_score()
+            locator.score(-1)
         else:
             log.error(f'No locators able to find {self.name!r}')
             if page:

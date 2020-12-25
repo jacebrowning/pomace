@@ -28,13 +28,13 @@ def describe_locator():
             expect(bool(locator)) == False
 
     def describe_sort():
-        def it_orders_by_score(expect):
+        def it_orders_by_uses(expect):
             locators = [
-                Locator('name', 'bbb', score=0.5),
-                Locator('name', 'aaa', score=0.6),
-                Locator('name', 'BBB', score=0.6),
-                Locator('name', 'AAA', score=0.7),
-                Locator('name', 'zzz', score=0.8),
+                Locator('name', 'bbb', uses=5),
+                Locator('name', 'aaa', uses=6),
+                Locator('name', 'BBB', uses=6),
+                Locator('name', 'AAA', uses=7),
+                Locator('name', 'zzz', uses=8),
             ]
             expect(sorted(locators)) == locators
 
@@ -45,6 +45,15 @@ def describe_locator():
         def it_can_find_links_by_partial_text(expect, mockbrowser, locator):
             locator.mode = 'partial_text'
             expect(locator.find()) == '<mockelement: links.partial_text=email>'
+
+    def describe_score():
+        def it_tops_out_at_max_value(expect, locator):
+            locator.score(+999)
+            expect(locator.uses) == 99
+
+        def it_bottoms_out_at_min_value(expect, locator):
+            locator.score(-999)
+            expect(locator.uses) == -1
 
 
 def describe_action():
