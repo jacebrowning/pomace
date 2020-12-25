@@ -3,7 +3,7 @@
 import atexit as _atexit
 
 import pomace
-from pomace import cli as _cli, utils as _utils
+from pomace import utils as _utils
 from pomace.config import settings
 from pomace.models import Page, autopage
 from pomace.shared import browser
@@ -29,16 +29,15 @@ def _display_settings():
         line += f" -- {settings.url}"
 
     if line:
-        print(line)
-    print()
+        print(line, end="\n\n")
 
 
 if __name__ == "__main__":
-    _atexit.register(_utils.quit_browser)
+    _atexit.register(_utils.quit_browser, newline=True)
     _configure_logging()
     _display_settings()
-    _cli.prompt_for_browser_if_unset()
-    _cli.prompt_for_url_if_unset()
+    _utils.prompt_for_browser_if_unset()
+    _utils.prompt_for_url_if_unset()
     _utils.launch_browser()
 
     page = autopage()
