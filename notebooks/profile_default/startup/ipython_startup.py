@@ -33,7 +33,7 @@ def _display_settings():
 
 
 if __name__ == "__main__":
-    _atexit.register(_utils.quit_browser, newline=True)
+    _atexit.register(_utils.quit_browser)
     _configure_logging()
     _display_settings()
     _utils.prompt_for_browser_if_unset()

@@ -28,7 +28,7 @@ def test_locators_can_added(expect, browser):
 
 def test_unused_actions_are_removed_on_forced_cleanup(expect, browser):
     page = Page.at("https://www.wikipedia.org")
-    page.click_foobar()
+    page.click_foobar(_locator="none")
     expect(len(page.actions)) == 2
 
     page.clean(force=True)
