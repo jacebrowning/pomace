@@ -10,27 +10,27 @@ from . import shared
 
 class Mode(Enum):
 
-    CSS = 'css'
-    XPATH = 'xpath'
-    TAG = 'tag'
-    NAME = 'name'
-    TEXT = 'text'
-    PARTIAL_TEXT = 'partial_text'
-    ID = 'id'
-    VALUE = 'value'
+    CSS = "css"
+    XPATH = "xpath"
+    TAG = "tag"
+    NAME = "name"
+    TEXT = "text"
+    PARTIAL_TEXT = "partial_text"
+    ID = "id"
+    VALUE = "value"
 
     @property
     def finder(self):
         if self is self.PARTIAL_TEXT:
-            return getattr(shared.browser.links, f'find_by_{self.value}')
-        return getattr(shared.browser, f'find_by_{self.value}')
+            return getattr(shared.browser.links, f"find_by_{self.value}")
+        return getattr(shared.browser, f"find_by_{self.value}")
 
 
 class Verb(Enum):
-    CLICK = 'click'
-    FILL = 'fill'
-    SELECT = 'select'
-    CHOOSE = 'choose'
+    CLICK = "click"
+    FILL = "fill"
+    SELECT = "select"
+    CHOOSE = "choose"
 
     @classmethod
     def validate(cls, value: str) -> bool:
@@ -58,7 +58,7 @@ class Verb(Enum):
             yield Mode.ID.value, name
             yield Mode.ID.value, inflection.dasherize(name)
             yield Mode.CSS.value, f'[aria-label="{inflection.titleize(name)}"]'
-            yield Mode.ID.value, inflection.titleize(name).replace(' ', '')
+            yield Mode.ID.value, inflection.titleize(name).replace(" ", "")
 
     def post_action(self, *, delay: Optional[float] = None):
         if delay is None:

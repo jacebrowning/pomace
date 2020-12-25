@@ -14,7 +14,7 @@ def _configure_logging():
 
     log.reset()
     log.init(debug=True)
-    log.silence('datafiles')
+    log.silence("datafiles")
 
 
 def _display_settings():
@@ -30,9 +30,10 @@ def _display_settings():
 
     if line:
         print(line)
+    print()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     _atexit.register(_utils.quit_browser)
     _configure_logging()
     _display_settings()

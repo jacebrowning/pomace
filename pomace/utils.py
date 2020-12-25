@@ -37,7 +37,7 @@ def launch_browser(delay: float = 0.0) -> bool:
 
 def quit_browser(silence_logging: bool = False):
     if silence_logging:
-        log.silence('pomace', 'selenium', allow_warning=True)
+        log.silence("pomace", "selenium", allow_warning=True)
     try:
         browser.save_url(shared.browser)
         browser.save_size(shared.browser)
@@ -51,18 +51,18 @@ def locate_models(*, caller=None):
 
     if caller:
         for frame in inspect.getouterframes(caller):
-            if 'pomace' not in frame.filename or 'pomace/tests' in frame.filename:
+            if "pomace" not in frame.filename or "pomace/tests" in frame.filename:
                 path = Path(frame.filename)
                 log.debug(f"Found caller's package directory: {path.parent}")
                 os.chdir(path.parent)
                 return
 
-    if (cwd / 'sites').is_dir():
+    if (cwd / "sites").is_dir():
         log.debug(f"Found models in current directory: {cwd}")
         return
 
     for path in cwd.iterdir():
-        if (path / 'sites').is_dir():
+        if (path / "sites").is_dir():
             log.debug(f"Found models in package directory: {path}")
             os.chdir(path)
             return

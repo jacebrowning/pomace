@@ -6,6 +6,6 @@ from .types import *
 
 
 try:
-    __version__ = get_distribution('pomace').version
+    __version__ = get_distribution("pomace").version
 except DistributionNotFound:
-    __version__ = '(local)'
+    __version__ = "(local)"

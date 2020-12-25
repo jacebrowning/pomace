@@ -7,21 +7,21 @@ import zipcodes
 from parse import parse
 
 
-__all__ = ['URL']
+__all__ = ["URL"]
 
 
 class URL:
 
-    ROOT = '@'
+    ROOT = "@"
 
     def __init__(self, url_or_domain: str, path: Optional[str] = None):
         if path == self.ROOT:
-            self.value = f'https://{url_or_domain}'
+            self.value = f"https://{url_or_domain}"
         elif path:
-            path = ('/' + path).rstrip('/').replace('//', '/')
-            self.value = f'https://{url_or_domain}' + path
+            path = ("/" + path).rstrip("/").replace("//", "/")
+            self.value = f"https://{url_or_domain}" + path
         else:
-            self.value = str(url_or_domain).rstrip('/')
+            self.value = str(url_or_domain).rstrip("/")
 
     def __repr__(self):
         return f"URL({self.value!r})"
@@ -31,7 +31,7 @@ class URL:
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
-            return str(self) == str(other).strip('/')
+            return str(self) == str(other).strip("/")
 
         if self.domain != other.domain:
             return False
@@ -42,7 +42,7 @@ class URL:
         if not result:
             return False
         for value in result.named.values():
-            if '/' in value:
+            if "/" in value:
                 return False
 
         return True
@@ -59,12 +59,12 @@ class URL:
 
     @property
     def path(self) -> str:
-        path = urlparse(self.value).path.strip('/')
+        path = urlparse(self.value).path.strip("/")
         return path if path else self.ROOT
 
     @property
     def fragment(self) -> str:
-        return urlparse(self.value).fragment.replace('/', '_').strip('_')
+        return urlparse(self.value).fragment.replace("/", "_").strip("_")
 
 
 @dataclass
@@ -101,7 +101,7 @@ class Person:
         return self.zip_code
 
     @classmethod
-    def random(cls, fake) -> 'Person':
+    def random(cls, fake) -> "Person":
         if random.random() > 0.5:
             prefix, first_name, last_name = (
                 fake.prefix_female,
@@ -115,7 +115,7 @@ class Person:
                 fake.last_name,
             )
         phone_number = str(random.randint(1000000000, 9999999999))
-        email_address = f'{first_name}{last_name}@{fake.free_email_domain}'.lower()
+        email_address = f"{first_name}{last_name}@{fake.free_email_domain}".lower()
         place = random.choice(zipcodes.filter_by())
         number = random.randint(50, 200)
         street = random.choice(["First", "Second", "Third", "Fourth", "Park", "Main"])
@@ -131,7 +131,7 @@ class Person:
             email_address,
             place["address"],
             place["city"],
-            place['state'],
+            place["state"],
             place["county"],
             place["zip_code"],
         )

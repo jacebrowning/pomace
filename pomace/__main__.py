@@ -6,5 +6,5 @@
 from pomace.cli import application
 
 
-if __name__ == '__main__':  # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     application.run()

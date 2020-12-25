@@ -6,7 +6,7 @@ from .. import utils
 
 
 def describe_fake():
-    @pytest.fixture(scope='session')
+    @pytest.fixture(scope="session")
     def fake():
         return utils.Fake()
 
