@@ -103,6 +103,28 @@ class RunCommand(BaseCommand):
         self.line(f"<fg=white;options=bold>{page}</>")
 
 
+class CleanCommand(BaseCommand):
+    """
+    Remove all unused actions and locators
+
+    clean
+        {--root= : Directory to load models from}
+    """
+
+    def handle(self):
+        log.reset()
+        log.init(verbosity=self.io.verbosity + 1)
+        log.silence("datafiles", allow_warning=True)
+
+        if self.option("root"):
+            os.chdir(self.option("root"))
+
+        utils.locate_models()
+        for page in models.Page.objects.all():
+            page.clean(force=True)
+
+
 application = Application()
 application.add(ShellCommand())
 application.add(RunCommand())
+application.add(CleanCommand())

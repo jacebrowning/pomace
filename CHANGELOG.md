@@ -2,6 +2,7 @@
 
 - Added automatic cleanup of unused locators.
 - Added prompt when no locators match.
+- Added `clean` command to force cleanup of unused actions.
 
 # 0.4 (2020-11-14)
 
