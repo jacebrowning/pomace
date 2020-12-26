@@ -10,16 +10,20 @@ def describe_fake():
     def fake():
         return utils.Fake()
 
+    def it_includes_zip_code(expect, fake):
+        print(repr(fake.zip_code))
+        expect(fake.zip_code).isinstance(str)
+
     def describe_person():
         def it_includes_name_in_email(expect, fake):
             person = fake.person
             expect(person.email).icontains(person.last_name)
 
         def it_includes_honorific(expect, fake):
-            expect(fake.person.honorific).is_not(None)
+            expect(fake.person.honorific).isinstance(str)
 
         def it_includes_county(expect, fake):
-            expect(fake.person.county).is_not(None)
+            expect(fake.person.county).isinstance(str)
 
 
 def describe_prompt_for_browser_if_unset():

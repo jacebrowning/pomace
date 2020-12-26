@@ -23,6 +23,10 @@ class Fake:
     def person(self) -> Person:
         return Person.random(self)
 
+    @property
+    def zip_code(self) -> str:
+        return self.generator.postcode()
+
 
 def prompt_for_browser_if_unset():
     if settings.browser.name:
