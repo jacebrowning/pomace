@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import Optional
 from urllib.parse import urlparse
 
+import faker
 import zipcodes
 from parse import parse
 
@@ -135,3 +136,20 @@ class Person:
             place["county"],
             place["zip_code"],
         )
+
+
+class Fake:
+    def __init__(self):
+        self.generator = faker.Faker()
+
+    def __getattr__(self, name):
+        method = getattr(self.generator, name)
+        return method()
+
+    @property
+    def person(self) -> Person:
+        return Person.random(self)
+
+    @property
+    def zip_code(self) -> str:
+        return self.generator.postcode()
