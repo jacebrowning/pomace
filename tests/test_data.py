@@ -1,6 +1,6 @@
 # pylint: disable=unused-variable,unused-argument,expression-not-assigned
 
-from pomace.models import Locator, Page
+from pomace.models import Page
 
 
 def test_locator_uses_are_persisted(expect, browser):
@@ -17,19 +17,9 @@ def test_locator_uses_are_persisted(expect, browser):
     expect(bad_locator.uses) <= 0
 
 
-def test_locators_can_added(expect, browser):
+def test_unused_actions_are_removed_on_forced_cleanup(expect, browser, cli_disabled):
     page = Page.at("https://www.wikipedia.org")
-    page.actions = []
-    page.fill_search("foobar", _locator="id=searchInput")
-
-    page = Page.at("https://www.wikipedia.org")
-    locator = Locator(mode="id", value="searchInput")
-    expect(page.fill_search.locators).contains(locator)
-
-
-def test_unused_actions_are_removed_on_forced_cleanup(expect, browser):
-    page = Page.at("https://www.wikipedia.org")
-    page.click_foobar(_locator="none")
+    page.click_foobar()
     previous_count = len(page.actions)
 
     page.clean(force=True)

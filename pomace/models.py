@@ -8,7 +8,7 @@ from selenium.common.exceptions import WebDriverException
 from splinter.driver.webdriver import WebDriverElement
 from splinter.exceptions import ElementDoesNotExist
 
-from . import shared
+from . import prompts, shared
 from .config import settings
 from .enums import Mode, Verb
 from .types import URL
@@ -66,12 +66,12 @@ class Action:
     locators: List[Locator] = field(default_factory=lambda: [Locator()])
 
     @property
-    def locators_sorted(self) -> List[Locator]:
-        return [x for x in sorted(self.locators, reverse=True) if x]
-
-    @property
     def _verb(self) -> Verb:
         return Verb(self.verb)
+
+    @property
+    def _sorted_locators(self) -> List[Locator]:
+        return [x for x in sorted(self.locators, reverse=True) if x]
 
     def __post_init__(self):
         if self.verb and len(self.locators) <= 1:
@@ -86,50 +86,27 @@ class Action:
 
     def __call__(self, *args, **kwargs) -> "Page":
         page = kwargs.pop("_page", None)
-        locator = kwargs.pop("_locator", "")
-
-        if "=" in locator:
-            mode, value = locator.split("=", 1)
-            self.locators.insert(0, Locator(mode, value))
-            self.datafile.save()
-
-        page = self._call_method(page, locator, *args, **kwargs)
+        page = self._call_method(page, *args, **kwargs)
         self.datafile.save()
         page.clean()
-
         return page
 
-    def _call_method(self, page, locator, *args, **kwargs) -> "Page":
-        while self._finding_locator(*args, **kwargs):
+    def _call_method(self, page, *args, **kwargs) -> "Page":
+        while self._trying_locators(*args, **kwargs):
             log.error(f"No locators able to find {self.name!r}")
-
-            if locator or not shared.cli:
+            mode, value = prompts.mode_and_value()
+            if mode:
+                self.locators.append(Locator(mode, value))
+            else:
                 break
-
-            choices = ["<cancel>"] + [mode.value for mode in Mode]
-            command = shared.cli.Bullet(
-                prompt="\nSelect element locator: ",
-                bullet=" ● ",
-                choices=choices,
-            )
-            mode = command.launch()
-            if mode == "<cancel>":
-                print()
-                break
-
-            command = shared.cli.Input("\nValue to match: ")
-            value = command.launch()
-            print()
-
-            self.locators.append(Locator(mode, value))
 
         if page and self._verb.updates:
             return page
 
         return autopage()
 
-    def _finding_locator(self, *args, **kwargs) -> bool:
-        for locator in self.locators_sorted:
+    def _trying_locators(self, *args, **kwargs) -> bool:
+        for locator in self._sorted_locators:
             if locator:
                 log.debug(f"Using {locator} to find {self.name!r}")
                 element = locator.find()
