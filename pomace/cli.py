@@ -7,7 +7,7 @@ import log
 from cleo import Application, Command
 from IPython import embed
 
-from . import models, shared, utils
+from . import models, prompts, shared, utils
 from .config import settings
 
 
@@ -17,8 +17,9 @@ class BaseCommand(Command):
         log.init(verbosity=self.io.verbosity + 1)
         log.silence("datafiles", allow_warning=True)
         self.update_settings()
-        utils.prompt_for_browser_if_unset()
-        utils.prompt_for_url_if_unset()
+        prompts.browser_if_unset()
+        domains = list(set(p.domain for p in models.Page.objects.all()))
+        prompts.url_if_unset(domains)
         utils.launch_browser()
         utils.locate_models()
         try:

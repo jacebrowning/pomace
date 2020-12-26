@@ -2,7 +2,7 @@
 
 import pytest
 
-from ..types import URL
+from ..types import URL, Fake
 
 
 @pytest.fixture
@@ -80,3 +80,24 @@ def describe_url():
         def when_containing_slashes(expect, url):
             url = URL("http://example.com/signup/#/step/2/")
             expect(url.fragment) == "step_2"
+
+
+def describe_fake():
+    @pytest.fixture(scope="session")
+    def fake():
+        return Fake()
+
+    def it_includes_zip_code(expect, fake):
+        print(repr(fake.zip_code))
+        expect(fake.zip_code).isinstance(str)
+
+    def describe_person():
+        def it_includes_name_in_email(expect, fake):
+            person = fake.person
+            expect(person.email).icontains(person.last_name)
+
+        def it_includes_honorific(expect, fake):
+            expect(fake.person.honorific).isinstance(str)
+
+        def it_includes_county(expect, fake):
+            expect(fake.person.county).isinstance(str)

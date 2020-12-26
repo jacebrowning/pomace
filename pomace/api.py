@@ -4,14 +4,14 @@ from typing import Optional
 
 import log
 
-from . import models, utils
+from . import models, prompts, types, utils
 from .config import settings
 
 
 __all__ = ["fake", "prompt", "visit"]
 
 
-fake = utils.Fake()
+fake = types.Fake()
 
 
 def visit(
@@ -24,12 +24,12 @@ def visit(
     if url:
         settings.url = url
     else:
-        utils.prompt_for_url_if_unset()
+        prompts.url_if_unset()
 
     if browser:
         settings.browser.name = browser.lower()
     else:
-        utils.prompt_for_browser_if_unset()
+        prompts.browser_if_unset()
 
     if headless is not None:
         settings.browser.headless = headless
@@ -45,5 +45,5 @@ def visit(
 
 def prompt(*names):
     for name in names:
-        utils.prompt_for_secret_if_unset(name)
+        prompts.secret_if_unset(name)
     return settings
