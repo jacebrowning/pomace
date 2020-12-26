@@ -318,7 +318,7 @@ class Page:
         for action in self.actions:
             count += action.clean(force=force)
 
-        if count:
+        if count or force:
             self.datafile.save()
 
         return count
