@@ -7,7 +7,7 @@ import log
 from cleo import Application, Command
 from IPython import embed
 
-from . import models, prompts, shared, utils
+from . import models, prompts, utils
 from .config import settings
 
 
@@ -79,20 +79,15 @@ class RunCommand(BaseCommand):
         page = models.autopage()
         self.display_url(page)
         while True:
-            choices = [self.RELOAD_ACTIONS] + dir(page)
-            command = shared.cli.Bullet(
-                prompt="\nSelect an action: ", bullet=" ● ", choices=choices
-            )
-            action = command.launch()
-            if action == self.RELOAD_ACTIONS:
+            action = prompts.action(page)
+            if action is None:
                 reload(models)
                 self.clear_screen()
                 page = models.autopage()
                 self.display_url(page)
                 continue
 
-            command = shared.cli.Input(prompt="\nValue: ")
-            page, transitioned = page.perform(action, prompt=command.launch)
+            page, transitioned = page.perform(action)
             if transitioned:
                 self.clear_screen()
                 self.display_url(page)

@@ -32,11 +32,6 @@ def settings():
 
 
 @pytest.fixture
-def cli_disabled(monkeypatch):
-    monkeypatch.setattr(shared, "cli", None)
-
-
-@pytest.fixture
 def browser(settings):
     if "APPVEYOR" in os.environ:
         # TODO: https://github.com/jacebrowning/pomace/issues/42

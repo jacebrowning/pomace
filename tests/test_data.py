@@ -1,4 +1,4 @@
-# pylint: disable=unused-variable,unused-argument,expression-not-assigned
+# pylint: disable=unused-argument,expression-not-assigned
 
 from pomace.models import Page
 
@@ -17,7 +17,7 @@ def test_locator_uses_are_persisted(expect, browser):
     expect(bad_locator.uses) <= 0
 
 
-def test_unused_actions_are_removed_on_forced_cleanup(expect, browser, cli_disabled):
+def test_unused_actions_are_removed_on_forced_cleanup(expect, browser):
     page = Page.at("https://www.wikipedia.org")
     page.click_foobar()
     previous_count = len(page.actions)

@@ -1,5 +1,5 @@
 from contextlib import suppress
-from typing import Callable, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
 import log
 from bs4 import BeautifulSoup
@@ -265,10 +265,10 @@ class Page:
     def __contains__(self, value):
         return value in self.text
 
-    def perform(self, name: str, *, prompt: Callable) -> Tuple["Page", bool]:
+    def perform(self, name: str) -> Tuple["Page", bool]:
         action = getattr(self, name)
         if action.verb in {"fill", "select"}:
-            value = settings.get_secret(action.name) or prompt()
+            value = settings.get_secret(action.name) or prompts.named_value(action.name)
             settings.update_secret(action.name, value)
             page = action(value, _page=self)
         else:
