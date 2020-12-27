@@ -5,6 +5,8 @@ import log
 from bs4 import BeautifulSoup
 from datafiles import datafile, field, mapper
 from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 from splinter.driver.webdriver import WebDriverElement
 from splinter.exceptions import ElementDoesNotExist
 
@@ -85,6 +87,11 @@ class Action:
         return bool(self.verb and self.name)
 
     def __call__(self, *args, **kwargs) -> "Page":
+        if self._verb == Verb.TYPE:
+            ActionChains(shared.browser.driver).send_keys(self.name).perform()
+            self._verb.post_action()
+            return autopage()
+
         page = kwargs.pop("_page", None)
         page = self._call_method(page, *args, **kwargs)
         self.datafile.save()
@@ -240,11 +247,21 @@ class Page:
                 add_placeholder = False
         if add_placeholder:
             self.actions.append(Action())
+        if names:
+            names.extend(["tap_enter", "tap_tab"])
         return names
 
     def __getattr__(self, value: str) -> Action:
         if "_" in value:
             verb, name = value.split("_", 1)
+
+            if verb == "type":
+                try:
+                    key = getattr(Keys, name.upper())
+                except AttributeError:
+                    return object.__getattribute__(self, value)
+                else:
+                    return Action(verb, key)
 
             with suppress(FileNotFoundError):
                 self.datafile.load()

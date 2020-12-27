@@ -123,7 +123,7 @@ def describe_page():
             page.actions = []
             expect(dir(page)) == []
             page.actions.append(action)
-            expect(dir(page)) == ["fill_email"]
+            expect(dir(page)) == ["fill_email", "tap_enter", "tap_tab"]
 
     def describe_getattr():
         def it_returns_matching_action(expect, page, action):

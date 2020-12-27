@@ -3,7 +3,6 @@ from enum import Enum
 from typing import Iterator, Optional, Tuple
 
 import inflection
-from selenium.webdriver.common.keys import Keys
 
 from . import shared
 
@@ -31,6 +30,7 @@ class Verb(Enum):
     FILL = "fill"
     SELECT = "select"
     CHOOSE = "choose"
+    TYPE = "type"
 
     @classmethod
     def validate(cls, value: str) -> bool:
@@ -42,7 +42,7 @@ class Verb(Enum):
 
     @property
     def delay(self) -> float:
-        if self in {self.CLICK}:
+        if self in {self.CLICK, self.TYPE}:
             return 1.0
         return 0.0
 
@@ -63,7 +63,8 @@ class Verb(Enum):
     def post_action(self, *, delay: Optional[float] = None):
         if delay is None:
             delay = self.delay
-        if self is self.FILL:
-            element = shared.browser.driver.switch_to.active_element
-            element.send_keys(Keys.TAB)
+        # TODO: Determine if this is still needed
+        # if self is self.FILL:
+        #     element = shared.browser.driver.switch_to.active_element
+        #     element.send_keys(Keys.TAB)
         time.sleep(delay)
