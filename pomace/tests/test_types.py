@@ -88,7 +88,6 @@ def describe_fake():
         return Fake()
 
     def it_includes_zip_code(expect, fake):
-        print(repr(fake.zip_code))
         expect(fake.zip_code).isinstance(str)
 
     def describe_person():
