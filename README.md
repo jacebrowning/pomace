@@ -1,8 +1,6 @@
-# Overview
+# Pomace
 
 Dynamic page objects for browser automation.
-
-This project was generated with [cookiecutter](https://github.com/audreyr/cookiecutter) using [jacebrowning/template-python](https://github.com/jacebrowning/template-python).
 
 [![Unix Build Status](https://img.shields.io/travis/jacebrowning/pomace/main.svg?label=unix)](https://travis-ci.org/jacebrowning/pomace)
 [![Windows Build Status](https://img.shields.io/appveyor/ci/jacebrowning/pomace/main.svg?label=window)](https://ci.appveyor.com/project/jacebrowning/pomace)
@@ -10,20 +8,16 @@ This project was generated with [cookiecutter](https://github.com/audreyr/cookie
 [![PyPI Version](https://img.shields.io/pypi/v/pomace.svg)](https://pypi.org/project/pomace)
 [![PyPI License](https://img.shields.io/pypi/l/pomace.svg)](https://pypi.org/project/pomace)
 
-# Setup
+# Usage
 
-## Requirements
-
-- Python 3.7+
-
-## Installation
-
-On macOS:
+Open **Terminal.app** in macOS and paste:
 
 ```
-$ brew install pipx
-$ pipx ensurepath
-$ pipx install pomace
-$ pomace shell
-$ pomace run
+python3 -m pip install --upgrade pomace && python3 -m pomace run
+```
+
+or if you have Homebrew:
+
+```
+brew install pipx && pipx run --no-cache pomace run
 ```
