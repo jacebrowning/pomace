@@ -47,3 +47,14 @@ def prompt(*names):
     for name in names:
         prompts.secret_if_unset(name)
     return settings
+
+
+def freeze():
+    log.info("Disabling interactive prompts")
+    prompts.bullet = None
+
+
+def clean():
+    utils.locate_models(caller=inspect.currentframe())
+    for page in models.Page.objects.all():
+        page.clean(force=True)

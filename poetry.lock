@@ -208,17 +208,17 @@ toml = ["toml"]
 
 [[package]]
 name = "coveragespace"
-version = "3.1.1"
+version = "4.0a1"
 description = "A place to track your code coverage metrics."
 category = "dev"
 optional = false
-python-versions = ">=3.5,<4.0"
+python-versions = ">=3.6,<4.0"
 
 [package.dependencies]
 colorama = ">=0.3,<0.4"
 coverage = "*"
 docopt = ">=0.6,<0.7"
-minilog = "*"
+minilog = ">=1.6,<2.0"
 requests = ">=2.0,<3.0"
 
 [[package]]
@@ -512,7 +512,7 @@ python-versions = "*"
 
 [[package]]
 name = "minilog"
-version = "2.0"
+version = "2.0b2"
 description = "Minimalistic wrapper for Python logging."
 category = "main"
 optional = false
@@ -1178,7 +1178,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "df4ff30bd249834f8159d0dd690ab37f96d71ee0be37d17a0677c33005460d63"
+content-hash = "8fd26a35c9be2c939ef20deaa0df34bdf915f5c412b73e1a9cde16e255021be0"
 
 [metadata.files]
 altgraph = [
@@ -1293,8 +1293,8 @@ coverage = [
     {file = "coverage-5.3.tar.gz", hash = "sha256:280baa8ec489c4f542f8940f9c4c2181f0306a8ee1a54eceba071a449fb870a0"},
 ]
 coveragespace = [
-    {file = "coveragespace-3.1.1-py3-none-any.whl", hash = "sha256:cc62bf4f2feb419032920270a0c16f1a379b80ac9fc6bd3cefce918bfc90ba27"},
-    {file = "coveragespace-3.1.1.tar.gz", hash = "sha256:c5862d04a91bec32fc7dd8487006922e144280dc05e75b26c38f4ffe4e760fb0"},
+    {file = "coveragespace-4.0a1-py3-none-any.whl", hash = "sha256:004fe95b3fc1bbf2933beaee0b290fd95a58f03c71932e34f142f13357aa96b8"},
+    {file = "coveragespace-4.0a1.tar.gz", hash = "sha256:0df6d5da7fbb7a8cfd406a7f47e2e82b6bec2ebeadced1edda8b4d1a0d1e3368"},
 ]
 crashtest = [
     {file = "crashtest-0.3.1-py3-none-any.whl", hash = "sha256:300f4b0825f57688b47b6d70c6a31de33512eb2fa1ac614f780939aa0cf91680"},
@@ -1443,8 +1443,8 @@ mccabe = [
     {file = "mccabe-0.6.1.tar.gz", hash = "sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f"},
 ]
 minilog = [
-    {file = "minilog-2.0-py3-none-any.whl", hash = "sha256:891ad346bdd63aee4c210faa688497f7ba412cf52a54fb6cba6bf511a34a5138"},
-    {file = "minilog-2.0.tar.gz", hash = "sha256:58499302bca86cf507eb3c3dfa3853de9389bfde275ba5155bdc3b4551175918"},
+    {file = "minilog-2.0b2-py3-none-any.whl", hash = "sha256:3a9c0e808ad1647279b56dd7fe4ff4fff2fd7db99b736e43f9f4375f18cab983"},
+    {file = "minilog-2.0b2.tar.gz", hash = "sha256:83a9790e4c7bbc9c8bf7bfe81dcbfe66a3e892d683901a9b223c3d1848b43d1a"},
 ]
 mkdocs = [
     {file = "mkdocs-1.1.2-py3-none-any.whl", hash = "sha256:096f52ff52c02c7e90332d2e53da862fde5c062086e1b5356a6e392d5d60f5e9"},
