@@ -29,7 +29,8 @@ def _display_settings():
         line += f" -- {settings.url}"
 
     if line:
-        print(line, end="\n\n")
+        print(line)
+        _prompts.linebreak(force=True)
 
 
 if __name__ == "__main__":

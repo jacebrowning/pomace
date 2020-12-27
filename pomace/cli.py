@@ -26,7 +26,7 @@ class BaseCommand(Command):
             self.run_loop()
         finally:
             utils.quit_browser()
-            print()
+            prompts.linebreak()
 
     def update_settings(self):
         if self.option("root"):
@@ -72,8 +72,6 @@ class RunCommand(BaseCommand):
         {--root= : Directory to load models from}
     """
 
-    RELOAD_ACTIONS = "<reload actions>"
-
     def run_loop(self):
         self.clear_screen()
         page = models.autopage()
@@ -97,6 +95,7 @@ class RunCommand(BaseCommand):
 
     def display_url(self, page):
         self.line(f"<fg=white;options=bold>{page}</>")
+        prompts.linebreak(force=True)
 
 
 class CleanCommand(BaseCommand):
