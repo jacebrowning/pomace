@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.5b67"
+version = "0.5b7"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -46,11 +46,11 @@ bullet = "^2.1.0"
 ipython = "^7.12.0"
 
 # Automation
-splinter = "~0.12.0" # 0.13 has blocking bug: https://github.com/cobrateam/splinter/issues/748
+splinter = "~0.14.0"
 webdriver_manager = "^2.5.0"
 
 # Persistence
-datafiles = "=0.11b4"
+datafiles = "~0.11.1"
 parse = "^1.14.0"
 
 # Data
@@ -60,7 +60,7 @@ zipcodes = "^1.1.2"
 # Utilities
 beautifulsoup4 = "^4.8.2"
 inflection = "~0.4.0"
-minilog = "^2.0b2"
+minilog = "^2.0"
 
 [tool.poetry.dev-dependencies]
 
@@ -69,7 +69,7 @@ black = "=20.8b1"
 isort = "=5.5.1"
 
 # Linters
-mypy = "*"
+mypy = "~0.782"
 pydocstyle = "*"
 pylint = "~2.6.0"
 
@@ -83,7 +83,7 @@ pytest-random = "*"
 freezegun = "*"
 
 # Reports
-coveragespace = "^4.0a1"
+coveragespace = "=4.0a2"
 
 # Documentation
 mkdocs = "^1.0"
