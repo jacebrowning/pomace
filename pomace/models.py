@@ -1,5 +1,5 @@
 from contextlib import suppress
-from typing import List, Optional, Tuple
+from typing import Callable, List, Optional, Tuple
 
 import log
 from bs4 import BeautifulSoup
@@ -87,11 +87,6 @@ class Action:
         return bool(self.verb and self.name)
 
     def __call__(self, *args, **kwargs) -> "Page":
-        if self._verb == Verb.TYPE:
-            ActionChains(shared.browser.driver).send_keys(self.name).perform()
-            self._verb.post_action()
-            return autopage()
-
         page = kwargs.pop("_page", None)
         page = self._call_method(page, *args, **kwargs)
         self.datafile.save()
@@ -114,20 +109,27 @@ class Action:
         return autopage()
 
     def _trying_locators(self, *args, **kwargs) -> bool:
+        if self._verb == Verb.TYPE:
+            key = getattr(Keys, self.name.upper())
+            function = ActionChains(shared.browser.driver).send_keys(key).perform
+            self._perform_action(function, *args, **kwargs)
+            return False
+
         for locator in self._sorted_locators:
             if locator:
                 log.debug(f"Using {locator} to find {self.name!r}")
                 element = locator.find()
                 if element:
-                    if self._perform_action(element, *args, **kwargs):
+                    function = getattr(element, self.verb)
+                    if self._perform_action(function, *args, **kwargs):
                         locator.score(+1)
                         return False
             locator.score(-1)
+
         return True
 
-    def _perform_action(self, element: WebDriverElement, *args, **kwargs) -> bool:
-        delay = kwargs.pop("delay", 0.0)
-        function = getattr(element, self.verb)
+    def _perform_action(self, function: Callable, *args, **kwargs) -> bool:
+        delay = kwargs.pop("delay", None)
         try:
             function(*args, **kwargs)
         except WebDriverException as e:
@@ -247,21 +249,11 @@ class Page:
                 add_placeholder = False
         if add_placeholder:
             self.actions.append(Action())
-        if names:
-            names.extend(["tap_enter", "tap_tab"])
         return names
 
     def __getattr__(self, value: str) -> Action:
         if "_" in value:
             verb, name = value.split("_", 1)
-
-            if verb == "type":
-                try:
-                    key = getattr(Keys, name.upper())
-                except AttributeError:
-                    return object.__getattribute__(self, value)
-                else:
-                    return Action(verb, key)
 
             with suppress(FileNotFoundError):
                 self.datafile.load()
@@ -270,7 +262,7 @@ class Page:
                 if action.name == name and action.verb == verb:
                     return action
 
-            if Verb.validate(verb):
+            if Verb.validate(verb, name):
                 action = Action(verb, name)
                 setattr(
                     action, "datafile", mapper.create_mapper(action, root=self.datafile)

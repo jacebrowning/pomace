@@ -3,6 +3,7 @@ from enum import Enum
 from typing import Iterator, Optional, Tuple
 
 import inflection
+from selenium.webdriver.common.keys import Keys
 
 from . import shared
 
@@ -33,12 +34,16 @@ class Verb(Enum):
     TYPE = "type"
 
     @classmethod
-    def validate(cls, value: str) -> bool:
-        return value in [e.value for e in cls]
+    def validate(cls, verb: str, name: str) -> bool:
+        if verb not in [e.value for e in cls]:
+            return False
+        if verb == "type" and not hasattr(Keys, name.upper()):
+            return False
+        return True
 
     @property
     def updates(self) -> bool:
-        return self not in {self.CLICK}
+        return self not in {self.CLICK, self.TYPE}
 
     @property
     def delay(self) -> float:

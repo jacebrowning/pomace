@@ -1,5 +1,6 @@
 # pylint: disable=unused-argument,expression-not-assigned
 
+from pomace import shared
 from pomace.models import Page
 
 
@@ -15,6 +16,14 @@ def test_locator_uses_are_persisted(expect, browser):
 
     expect(good_locator.uses) > 0
     expect(bad_locator.uses) <= 0
+
+
+def test_type_actions_are_supported(expect, browser):
+    page = Page.at("https://www.wikipedia.org")
+    page.fill_search("foobar")
+    page.type_enter()
+
+    expect(shared.browser.url) == "https://en.wikipedia.org/wiki/Foobar"
 
 
 def test_unused_actions_are_removed_on_forced_cleanup(expect, browser):
