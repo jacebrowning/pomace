@@ -37,8 +37,8 @@ class BaseCommand(Command):
 
         settings.browser.headless = self.option("headless")
 
-        if self.option("domain"):
-            settings.url = "https://" + self.option("domain")
+        if self.argument("domain"):
+            settings.url = "https://" + self.argument("domain")
 
 
 class ShellCommand(BaseCommand):
@@ -46,9 +46,9 @@ class ShellCommand(BaseCommand):
     Launch an interactive shell
 
     shell
+        {domain? : Starting domain for the automation}
         {--browser= : Browser to use for automation}
         {--headless : Run the specified browser in a headless mode}
-        {--domain= : Starting domain for the automation}
         {--root= : Directory to load models from}
     """
 
@@ -66,9 +66,9 @@ class RunCommand(BaseCommand):
     Run pomace in a loop
 
     run
+        {domain? : Starting domain for the automation}
         {--browser= : Browser to use for automation}
         {--headless : Run the specified browser in a headless mode}
-        {--domain= : Starting domain for the automation}
         {--root= : Directory to load models from}
     """
 
