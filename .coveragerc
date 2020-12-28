@@ -6,8 +6,10 @@ data_file = .cache/coverage
 
 omit =
     .venv/*
-    */tests/*
     */__main__.py
+    */cli.py
+    */prompts.py
+    */tests/*
 
 [report]
 

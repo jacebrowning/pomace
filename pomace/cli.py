@@ -13,9 +13,7 @@ from .config import settings
 
 class BaseCommand(Command):
     def handle(self):
-        log.reset()
-        log.init(verbosity=self.io.verbosity + 1)
-        log.silence("datafiles", allow_warning=True)
+        self.configure_logging()
         self.update_settings()
         prompts.browser_if_unset()
         domains = list(set(p.domain for p in models.Page.objects.all()))
@@ -28,6 +26,11 @@ class BaseCommand(Command):
             utils.quit_browser()
             prompts.linebreak()
 
+    def configure_logging(self):
+        log.reset()
+        log.init(verbosity=self.io.verbosity + 1)
+        log.silence("datafiles", allow_warning=True)
+
     def update_settings(self):
         if self.option("root"):
             os.chdir(self.option("root"))
@@ -39,6 +42,25 @@ class BaseCommand(Command):
 
         if self.argument("domain"):
             settings.url = "https://" + self.argument("domain")
+
+
+class CloneCommand(BaseCommand):
+    """
+    Download a site definition from a Git repository
+
+    clone
+        {url : Git repository URL containing pomace models}
+        {--root= : Directory to load models from}
+    """
+
+    def handle(self):
+        self.configure_logging()
+
+        if self.option("root"):
+            os.chdir(self.option("root"))
+
+        utils.locate_models()
+        utils.clone_models(self.argument("url"))
 
 
 class ShellCommand(BaseCommand):
@@ -103,23 +125,27 @@ class CleanCommand(BaseCommand):
     Remove all unused actions and locators
 
     clean
+        {domain? : Limit cleaning to a single domain}
         {--root= : Directory to load models from}
     """
 
     def handle(self):
-        log.reset()
-        log.init(verbosity=self.io.verbosity + 1)
-        log.silence("datafiles", allow_warning=True)
+        self.configure_logging()
 
         if self.option("root"):
             os.chdir(self.option("root"))
 
         utils.locate_models()
-        for page in models.Page.objects.all():
-            page.clean(force=True)
+        if self.argument("domain"):
+            for page in models.Page.objects.filter(domain=self.argument("domain")):
+                page.clean(force=True)
+        else:
+            for page in models.Page.objects.all():
+                page.clean(force=True)
 
 
 application = Application()
+application.add(CloneCommand())
 application.add(ShellCommand())
 application.add(RunCommand())
 application.add(CleanCommand())

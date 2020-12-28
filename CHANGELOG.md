@@ -3,6 +3,7 @@
 - Added automatic cleanup of unused locators.
 - Added prompt when no locators match.
 - Added `clean` command to force cleanup of unused actions.
+- Added `clone` command to download models from Git repositories.
 
 # 0.4 (2020-11-14)
 

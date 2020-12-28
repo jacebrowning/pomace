@@ -1,5 +1,6 @@
 import inspect
 import os
+import subprocess
 import time
 from pathlib import Path
 
@@ -62,3 +63,11 @@ def locate_models(*, caller=None):
             log.debug(f"Found models in package directory: {path}")
             os.chdir(path)
             return
+
+
+def clone_models(url: str):
+    repository = url.replace(".git", "").split("/")[-1]
+    domain = repository.replace("pomace-", "")
+    directory = Path("sites") / domain
+    log.info(f"Cloning {url} to {directory}")
+    subprocess.run(["git", "clone", url, Path("sites", domain)], check=True)
