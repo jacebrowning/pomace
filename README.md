@@ -10,6 +10,8 @@ Dynamic page objects for browser automation.
 
 # Usage
 
+## Quick Start
+
 Open **Terminal.app** in macOS and paste:
 
 ```
@@ -20,4 +22,30 @@ or if you have Homebrew:
 
 ```
 brew install pipx && pipx run --no-cache pomace run
+```
+
+## Installation
+
+If you're planning to run Pomace multiple times, install it with [pipx](https://pipxproject.github.io/pipx/) first:
+
+```
+pipx install pomace
+```
+
+or do get the latest version:
+
+```
+pipx upgrade pomace
+```
+
+Then download some site models:
+
+```
+pomace clone https://github.com/jacebrowning/pomace-twitter.com
+```
+
+And launch the application:
+
+```
+pomace run twitter.com
 ```

@@ -1,4 +1,4 @@
-# 0.5 (beta)
+# 0.5 (2020-12-28)
 
 - Added automatic cleanup of unused locators.
 - Added prompt when no locators match.
