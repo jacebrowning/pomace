@@ -132,6 +132,9 @@ class Action:
         delay = kwargs.pop("delay", None)
         try:
             function(*args, **kwargs)
+        except ElementDoesNotExist as e:
+            log.warn(e)
+            return False
         except WebDriverException as e:
             log.debug(e)
             return False
