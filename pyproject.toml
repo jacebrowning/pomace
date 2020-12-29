@@ -83,7 +83,7 @@ pytest-random = "*"
 freezegun = "*"
 
 # Reports
-coveragespace = "=4.0a3"
+coveragespace = "=4.0a4"
 
 # Documentation
 mkdocs = "^1.0"
