@@ -1,6 +1,7 @@
 # 0.6 (beta)
 
 - Renamed automatic page load function from `autopage()` to `auto()`.
+- Updated page model schema to `locators: { inclusions, exclusions }`.
 
 # 0.5 (2020-12-28)
 
