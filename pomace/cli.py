@@ -78,8 +78,8 @@ class ShellCommand(BaseCommand):
         # pylint: disable=unused-variable
         pomace = import_module("pomace")
         Page = models.Page
-        autopage = models.autopage
-        page = autopage()
+        auto = models.auto
+        page = auto()
         embed(colors="neutral")
 
 
@@ -96,14 +96,14 @@ class RunCommand(BaseCommand):
 
     def run_loop(self):
         self.clear_screen()
-        page = models.autopage()
+        page = models.auto()
         self.display_url(page)
         while True:
             action = prompts.action(page)
             if action is None:
                 reload(models)
                 self.clear_screen()
-                page = models.autopage()
+                page = models.auto()
                 self.display_url(page)
                 continue
 

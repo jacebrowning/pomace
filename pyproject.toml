@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.5"
+version = "0.6b1"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -44,6 +44,7 @@ python = "^3.7"
 cleo = "~0.8.1"
 bullet = "^2.1.0"
 ipython = "^7.12.0"
+jedi = "=0.17.2"  # temporary fix for https://github.com/ipython/ipython/issues/12740
 
 # Automation
 splinter = "~0.14.0"
@@ -94,6 +95,7 @@ pyinstaller = "*"
 sniffer = "*"
 MacFSEvents = { version = "*", platform = "darwin" }
 pync = { version = "*", platform = "darwin" }
+rope = "^0.18.0"
 
 [tool.poetry.scripts]
 

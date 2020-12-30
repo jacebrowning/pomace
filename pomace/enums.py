@@ -3,6 +3,7 @@ from enum import Enum
 from typing import Iterator, Optional, Tuple
 
 import inflection
+import log
 from selenium.webdriver.common.keys import Keys
 
 from . import shared
@@ -34,10 +35,12 @@ class Verb(Enum):
     TYPE = "type"
 
     @classmethod
-    def validate(cls, verb: str, name: str) -> bool:
-        if verb not in [e.value for e in cls]:
+    def validate(cls, value: str, name: str) -> bool:
+        values = [enum.value for enum in cls]
+        if value not in values:
             return False
-        if verb == "type" and not hasattr(Keys, name.upper()):
+        # TODO: name should be validated somewhere else
+        if value == "type" and not hasattr(Keys, name.upper()):
             return False
         return True
 
@@ -46,7 +49,7 @@ class Verb(Enum):
         return self not in {self.CLICK, self.TYPE}
 
     @property
-    def delay(self) -> float:
+    def wait(self) -> float:
         if self in {self.CLICK, self.TYPE}:
             return 1.0
         return 0.0
@@ -65,11 +68,23 @@ class Verb(Enum):
             yield Mode.CSS.value, f'[aria-label="{inflection.titleize(name)}"]'
             yield Mode.ID.value, inflection.titleize(name).replace(" ", "")
 
-    def post_action(self, *, delay: Optional[float] = None):
-        if delay is None:
-            delay = self.delay
+    def post_action(self, previous_url: str, wait: Optional[float] = None):
+        if wait is None:
+            wait = self.wait
+        if wait:
+            log.debug(f"Waiting {wait} seconds for URL to change: {previous_url}")
+
         # TODO: Determine if this is still needed
         # if self is self.FILL:
         #     element = shared.browser.driver.switch_to.active_element
         #     element.send_keys(Keys.TAB)
-        time.sleep(delay)
+
+        elapsed = 0.0
+        start = time.time()
+        while elapsed < wait:
+            time.sleep(0.1)
+            elapsed = time.time() - start
+            current_url = shared.browser.url
+            if current_url != previous_url:
+                log.debug(f"URL changed after {elapsed} seconds: {current_url}")
+                break
