@@ -45,19 +45,23 @@ class Locator:
             log.debug(f"{self} unable to find element")
             return None
         else:
-            log.debug(f"{self} found element: {element}")
+            log.debug(f"{self} found element: {element.outer_html}")
             return element
 
-    def score(self, value: int):
+    def score(self, value: int) -> bool:
         previous = self.uses
+
         if value > 0:
             self.uses = min(99, max(1, self.uses + value))
         else:
             self.uses = max(-1, self.uses + value)
-        if self.uses > previous:
-            log.debug(f"Increased {self} uses to {self.uses}")
-        elif self.uses < previous:
-            log.debug(f"Decreased {self} uses to {self.uses}")
+
+        if self.uses == previous:
+            return False
+
+        result = "Increased" if self.uses > previous else "Decreased"
+        log.debug(f"{result} {self} uses to {self.uses}")
+        return True
 
 
 @datafile
@@ -166,6 +170,56 @@ class Action:
         return len(unused_locators)
 
 
+@datafile
+class Locators:
+    inclusions: List[Locator]
+    exclusions: List[Locator]
+
+    @property
+    def sorted_inclusions(self) -> List[Locator]:
+        return [x for x in sorted(self.inclusions, reverse=True) if x]
+
+    @property
+    def sorted_exclusions(self) -> List[Locator]:
+        return [x for x in sorted(self.exclusions, reverse=True) if x]
+
+    def clean(self, page, *, force: bool = False) -> int:
+        unused_inclusion_locators = []
+        unused_exclusion_locators = []
+        remove_unused_locators = force
+
+        for locator in self.inclusions:
+            if locator.uses <= 0:
+                unused_inclusion_locators.append(locator)
+            if locator.uses >= 99:
+                remove_unused_locators = True
+
+        for locator in self.exclusions:
+            if locator.uses <= 0:
+                unused_exclusion_locators.append(locator)
+            if locator.uses >= 99:
+                remove_unused_locators = True
+
+        count = len(unused_inclusion_locators) + len(unused_exclusion_locators)
+        log.debug(f"Found {count} unused locators for {page}")
+        if not remove_unused_locators:
+            return 0
+
+        if unused_inclusion_locators:
+            log.info(f"Cleaning up inclusion locators for {page}")
+            for locator in unused_inclusion_locators:
+                log.info(f"Removed unused {locator}")
+                self.inclusions.remove(locator)
+
+        if unused_exclusion_locators:
+            log.info(f"Cleaning up exclusion locators for {page}")
+            for locator in unused_exclusion_locators:
+                log.info(f"Removed unused {locator}")
+                self.exclusions.remove(locator)
+
+        return len(unused_inclusion_locators) + len(unused_exclusion_locators)
+
+
 @datafile(
     "./sites/{self.domain}/{self.path}/{self.variant}.yml", defaults=True, manual=True
 )
@@ -175,9 +229,7 @@ class Page:
     path: str = URL.ROOT
     variant: str = "default"
 
-    active_locators: List[Locator] = field(default_factory=lambda: [Locator()])
-    inactive_locators: List[Locator] = field(default_factory=lambda: [Locator()])
-
+    locators: Locators = field(default_factory=lambda: Locators([], []))
     actions: List[Action] = field(default_factory=lambda: [Action()])
 
     @classmethod
@@ -205,21 +257,24 @@ class Page:
         log.debug(f"Determining if {self!r} is active")
 
         if self.url != URL(shared.browser.url):
-            log.debug(
-                f"{self!r} is inactive - URL does not match: {shared.browser.url}"
-            )
+            log.debug(f"{self!r} is inactive: URL not matched")
             return False
 
         log.debug("Checking that all expected elements can be found")
-        for locator in self.active_locators:
-            if locator and not locator.find():
-                log.debug(f"{self!r} is inactive - Unable to find: {locator!r}")
+        for locator in self.locators.sorted_inclusions:
+            if locator.find():
+                if locator.score(+1):
+                    self.datafile.save()
+            else:
+                log.debug(f"{self!r} is inactive: {locator!r} found expected element")
                 return False
 
         log.debug("Checking that no unexpected elements can be found")
-        for locator in self.inactive_locators:
-            if locator and locator.find():
-                log.debug(f"{self!r} is inactive - Found unexpected: {locator!r}")
+        for locator in self.locators.sorted_exclusions:
+            if locator.find():
+                if locator.score(+1):
+                    self.datafile.save()
+                log.debug(f"{self!r} is inactive: {locator!r} found unexpected element")
                 return False
 
         log.debug(f"{self!r} is active")
@@ -290,7 +345,7 @@ class Page:
         return page, page != self
 
     def clean(self, *, force: bool = False) -> int:
-        count = 0
+        count = self.locators.clean(self, force=force)
 
         unused_actions = []
         remove_unused_actions = force

@@ -40,21 +40,25 @@ def describe_locator():
 
     def describe_find():
         def it_returns_callable(expect, mockbrowser, locator):
-            expect(locator.find()) == "<mockelement: name=email>"
+            expect(locator.find()) == "mockelement:name=email"
 
         def it_can_find_links_by_partial_text(expect, mockbrowser, locator):
             locator.mode = "partial_text"
-            expect(locator.find()) == "<mockelement: links.partial_text=email>"
+            expect(locator.find()) == "mockelement:links.partial_text=email"
 
     def describe_score():
+        def it_updates_uses(expect, locator):
+            expect(locator.score(+1)) == True
+            expect(locator.uses) == 1
+
         def it_tops_out_at_max_value(expect, locator):
             locator.score(+99)
-            locator.score(+1)
+            expect(locator.score(+1)) == False
             expect(locator.uses) == 99
 
         def it_bottoms_out_at_min_value(expect, locator):
             locator.score(-1)
-            locator.score(-1)
+            expect(locator.score(-1)) == False
             expect(locator.uses) == -1
 
 
@@ -148,3 +152,20 @@ def describe_page():
     def describe_contains():
         def it_matches_partial_html(expect, page, mockbrowser):
             expect(page).contains("world")
+
+    def describe_clean():
+        def it_removes_unused_locators(expect, page):
+            page.locators.inclusions = [
+                Locator("id", "foo", uses=0),
+                Locator("id", "bar", uses=-1),
+                Locator("id", "qux", uses=99),
+            ]
+            page.locators.exclusions = [
+                Locator("id", "foo", uses=0),
+                Locator("id", "bar", uses=-1),
+                Locator("id", "qux", uses=99),
+            ]
+
+            expect(page.clean()) == 4
+            expect(len(page.locators.inclusions)) == 1
+            expect(len(page.locators.exclusions)) == 1
