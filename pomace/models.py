@@ -106,7 +106,7 @@ class Action:
         if page and self._verb.updates:
             return page
 
-        return autopage()
+        return auto()
 
     def _trying_locators(self, *args, **kwargs) -> bool:
         if self._verb == Verb.TYPE:
@@ -129,7 +129,8 @@ class Action:
         return True
 
     def _perform_action(self, function: Callable, *args, **kwargs) -> bool:
-        delay = kwargs.pop("delay", None)
+        previous_url = shared.browser.url
+        wait = kwargs.pop("wait", None)
         try:
             function(*args, **kwargs)
         except ElementDoesNotExist as e:
@@ -139,7 +140,7 @@ class Action:
             log.debug(e)
             return False
         else:
-            self._verb.post_action(delay=delay)
+            self._verb.post_action(previous_url, wait)
             return True
 
     def clean(self, *, force: bool = False) -> int:
@@ -314,7 +315,7 @@ class Page:
         return count
 
 
-def autopage() -> Page:
+def auto() -> Page:
     matching_pages = []
 
     for page in Page.objects.filter(domain=URL(shared.browser.url).domain):

@@ -5,7 +5,7 @@ import atexit as _atexit
 import pomace
 from pomace import prompts as _prompts, utils as _utils
 from pomace.config import settings
-from pomace.models import Page, autopage
+from pomace.models import Page, auto
 from pomace.shared import browser
 
 
@@ -41,4 +41,4 @@ if __name__ == "__main__":
     _prompts.url_if_unset()
     _utils.launch_browser()
 
-    page = autopage()
+    page = auto()

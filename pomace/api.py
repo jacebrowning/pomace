@@ -40,7 +40,7 @@ def visit(
 
     utils.locate_models(caller=inspect.currentframe())
 
-    return models.autopage()
+    return models.auto()
 
 
 def prompt(*names):

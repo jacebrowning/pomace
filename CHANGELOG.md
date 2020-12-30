@@ -1,3 +1,7 @@
+# 0.6 (beta)
+
+- Renamed automatic page load function from `autopage()` to `auto()`.
+
 # 0.5 (2020-12-28)
 
 - Added automatic cleanup of unused locators.
