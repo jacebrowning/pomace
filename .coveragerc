@@ -7,7 +7,6 @@ data_file = .cache/coverage
 omit =
     .venv/*
     */__main__.py
-    */cli.py
     */prompts.py
     */tests/*
 

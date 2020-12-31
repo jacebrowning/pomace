@@ -1,10 +1,10 @@
 import inspect
 import os
-import subprocess
 import time
 from pathlib import Path
 
 import log
+from gitman.models import Source
 
 from . import browser, shared
 from .config import settings
@@ -65,9 +65,11 @@ def locate_models(*, caller=None):
             return
 
 
-def clone_models(url: str):
+def clone_models(url: str, *, domain: str = "", force: bool = False):
     repository = url.replace(".git", "").split("/")[-1]
-    domain = repository.replace("pomace-", "")
+    domain = domain or repository.replace("pomace-", "")
     directory = Path("sites") / domain
     log.info(f"Cloning {url} to {directory}")
-    subprocess.run(["git", "clone", url, Path("sites", domain)], check=True)
+    assert "." in domain, f"Invalid domain: {domain}"
+    source = Source(url, directory)
+    source.update_files(force=force)

@@ -14,6 +14,7 @@ from .config import settings
 class BaseCommand(Command):
     def handle(self):
         self.configure_logging()
+        self.set_directory()
         self.update_settings()
         prompts.browser_if_unset()
         domains = list(set(p.domain for p in models.Page.objects.all()))
@@ -31,10 +32,11 @@ class BaseCommand(Command):
         log.init(verbosity=self.io.verbosity + 1)
         log.silence("datafiles", allow_warning=True)
 
-    def update_settings(self):
+    def set_directory(self):
         if self.option("root"):
             os.chdir(self.option("root"))
 
+    def update_settings(self):
         if self.option("browser"):
             settings.browser.name = self.option("browser").lower()
 
@@ -50,20 +52,23 @@ class CloneCommand(BaseCommand):
 
     clone
         {url : Git repository URL containing pomace models}
-        {--root= : Directory to load models from}
+        {domain? : Name of sites directory for this repository}
+        {--f|force : Overwrite uncommitted changes in cloned repositories}
+        {--root= : Path to directory to containing models}
     """
 
     def handle(self):
         self.configure_logging()
-
-        if self.option("root"):
-            os.chdir(self.option("root"))
-
+        self.set_directory()
         utils.locate_models()
-        utils.clone_models(self.argument("url"))
+        utils.clone_models(
+            self.argument("url"),
+            domain=self.argument("domain"),
+            force=self.option("force"),
+        )
 
 
-class ShellCommand(BaseCommand):
+class ShellCommand(BaseCommand):  # pragma: no cover
     """
     Launch an interactive shell
 
@@ -71,7 +76,7 @@ class ShellCommand(BaseCommand):
         {domain? : Starting domain for the automation}
         {--browser= : Browser to use for automation}
         {--headless : Run the specified browser in a headless mode}
-        {--root= : Directory to load models from}
+        {--root= : Path to directory to containing models}
     """
 
     def run_loop(self):
@@ -83,7 +88,7 @@ class ShellCommand(BaseCommand):
         embed(colors="neutral")
 
 
-class RunCommand(BaseCommand):
+class RunCommand(BaseCommand):  # pragma: no cover
     """
     Run pomace in a loop
 
@@ -91,7 +96,7 @@ class RunCommand(BaseCommand):
         {domain? : Starting domain for the automation}
         {--browser= : Browser to use for automation}
         {--headless : Run the specified browser in a headless mode}
-        {--root= : Directory to load models from}
+        {--root= : Path to directory to containing models}
     """
 
     def run_loop(self):
@@ -126,15 +131,12 @@ class CleanCommand(BaseCommand):
 
     clean
         {domain? : Limit cleaning to a single domain}
-        {--root= : Directory to load models from}
+        {--root= : Path to directory to containing models}
     """
 
     def handle(self):
         self.configure_logging()
-
-        if self.option("root"):
-            os.chdir(self.option("root"))
-
+        self.set_directory()
         utils.locate_models()
         if self.argument("domain"):
             for page in models.Page.objects.filter(domain=self.argument("domain")):
