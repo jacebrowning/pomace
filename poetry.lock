@@ -208,7 +208,7 @@ toml = ["toml"]
 
 [[package]]
 name = "coveragespace"
-version = "4.0a4"
+version = "4.0"
 description = "A place to track your code coverage metrics."
 category = "dev"
 optional = false
@@ -1202,7 +1202,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "6d8f8e58f8f0dc942a082717ee5b009516124d434215e3d7426f9bf965e7f965"
+content-hash = "9fc50d322169d88cad8d5e8eceadda3622ed6a840293dfdc7418cfd2d71d72b6"
 
 [metadata.files]
 altgraph = [
@@ -1332,8 +1332,8 @@ coverage = [
     {file = "coverage-5.3.1.tar.gz", hash = "sha256:38f16b1317b8dd82df67ed5daa5f5e7c959e46579840d77a67a4ceb9cef0a50b"},
 ]
 coveragespace = [
-    {file = "coveragespace-4.0a4-py3-none-any.whl", hash = "sha256:e2ce47ecdb9b6b32502d9f5c4b441c46c4d987c7f2d93f9ae5bbd07a8d3d8672"},
-    {file = "coveragespace-4.0a4.tar.gz", hash = "sha256:8ac7f84be1883ed095efbf34ea28c963abd30817c172b2b430a1a5e7edcda01c"},
+    {file = "coveragespace-4.0-py3-none-any.whl", hash = "sha256:fef3c1f17685e72ff008b32248849a473ebf7be51c827eb786fa57dc33b3f366"},
+    {file = "coveragespace-4.0.tar.gz", hash = "sha256:659ec5c86ded8b505004bd7532835aaea6e790608abacc6c8ad807f4108ede3d"},
 ]
 crashtest = [
     {file = "crashtest-0.3.1-py3-none-any.whl", hash = "sha256:300f4b0825f57688b47b6d70c6a31de33512eb2fa1ac614f780939aa0cf91680"},

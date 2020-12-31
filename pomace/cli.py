@@ -11,7 +11,7 @@ from . import models, prompts, utils
 from .config import settings
 
 
-class BaseCommand(Command):
+class BaseCommand(Command):  # pragma: no cover
     def handle(self):
         self.configure_logging()
         self.set_directory()
@@ -139,11 +139,11 @@ class CleanCommand(BaseCommand):
         self.set_directory()
         utils.locate_models()
         if self.argument("domain"):
-            for page in models.Page.objects.filter(domain=self.argument("domain")):
-                page.clean(force=True)
+            pages = models.Page.objects.filter(domain=self.argument("domain"))
         else:
-            for page in models.Page.objects.all():
-                page.clean(force=True)
+            pages = models.Page.objects.all()
+        for page in pages:
+            page.clean(force=True)
 
 
 application = Application()

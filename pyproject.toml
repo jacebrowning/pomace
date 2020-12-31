@@ -85,7 +85,7 @@ pytest-random = "*"
 freezegun = "*"
 
 # Reports
-coveragespace = "=4.0a4"
+coveragespace = "^4.0"
 
 # Documentation
 mkdocs = "^1.0"
@@ -96,7 +96,7 @@ pyinstaller = "*"
 sniffer = "*"
 MacFSEvents = { version = "*", platform = "darwin" }
 pync = { version = "*", platform = "darwin" }
-rope = "^0.18.0"
+rope = "^0.18"
 
 [tool.poetry.scripts]
 

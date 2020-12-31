@@ -4,6 +4,7 @@ import time
 from pathlib import Path
 
 import log
+from gitman.commands import restore_cwd
 from gitman.models import Source
 
 from . import browser, shared
@@ -65,6 +66,7 @@ def locate_models(*, caller=None):
             return
 
 
+@restore_cwd
 def clone_models(url: str, *, domain: str = "", force: bool = False):
     repository = url.replace(".git", "").split("/")[-1]
     domain = domain or repository.replace("pomace-", "")
