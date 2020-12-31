@@ -50,7 +50,9 @@ class Verb(Enum):
 
     @property
     def wait(self) -> float:
-        if self in {self.CLICK, self.TYPE}:
+        if self in {self.CLICK}:
+            return 2.0
+        if self in {self.TYPE}:
             return 1.0
         return 0.0
 
