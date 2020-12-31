@@ -54,7 +54,7 @@ class CloneCommand(BaseCommand):
         {url : Git repository URL containing pomace models}
         {domain? : Name of sites directory for this repository}
         {--f|force : Overwrite uncommitted changes in cloned repositories}
-        {--root= : Path to directory to containing models}
+        {--r|root= : Path to directory to containing models}
     """
 
     def handle(self):
@@ -74,9 +74,9 @@ class ShellCommand(BaseCommand):  # pragma: no cover
 
     shell
         {domain? : Starting domain for the automation}
-        {--browser= : Browser to use for automation}
-        {--headless : Run the specified browser in a headless mode}
-        {--root= : Path to directory to containing models}
+        {--b|browser= : Browser to use for automation}
+        {--d|headless : Run the specified browser in a headless mode}
+        {--r|root= : Path to directory to containing models}
     """
 
     def run_loop(self):
@@ -94,9 +94,9 @@ class RunCommand(BaseCommand):  # pragma: no cover
 
     run
         {domain? : Starting domain for the automation}
-        {--browser= : Browser to use for automation}
-        {--headless : Run the specified browser in a headless mode}
-        {--root= : Path to directory to containing models}
+        {--b|browser= : Browser to use for automation}
+        {--d|headless : Run the specified browser in a headless mode}
+        {--r|root= : Path to directory to containing models}
     """
 
     def run_loop(self):
@@ -131,7 +131,7 @@ class CleanCommand(BaseCommand):
 
     clean
         {domain? : Limit cleaning to a single domain}
-        {--root= : Path to directory to containing models}
+        {--r|root= : Path to directory to containing models}
     """
 
     def handle(self):
