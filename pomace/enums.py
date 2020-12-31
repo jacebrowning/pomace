@@ -85,7 +85,7 @@ class Verb(Enum):
         start = time.time()
         while elapsed < wait:
             time.sleep(0.1)
-            elapsed = time.time() - start
+            elapsed = round(time.time() - start, 1)
             current_url = shared.browser.url
             if current_url != previous_url:
                 log.debug(f"URL changed after {elapsed} seconds: {current_url}")

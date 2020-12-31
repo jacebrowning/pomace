@@ -2,6 +2,7 @@
 
 - Renamed automatic page load function from `autopage()` to `auto()`.
 - Updated page model schema to `locators: { inclusions, exclusions }`.
+- Added automatic attempts to try multiple indices when locating elements.
 
 # 0.5 (2020-12-28)
 
