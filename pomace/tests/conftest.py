@@ -15,6 +15,10 @@ class MockElement(str):
     def outer_html(self):
         return f"<mockhtml>{self}</>"
 
+    @property
+    def visible(self):
+        return True
+
 
 class MockLinks:
     def find_by_partial_text(self, value):

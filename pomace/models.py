@@ -4,7 +4,10 @@ from typing import Callable, List, Optional, Tuple
 import log
 from bs4 import BeautifulSoup
 from datafiles import datafile, field, mapper
-from selenium.common.exceptions import WebDriverException
+from selenium.common.exceptions import (
+    ElementNotInteractableException,
+    WebDriverException,
+)
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from splinter.driver.webdriver import WebDriverElement
@@ -27,24 +30,26 @@ class Locator:
     index: int = field(default=0, compare=False)
     uses: int = field(default=0, compare=True)
 
-    @property
-    def _mode(self) -> Mode:
-        return Mode(self.mode)
-
     def __repr__(self) -> str:
-        return f"<locator {self.mode}={self.value}>"
+        return f"<locator {self.mode}={self.value}[{self.index}]>"
 
     def __bool__(self) -> bool:
         return bool(self.mode and self.value)
 
     def find(self) -> Optional[WebDriverElement]:
         elements = self._mode.finder(self.value)
+        index = self.index
         try:
-            element = elements[self.index]
+            element = elements[index]
+            if index == 0 and not element.visible:
+                log.debug(f"{self} found invisible element: {element.outer_html}")
+                index += 1
+                element = elements[index]
         except ElementDoesNotExist:
             log.debug(f"{self} unable to find element")
             return None
         else:
+            self.index = index
             log.debug(f"{self} found element: {element.outer_html}")
             return element
 
@@ -63,6 +68,10 @@ class Locator:
         log.debug(f"{result} {self} uses to {self.uses}")
         return True
 
+    @property
+    def _mode(self) -> Mode:
+        return Mode(self.mode)
+
 
 @datafile
 class Action:
@@ -72,11 +81,7 @@ class Action:
     locators: List[Locator] = field(default_factory=lambda: [Locator()])
 
     @property
-    def _verb(self) -> Verb:
-        return Verb(self.verb)
-
-    @property
-    def _sorted_locators(self) -> List[Locator]:
+    def sorted_locators(self) -> List[Locator]:
         return [x for x in sorted(self.locators, reverse=True) if x]
 
     def __post_init__(self):
@@ -119,7 +124,7 @@ class Action:
             self._perform_action(function, *args, **kwargs)
             return False
 
-        for locator in self._sorted_locators:
+        for locator in self.sorted_locators:
             if locator:
                 log.debug(f"Using {locator} to find {self.name!r}")
                 element = locator.find()
@@ -139,6 +144,9 @@ class Action:
             function(*args, **kwargs)
         except ElementDoesNotExist as e:
             log.warn(e)
+            return False
+        except ElementNotInteractableException as e:
+            log.warn(e.msg)
             return False
         except WebDriverException as e:
             log.debug(e)
@@ -168,6 +176,10 @@ class Action:
                 self.locators.remove(locator)
 
         return len(unused_locators)
+
+    @property
+    def _verb(self) -> Verb:
+        return Verb(self.verb)
 
 
 @datafile
