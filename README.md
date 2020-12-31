@@ -32,7 +32,7 @@ If you're planning to run Pomace multiple times, install it with [pipx](https://
 pipx install pomace
 ```
 
-or do get the latest version:
+or get the latest version:
 
 ```
 pipx upgrade pomace
