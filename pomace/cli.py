@@ -96,13 +96,18 @@ class RunCommand(BaseCommand):  # pragma: no cover
         {domain? : Starting domain for the automation}
         {--b|browser= : Browser to use for automation}
         {--d|headless : Run the specified browser in a headless mode}
+        {--p|prompt=* : Prompt for secrets before running}
         {--r|root= : Path to directory to containing models}
     """
 
     def run_loop(self):
+        for name in self.option("prompt"):
+            prompts.secret_if_unset(name)
+
         self.clear_screen()
         page = models.auto()
         self.display_url(page)
+
         while True:
             action = prompts.action(page)
             if action is None:
