@@ -307,7 +307,7 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
 name = "gitman"
-version = "2.3b1"
+version = "2.3b2"
 description = "A language-agnostic dependency manager using Git."
 category = "main"
 optional = false
@@ -1202,7 +1202,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "9fc50d322169d88cad8d5e8eceadda3622ed6a840293dfdc7418cfd2d71d72b6"
+content-hash = "76fd9dee096ddf24a3b61b048366bee51efc98aed23ce3cde92276e740109958"
 
 [metadata.files]
 altgraph = [
@@ -1366,8 +1366,8 @@ future = [
     {file = "future-0.18.2.tar.gz", hash = "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"},
 ]
 gitman = [
-    {file = "gitman-2.3b1-py3-none-any.whl", hash = "sha256:7fbe18d9b42998c8b384b0f13a3cc2d228855fe1133b9d30770d6b56e8da37b2"},
-    {file = "gitman-2.3b1.tar.gz", hash = "sha256:205453d9b69681c41414bea36d979ca92c61478142c9d74bfd5ee68def31ee9f"},
+    {file = "gitman-2.3b2-py3-none-any.whl", hash = "sha256:86dd884cb67604650c979943be6d0e63c7e0cf0c4d2198848cb217d26cbe9e21"},
+    {file = "gitman-2.3b2.tar.gz", hash = "sha256:627a9fb77e9d9574f998f7261677bda2be2321564a536a8046a2c010743e71d0"},
 ]
 idna = [
     {file = "idna-2.10-py2.py3-none-any.whl", hash = "sha256:b97d804b1e9b523befed77c48dacec60e6dcb0b5391d57af6a65a312a90648c0"},
