@@ -265,6 +265,10 @@ class Page:
         return URL(self.domain, self.path)
 
     @property
+    def exact(self) -> bool:
+        return "{" not in self.path
+
+    @property
     def active(self) -> bool:
         log.debug(f"Determining if {self!r} is active")
 
@@ -384,10 +388,17 @@ class Page:
 
 def auto() -> Page:
     matching_pages = []
+    found_exact_match = False
 
     for page in Page.objects.filter(domain=URL(shared.browser.url).domain):
         if page.active:
             matching_pages.append(page)
+        if page.exact:
+            found_exact_match = True
+
+    if found_exact_match:
+        log.debug("Removing abstract pages from matches")
+        matching_pages = [page for page in matching_pages if page.exact]
 
     if matching_pages:
         if len(matching_pages) > 1:
