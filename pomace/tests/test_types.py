@@ -44,7 +44,12 @@ def describe_url():
             pattern = URL("http://example.com/p/{name}")
             expect(pattern) == URL("http://example.com/p/foobar")
             expect(pattern) != URL("http://example.com/")
+            expect(pattern) != URL("http://example.com/p")
             expect(pattern) != URL("http://example.com/p/foo/bar")
+
+        def it_does_not_match_root_placeholder(expect):
+            pattern = URL("http://example.com/{value}")
+            expect(pattern) != URL("http://example.com")
 
         def it_can_be_compared_to_str(expect, url):
             expect(url) == str(url)

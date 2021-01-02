@@ -42,8 +42,9 @@ class URL:
         result = parse(self.path, other.path)
         if not result:
             return False
+
         for value in result.named.values():
-            if "/" in value:
+            if value == self.ROOT or "/" in value:
                 return False
 
         return True
