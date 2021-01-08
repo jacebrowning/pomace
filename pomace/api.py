@@ -8,7 +8,7 @@ from . import models, prompts, types, utils
 from .config import settings
 
 
-__all__ = ["fake", "prompt", "visit"]
+__all__ = ["clean", "fake", "freeze", "prompt", "visit"]
 
 
 fake = types.Fake()
