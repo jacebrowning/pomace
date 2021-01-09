@@ -40,7 +40,9 @@ class Verb(Enum):
         if value not in values:
             return False
         # TODO: name should be validated somewhere else
-        if value == "type" and not hasattr(Keys, name.upper()):
+        if value == "type" and not all(
+            hasattr(Keys, n.upper()) for n in name.split("_")
+        ):
             return False
         return True
 
@@ -70,16 +72,20 @@ class Verb(Enum):
             yield Mode.CSS.value, f'[aria-label="{inflection.titleize(name)}"]'
             yield Mode.ID.value, inflection.titleize(name).replace(" ", "")
 
-    def post_action(self, previous_url: str, wait: Optional[float] = None):
+    def post_action(
+        self,
+        previous_url: str,
+        delay: float = 0.0,
+        wait: Optional[float] = None,
+    ):
+        if delay:
+            log.debug(f"Waiting {delay} seconds before continuing")
+            time.sleep(delay)
+
         if wait is None:
             wait = self.wait
         if wait:
             log.debug(f"Waiting {wait} seconds for URL to change: {previous_url}")
-
-        # TODO: Determine if this is still needed
-        # if self is self.FILL:
-        #     element = shared.browser.driver.switch_to.active_element
-        #     element.send_keys(Keys.TAB)
 
         elapsed = 0.0
         start = time.time()

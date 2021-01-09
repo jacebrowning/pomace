@@ -4,6 +4,7 @@ from functools import wraps
 from typing import Optional, Tuple
 
 import log
+from IPython import embed
 
 from . import browser, enums, shared
 from .config import settings
@@ -23,6 +24,7 @@ if "pytest" in sys.modules:
 RELOAD_ACTIONS = "<reload actions>"
 ADD_ACTION = "<add action>"
 CANCEL = "<cancel>"
+DEBUG = "<debug>"
 
 
 def linebreak(*, force: bool = False):
@@ -97,7 +99,7 @@ def secret_if_unset(name: str):
 @include_linebreaks
 def action(page) -> Optional[str]:
     shared.linebreak = False
-    choices = [RELOAD_ACTIONS] + dir(page) + [ADD_ACTION]
+    choices = [RELOAD_ACTIONS] + dir(page) + [DEBUG, ADD_ACTION]
     command = bullet.Bullet(
         prompt="Select an action: ",
         bullet=" ● ",
@@ -107,6 +109,10 @@ def action(page) -> Optional[str]:
 
     if value == RELOAD_ACTIONS:
         return None
+
+    if value == DEBUG:
+        embed(colors="neutral")
+        return ""
 
     if value == ADD_ACTION:
         verb, name = verb_and_name()
@@ -128,7 +134,7 @@ def named_value(name: str) -> Optional[str]:
 
 @include_linebreaks
 def verb_and_name() -> Tuple[str, str]:
-    choices = [verb.value for verb in enums.Verb]
+    choices = [verb.value for verb in enums.Verb] + [DEBUG]
     command = bullet.Bullet(
         prompt="Select element verb: ",
         bullet=" ● ",
@@ -136,6 +142,10 @@ def verb_and_name() -> Tuple[str, str]:
     )
     verb = command.launch()
     linebreak(force=True)
+
+    if verb == DEBUG:
+        embed(colors="neutral")
+        return "", ""
 
     shared.linebreak = False
     command = bullet.Input("Name of element: ")
@@ -148,7 +158,7 @@ def mode_and_value() -> Tuple[str, str]:
     if not bullet:
         return "", ""
 
-    choices = [CANCEL] + [mode.value for mode in enums.Mode]
+    choices = [CANCEL] + [mode.value for mode in enums.Mode] + [DEBUG]
     command = bullet.Bullet(
         prompt="Select element locator: ",
         bullet=" ● ",
@@ -158,6 +168,10 @@ def mode_and_value() -> Tuple[str, str]:
     linebreak(force=True)
 
     if mode == CANCEL:
+        return "", ""
+
+    if mode == DEBUG:
+        embed(colors="neutral")
         return "", ""
 
     shared.linebreak = False

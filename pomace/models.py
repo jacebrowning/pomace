@@ -19,7 +19,7 @@ from .enums import Mode, Verb
 from .types import URL
 
 
-__all__ = ["Locator", "Action", "Page"]
+__all__ = ["Locator", "Action", "Page", "auto"]
 
 
 @datafile(order=True)
@@ -119,8 +119,21 @@ class Action:
 
     def _trying_locators(self, *args, **kwargs) -> bool:
         if self._verb == Verb.TYPE:
-            key = getattr(Keys, self.name.upper())
-            function = ActionChains(shared.browser.driver).send_keys(key).perform
+            if self.name.count("_") == 1:
+                # TODO: Add a test for this
+                name1, name2 = self.name.split("_")
+                modifier = getattr(Keys, name1.upper())
+                key = getattr(Keys, name2.upper())
+                function = (
+                    ActionChains(shared.browser.driver)
+                    .key_down(modifier)
+                    .send_keys(key)
+                    .key_up(modifier)
+                    .perform
+                )
+            else:
+                key = getattr(Keys, self.name.upper())
+                function = ActionChains(shared.browser.driver).send_keys(key).perform
             self._perform_action(function, *args, **kwargs)
             return False
 
@@ -139,6 +152,7 @@ class Action:
 
     def _perform_action(self, function: Callable, *args, **kwargs) -> bool:
         previous_url = shared.browser.url
+        delay = kwargs.pop("delay", None)
         wait = kwargs.pop("wait", None)
         try:
             function(*args, **kwargs)
@@ -152,7 +166,7 @@ class Action:
             log.debug(e)
             return False
         else:
-            self._verb.post_action(previous_url, wait)
+            self._verb.post_action(previous_url, delay, wait)
             return True
 
     def clean(self, *, force: bool = False) -> int:
