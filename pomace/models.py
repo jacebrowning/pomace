@@ -393,8 +393,8 @@ def auto() -> Page:
     for page in Page.objects.filter(domain=URL(shared.browser.url).domain):
         if page.active:
             matching_pages.append(page)
-        if page.exact:
-            found_exact_match = True
+            if page.exact:
+                found_exact_match = True
 
     if found_exact_match:
         log.debug("Removing abstract pages from matches")
