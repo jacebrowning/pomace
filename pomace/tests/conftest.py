@@ -44,6 +44,7 @@ def mockbrowser(monkeypatch):
 
 def pytest_configure(config):
     log.init(debug=True)
+    log.silence("faker")
 
     terminal = config.pluginmanager.getplugin("terminal")
     terminal.TerminalReporter.showfspath = False

@@ -4,6 +4,7 @@ from typing import Optional
 from urllib.parse import urlparse
 
 import faker
+import log
 import zipcodes
 from parse import parse
 
@@ -69,6 +70,17 @@ class URL:
         return urlparse(self.value).fragment.replace("/", "_").strip("_")
 
 
+ALIASES = {
+    "cell_phone": "phone_number",
+    "email_address": "email",
+    "email": "email_address",
+    "phone": "phone_number",
+    "prefix": "honorific",
+    "zip_code": "postcode",
+    "zip": "zip_code",
+}
+
+
 @dataclass
 class Person:
     honorific: str
@@ -81,26 +93,6 @@ class Person:
     state: str
     county: str
     zip_code: str
-
-    @property
-    def prefix(self) -> str:
-        return self.honorific
-
-    @property
-    def phone(self) -> str:
-        return self.phone_number
-
-    @property
-    def cell_phone(self) -> str:
-        return self.phone_number
-
-    @property
-    def email(self) -> str:
-        return self.email_address
-
-    @property
-    def zip(self) -> str:
-        return self.zip_code
 
     @classmethod
     def random(cls, fake) -> "Person":
@@ -138,19 +130,33 @@ class Person:
             place["zip_code"],
         )
 
+    def __getattr__(self, name):
+        try:
+            alias = ALIASES[name]
+        except KeyError:
+            return super().__getattribute__(name)
+        else:
+            log.debug(f"Mapped fake attribute {alias!r} to {name!r}")
+            return getattr(self, alias)
+
 
 class Fake:
     def __init__(self):
-        self.generator = faker.Faker()
+        self._generator = faker.Faker()
 
     def __getattr__(self, name):
-        method = getattr(self.generator, name)
+        try:
+            method = getattr(self._generator, name)
+        except AttributeError:
+            try:
+                alias = ALIASES[name]
+            except KeyError:
+                return super().__getattribute__(name)
+            else:
+                log.debug(f"Mapped fake attribute {alias!r} to {name!r}")
+                method = getattr(self._generator, alias)
         return method()
 
     @property
     def person(self) -> Person:
         return Person.random(self)
-
-    @property
-    def zip_code(self) -> str:
-        return self.generator.postcode()

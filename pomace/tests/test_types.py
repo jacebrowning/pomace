@@ -88,20 +88,51 @@ def describe_url():
 
 
 def describe_fake():
-    @pytest.fixture(scope="session")
+    @pytest.fixture
     def fake():
         return Fake()
 
-    def it_includes_zip_code(expect, fake):
-        expect(fake.zip_code).isinstance(str)
+    @pytest.mark.parametrize(
+        "name",
+        [
+            "email_address",
+            "zip_code",
+        ],
+    )
+    def it_maps_aliases(expect, fake, name):
+        value = getattr(fake, name)
+        expect(value).isinstance(str)
 
-    def describe_person():
-        def it_includes_name_in_email(expect, fake):
-            person = fake.person
-            expect(person.email).icontains(person.last_name)
+    def it_handles_missing_attributes(expect, fake):
+        with expect.raises(AttributeError):
+            getattr(fake, "foobar")
 
-        def it_includes_honorific(expect, fake):
-            expect(fake.person.honorific).isinstance(str)
 
-        def it_includes_county(expect, fake):
-            expect(fake.person.county).isinstance(str)
+def describe_person():
+    @pytest.fixture
+    def person():
+        return Fake().person
+
+    def it_includes_name_in_email(expect, person):
+        expect(person.email).icontains(person.last_name)
+
+    @pytest.mark.parametrize(
+        "name",
+        [
+            "address",
+            "cell_phone",
+            "county",
+            "email",
+            "honorific",
+            "phone",
+            "prefix",
+            "zip",
+        ],
+    )
+    def it_maps_aliases(expect, person, name):
+        value = getattr(person, name)
+        expect(value).isinstance(str)
+
+    def it_handles_missing_attributes(expect, person):
+        with expect.raises(AttributeError):
+            getattr(person, "foobar")
