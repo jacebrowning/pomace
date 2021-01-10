@@ -2,4 +2,4 @@ from splinter import Browser
 
 
 browser: Browser = None
-linebreak: bool = False
+linebreak: bool = True
