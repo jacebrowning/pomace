@@ -130,6 +130,9 @@ class Person:
             place["zip_code"],
         )
 
+    def __str__(self):
+        return f"{self.name} <{self.email}>"
+
     def __getattr__(self, name):
         try:
             alias = ALIASES[name]
@@ -138,6 +141,10 @@ class Person:
         else:
             log.debug(f"Mapped fake attribute {alias!r} to {name!r}")
             return getattr(self, alias)
+
+    @property
+    def name(self) -> str:
+        return f"{self.first_name} {self.last_name}"
 
 
 class Fake:

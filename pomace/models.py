@@ -106,7 +106,8 @@ class Action:
     def _call_method(self, page, *args, **kwargs) -> "Page":
         while self._trying_locators(*args, **kwargs):
             log.error(f"No locators able to find {self.name!r}")
-            shared.linebreak = False
+            if prompts.bullet:
+                shared.linebreak = False
             mode, value = prompts.mode_and_value()
             if mode:
                 self.locators.append(Locator(mode, value))
@@ -420,7 +421,8 @@ def auto() -> Page:
         if len(matching_pages) > 1:
             for page in matching_pages:
                 log.warn(f"Multiple pages matched: {page}")
-                shared.linebreak = False
+                if prompts.bullet:
+                    shared.linebreak = False
         return matching_pages[0]
 
     log.info(f"Creating new page: {shared.browser.url}")

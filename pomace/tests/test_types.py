@@ -113,6 +113,10 @@ def describe_person():
     def person():
         return Fake().person
 
+    def it_includes_email_in_str(expect, person):
+        expect(str(person)).contains("<")
+        expect(str(person)).contains("@")
+
     def it_includes_name_in_email(expect, person):
         expect(person.email).icontains(person.last_name)
 
