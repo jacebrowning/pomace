@@ -50,7 +50,7 @@ def prompt(*names):
 
 
 def freeze():
-    log.info("Disabling interactive prompts")
+    log.debug("Disabling interactive prompts")
     prompts.bullet = None
 
 
