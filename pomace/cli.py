@@ -1,11 +1,10 @@
 # pylint: disable=no-self-use
 
 import os
-from importlib import import_module, reload
+from importlib import reload
 
 import log
 from cleo import Application, Command
-from IPython import embed
 
 from . import models, prompts, utils
 from .config import settings
@@ -80,12 +79,7 @@ class ShellCommand(BaseCommand):  # pragma: no cover
     """
 
     def run_loop(self):
-        # pylint: disable=unused-variable
-        pomace = import_module("pomace")
-        Page = models.Page
-        auto = models.auto
-        page = auto()
-        embed(colors="neutral")
+        prompts.shell()
 
 
 class RunCommand(BaseCommand):  # pragma: no cover
@@ -110,16 +104,15 @@ class RunCommand(BaseCommand):  # pragma: no cover
 
         while True:
             action = prompts.action(page)
-            if action is None:
+            if action:
+                page, transitioned = page.perform(action)
+                if transitioned:
+                    self.clear_screen()
+                    self.display_url(page)
+            else:
                 reload(models)
                 self.clear_screen()
                 page = models.auto()
-                self.display_url(page)
-                continue
-
-            page, transitioned = page.perform(action)
-            if transitioned:
-                self.clear_screen()
                 self.display_url(page)
 
     def clear_screen(self):

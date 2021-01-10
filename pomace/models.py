@@ -109,7 +109,7 @@ class Action:
             if prompts.bullet:
                 shared.linebreak = False
             mode, value = prompts.mode_and_value()
-            if mode:
+            if mode and value:
                 self.locators.append(Locator(mode, value))
             else:
                 break

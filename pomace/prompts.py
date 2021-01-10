@@ -1,7 +1,8 @@
 import os
 import sys
 from functools import wraps
-from typing import Optional, Tuple
+from importlib import import_module
+from typing import Optional, Tuple, no_type_check
 
 import log
 from IPython import embed
@@ -23,8 +24,8 @@ if "pytest" in sys.modules:
 
 RELOAD_ACTIONS = "<reload actions>"
 ADD_ACTION = "<add action>"
-CANCEL = "<cancel>"
-DEBUG = "<debug>"
+CANCEL = "<cancel prompt>"
+DEBUG = "<start shell>"
 
 
 def linebreak(*, force: bool = False):
@@ -33,7 +34,7 @@ def linebreak(*, force: bool = False):
         shared.linebreak = True
 
 
-def include_linebreaks(function):
+def offset(function):
     @wraps(function)
     def wrapper(*args, **kwargs):
         linebreak()
@@ -44,7 +45,7 @@ def include_linebreaks(function):
     return wrapper
 
 
-@include_linebreaks
+@offset
 def browser_if_unset():
     if settings.browser.name:
         return
@@ -63,7 +64,7 @@ def browser_if_unset():
     settings.browser.name = value.lower()
 
 
-@include_linebreaks
+@offset
 def url_if_unset(domains=None):
     if settings.url:
         return
@@ -83,7 +84,7 @@ def url_if_unset(domains=None):
     settings.url = f"https://{value}"
 
 
-@include_linebreaks
+@offset
 def secret_if_unset(name: str):
     if settings.get_secret(name, _log=False):
         return
@@ -96,7 +97,7 @@ def secret_if_unset(name: str):
     settings.set_secret(name, value)
 
 
-@include_linebreaks
+@offset
 def action(page) -> Optional[str]:
     shared.linebreak = False
     choices = [RELOAD_ACTIONS] + dir(page) + [DEBUG, ADD_ACTION]
@@ -111,17 +112,19 @@ def action(page) -> Optional[str]:
         return None
 
     if value == DEBUG:
-        embed(colors="neutral")
+        shell()
         return ""
 
     if value == ADD_ACTION:
         verb, name = verb_and_name()
-        return f"{verb}_{name}"
+        if verb and name:
+            return f"{verb}_{name}"
+        return ""
 
     return value
 
 
-@include_linebreaks
+@offset
 def named_value(name: str) -> Optional[str]:
     if not bullet:
         return None
@@ -132,9 +135,9 @@ def named_value(name: str) -> Optional[str]:
     return value
 
 
-@include_linebreaks
+@offset
 def verb_and_name() -> Tuple[str, str]:
-    choices = [verb.value for verb in enums.Verb] + [DEBUG]
+    choices = [CANCEL] + [verb.value for verb in enums.Verb] + [DEBUG]
     command = bullet.Bullet(
         prompt="Select element verb: ",
         bullet=" ● ",
@@ -143,8 +146,11 @@ def verb_and_name() -> Tuple[str, str]:
     verb = command.launch()
     linebreak(force=True)
 
+    if verb == CANCEL:
+        return "", ""
+
     if verb == DEBUG:
-        embed(colors="neutral")
+        shell()
         return "", ""
 
     shared.linebreak = False
@@ -153,7 +159,7 @@ def verb_and_name() -> Tuple[str, str]:
     return verb, name
 
 
-@include_linebreaks
+@offset
 def mode_and_value() -> Tuple[str, str]:
     if not bullet:
         return "", ""
@@ -171,10 +177,27 @@ def mode_and_value() -> Tuple[str, str]:
         return "", ""
 
     if mode == DEBUG:
-        embed(colors="neutral")
+        shell()
         return "", ""
 
     shared.linebreak = False
     command = bullet.Input("Value to match: ")
     value = command.launch()
     return mode, value
+
+
+@no_type_check
+def shell():
+    linebreak()
+
+    pomace = import_module("pomace")
+    globals().update(
+        {name: getattr(pomace.models, name) for name in pomace.models.__all__}
+    )
+    globals().update(
+        {name: getattr(pomace.types, name) for name in pomace.types.__all__}
+    )
+    auto = pomace.models.auto
+
+    page = auto()  # pylint: disable=unused-variable
+    embed(colors="neutral")
