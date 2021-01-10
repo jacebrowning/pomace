@@ -85,7 +85,8 @@ class Action:
         return [x for x in sorted(self.locators, reverse=True) if x]
 
     def __post_init__(self):
-        if self.verb and len(self.locators) <= 1:
+        if self.verb and self._verb != Verb.TYPE and not self.sorted_locators:
+            log.info(f"Adding placeholder locators for {self}")
             for mode, value in self._verb.get_default_locators(self.name):
                 self.locators.append(Locator(mode, value))
 
@@ -119,11 +120,11 @@ class Action:
 
     def _trying_locators(self, *args, **kwargs) -> bool:
         if self._verb == Verb.TYPE:
-            if self.name.count("_") == 1:
-                # TODO: Add a test for this
-                name1, name2 = self.name.split("_")
-                modifier = getattr(Keys, name1.upper())
-                key = getattr(Keys, name2.upper())
+            if "_" in self.name:
+                names = self.name.split("_")
+                assert len(names) == 2, "Multiple modifier keys not supported"
+                modifier = getattr(Keys, names[0].upper())
+                key = getattr(Keys, names[-1].upper())
                 function = (
                     ActionChains(shared.browser.driver)
                     .key_down(modifier)
@@ -169,7 +170,7 @@ class Action:
             self._verb.post_action(previous_url, delay, wait)
             return True
 
-    def clean(self, *, force: bool = False) -> int:
+    def clean(self, page, *, force: bool = False) -> int:
         unused_locators = []
         remove_unused_locators = force
 
@@ -179,12 +180,12 @@ class Action:
             if locator.uses >= 99:
                 remove_unused_locators = True
 
-        log.debug(f"Found {len(unused_locators)} unused locators for {self}")
+        log.debug(f"Found {len(unused_locators)} unused locators for {self} on {page}")
         if not remove_unused_locators:
             return 0
 
         if unused_locators:
-            log.info(f"Cleaning up locators for {self}")
+            log.info(f"Cleaning up locators for {self} on {page}")
             for locator in unused_locators:
                 log.info(f"Removed unused {locator}")
                 self.locators.remove(locator)
@@ -337,6 +338,7 @@ class Page:
             else:
                 add_placeholder = False
         if add_placeholder:
+            log.info(f"Adding placeholder action for {self}")
             self.actions.append(Action())
         return names
 
@@ -392,7 +394,7 @@ class Page:
                 self.actions.remove(action)
 
         for action in self.actions:
-            count += action.clean(force=force)
+            count += action.clean(self, force=force)
 
         if count or force:
             self.datafile.save()

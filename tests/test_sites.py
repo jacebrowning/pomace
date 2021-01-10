@@ -7,6 +7,7 @@ from pomace.models import Page
 def test_locator_uses_are_persisted(expect, browser):
     page = Page.at("https://www.wikipedia.org")
     page.actions = []
+    page.datafile.save()
     page.fill_search("foobar")
 
     page = Page.at("https://www.wikipedia.org")
@@ -22,6 +23,17 @@ def test_type_actions_are_supported(expect, browser):
     page = Page.at("https://www.wikipedia.org")
 
     page.fill_search("foobar")
+    page.type_enter()
+
+    expect(shared.browser.url) == "https://en.wikipedia.org/wiki/Foobar"
+
+
+def test_modifier_keys_are_supported(expect, browser):
+    page = Page.at("https://www.wikipedia.org")
+
+    page.fill_search("foobar")
+    page.type_tab()
+    page.type_shift_tab()
     page.type_enter()
 
     expect(shared.browser.url) == "https://en.wikipedia.org/wiki/Foobar"
