@@ -86,9 +86,12 @@ class Action:
 
     def __post_init__(self):
         if self.verb and self._verb != Verb.TYPE and not self.sorted_locators:
-            log.info(f"Adding placeholder locators for {self}")
-            for mode, value in self._verb.get_default_locators(self.name):
-                self.locators.append(Locator(mode, value))
+            if settings.dev:
+                log.info(f"Adding placeholder locators for {self}")
+                for mode, value in self._verb.get_default_locators(self.name):
+                    self.locators.append(Locator(mode, value))
+            else:
+                log.debug("Placeholder locators are disabled")
 
     def __str__(self):
         return f"{self.verb}_{self.name}"
@@ -339,8 +342,11 @@ class Page:
             else:
                 add_placeholder = False
         if add_placeholder:
-            log.info(f"Adding placeholder action for {self}")
-            self.actions.append(Action())
+            if settings.dev:
+                log.info(f"Adding placeholder action for {self}")
+                self.actions.append(Action())
+            else:
+                log.debug("Placholder actions are disabled")
         return names
 
     def __getattr__(self, value: str) -> Action:
@@ -357,9 +363,14 @@ class Page:
             if Verb.validate(verb, name):
                 action = Action(verb, name)
                 setattr(
-                    action, "datafile", mapper.create_mapper(action, root=self.datafile)
+                    action,
+                    "datafile",
+                    mapper.create_mapper(action, root=self.datafile),
                 )
-                self.actions.append(action)
+                if settings.dev:
+                    self.actions.append(action)
+                else:
+                    log.debug("Automatic actions are disabled")
                 return action
 
         return object.__getattribute__(self, value)

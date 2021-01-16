@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.6.7"
+version = "0.6.8"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -43,7 +43,7 @@ python = "^3.7"
 # Interface
 cleo = "~0.8.1"
 bullet = "^2.1.0"
-ipython = "^7.12.0"
+ipython = "^7.19.0"
 jedi = "=0.17.2"  # temporary fix for https://github.com/ipython/ipython/issues/12740
 
 # Automation
@@ -76,7 +76,7 @@ pydocstyle = "*"
 pylint = "~2.6.0"
 
 # Testing
-pytest = "^5.3.2"
+pytest = "^5.4.3"
 pytest-cov = "*"
 pytest-describe = "^1.0"
 pytest-expecter = "^2.0"

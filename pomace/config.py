@@ -42,6 +42,8 @@ class Settings:
     url: str = ""
     secrets: List[Site] = field(default_factory=list)
 
+    dev = True
+
     def __getattr__(self, name):
         if name.startswith("_"):
             return object.__getattribute__(self, name)
