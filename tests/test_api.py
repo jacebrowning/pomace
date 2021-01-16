@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 
 import pomace
+from pomace.config import settings
 
 
 def describe_visit():
@@ -18,3 +19,17 @@ def describe_visit():
         page = pomace.visit("http://example.com", browser="chrome", headless=True)
         path = Path(__file__).parent / "sites" / "example.com" / "@" / "default.yml"
         expect(page.datafile.path) == path
+
+
+def describe_freeze():
+    def it_disables_automatic_actions(expect):
+        page = pomace.visit("http://example.com", browser="chrome", headless=True)
+        page.actions = []
+        page.datafile.save()
+
+        pomace.freeze()
+        try:
+            page.click_foobar()
+            expect(dir(page)).excludes("click_foobar")
+        finally:
+            settings.dev = True

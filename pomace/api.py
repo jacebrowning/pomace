@@ -51,8 +51,9 @@ def prompt(*names):
 
 
 def freeze():
-    log.debug("Disabling interactive prompts")
+    log.debug("Disabling automatic actions and placeholder locators")
     prompts.bullet = None
+    settings.dev = False
 
 
 def clean():
