@@ -11,8 +11,10 @@ def describe_verb():
             expect(locators) == [
                 ("text", "Send Email"),
                 ("text", "Send email"),
+                ("text", "send email"),
                 ("value", "Send Email"),
                 ("value", "Send email"),
+                ("value", "send email"),
             ]
 
         def when_fill(expect):

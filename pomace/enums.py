@@ -62,8 +62,10 @@ class Verb(Enum):
         if self is self.CLICK:
             yield Mode.TEXT.value, inflection.titleize(name)
             yield Mode.TEXT.value, inflection.humanize(name)
+            yield Mode.TEXT.value, name.replace("_", " ")
             yield Mode.VALUE.value, inflection.titleize(name)
             yield Mode.VALUE.value, inflection.humanize(name)
+            yield Mode.VALUE.value, name.replace("_", " ")
         elif self in {self.FILL, self.SELECT}:
             yield Mode.NAME.value, name
             yield Mode.NAME.value, inflection.dasherize(name)
@@ -71,6 +73,15 @@ class Verb(Enum):
             yield Mode.ID.value, inflection.dasherize(name)
             yield Mode.CSS.value, f'[aria-label="{inflection.titleize(name)}"]'
             yield Mode.ID.value, inflection.titleize(name).replace(" ", "")
+
+    def pre_action(self):
+        if self is self.CLICK:
+            shared.browser.execute_script(
+                """
+                Array.from(document.querySelectorAll('a[target="_blank"]'))
+                .forEach(link => link.removeAttribute('target'));
+                """
+            )
 
     def post_action(
         self,
