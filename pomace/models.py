@@ -204,8 +204,8 @@ class Action:
 
 @datafile
 class Locators:
-    inclusions: List[Locator]
-    exclusions: List[Locator]
+    inclusions: List[Locator] = field(default_factory=lambda: [Locator()])
+    exclusions: List[Locator] = field(default_factory=lambda: [Locator()])
 
     @property
     def sorted_inclusions(self) -> List[Locator]:
@@ -261,7 +261,7 @@ class Page:
     path: str = URL.ROOT
     variant: str = "default"
 
-    locators: Locators = field(default_factory=lambda: Locators([], []))
+    locators: Locators = field(default_factory=Locators)
     actions: List[Action] = field(default_factory=lambda: [Action()])
 
     @classmethod
@@ -347,7 +347,7 @@ class Page:
                 log.info(f"Adding placeholder action for {self}")
                 self.actions.append(Action())
             else:
-                log.debug("Placholder actions are disabled")
+                log.debug("Placeholder actions are disabled")
         return names
 
     def __getattr__(self, value: str) -> Action:
