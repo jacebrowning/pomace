@@ -159,6 +159,7 @@ class Action:
         previous_url = shared.browser.url
         delay = kwargs.pop("delay", None)
         wait = kwargs.pop("wait", None)
+        self._verb.pre_action()
         try:
             function(*args, **kwargs)
         except ElementDoesNotExist as e:

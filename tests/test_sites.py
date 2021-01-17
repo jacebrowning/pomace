@@ -1,5 +1,7 @@
 # pylint: disable=unused-argument,expression-not-assigned
 
+from contextlib import suppress
+
 from pomace import shared
 from pomace.models import Page
 
@@ -51,10 +53,21 @@ def test_unused_actions_are_removed_on_forced_cleanup(expect, browser):
 
 def test_multiple_indices_are_tried(expect, browser):
     page = Page.at("https://www.mtggoldfish.com/metagame/standard#paper")
-    if hasattr(page, "click_gruul_adventures"):
+    with suppress(AttributeError):
         page.click_gruul_adventures.locators = []
         page.datafile.save()
 
     page.click_gruul_adventures()
 
     expect(page.click_gruul_adventures.sorted_locators[0].index) == 1
+
+
+def test_links_are_opened_in_the_same_window(expect, browser):
+    page = Page.at("https://share.michiganelections.io/elections/41/precincts/1209/")
+    with suppress(AttributeError):
+        page.click_official_ballot.locators = []
+        page.datafile.save()
+
+    page = page.click_official_ballot()
+
+    expect(page.url) == "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1828/683/"
