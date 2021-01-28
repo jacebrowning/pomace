@@ -51,7 +51,8 @@ def browser_if_unset():
         return
 
     if "CI" in os.environ or not bullet:
-        settings.browser.name = os.getenv("BROWSER", "firefox")
+        value = os.getenv("BROWSER") or browser.NAMES[0]
+        settings.browser.name = value.lower()
         return
 
     shared.linebreak = False
@@ -60,8 +61,7 @@ def browser_if_unset():
         bullet=" ● ",
         choices=browser.NAMES,
     )
-    value = command.launch()
-    settings.browser.name = value.lower()
+    settings.browser.name = command.launch()
 
 
 @offset
