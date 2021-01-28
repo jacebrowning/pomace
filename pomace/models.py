@@ -84,6 +84,13 @@ class Action:
     def sorted_locators(self) -> List[Locator]:
         return [x for x in sorted(self.locators, reverse=True) if x]
 
+    @property
+    def locator(self) -> Locator:
+        try:
+            return self.sorted_locators[0]
+        except IndexError:
+            return Locator("id", "placeholder")
+
     def __post_init__(self):
         if self.verb and self._verb != Verb.TYPE and not self.sorted_locators:
             if settings.dev:
