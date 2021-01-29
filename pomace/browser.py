@@ -22,6 +22,10 @@ def launch() -> Browser:
     if not settings.browser.name:
         sys.exit("No browser specified")
 
+    if settings.browser.name == "open":
+        settings.browser.name = NAMES[0]
+
+    settings.browser.name = settings.browser.name.lower()
     log.info(f"Launching browser: {settings.browser.name}")
 
     try:
