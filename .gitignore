@@ -1,6 +1,5 @@
 sites
 pomace.yml
-geckodriver.log
 
 # Temporary Python files
 *.pyc
