@@ -41,6 +41,11 @@ def quit_browser(*, silence_logging: bool = False) -> bool:
         else:
             did_quit = True
 
+    logfile = Path("geckodriver.log")
+    if logfile.exists():
+        log.debug(f"Deleting {logfile}")
+        logfile.unlink()
+
     return did_quit
 
 
