@@ -9,6 +9,14 @@ import pomace
 from pomace.config import settings
 
 
+def test_package_contents(expect):
+    names = [name for name in dir(pomace) if not name.startswith("_")]
+    expect(names).contains("auto")
+    expect(names).contains("Page")
+    expect(names).contains("visit")
+    expect(names).excludes("get_distribution")
+
+
 def describe_visit():
     def it_launches_a_browser(expect):
         page = pomace.visit("http://example.com", browser="chrome", headless=True)

@@ -6,10 +6,19 @@ import log
 
 from . import models, prompts, types, utils
 from .config import settings
-from .models import auto
+from .models import Page, auto
 
 
-__all__ = ["auto", "clean", "fake", "freeze", "log", "prompt", "visit"]
+__all__ = [
+    "auto",
+    "clean",
+    "fake",
+    "freeze",
+    "log",
+    "Page",
+    "prompt",
+    "visit",
+]
 
 
 fake = types.Fake()
