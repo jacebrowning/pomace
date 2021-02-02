@@ -10,6 +10,7 @@ from selenium.common.exceptions import (
 )
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
+from splinter import Browser
 from splinter.driver.webdriver import WebDriverElement
 from splinter.exceptions import ElementDoesNotExist
 
@@ -286,6 +287,10 @@ class Page:
             kwargs["variant"] = variant
 
         return cls(**kwargs)  # type: ignore
+
+    @property
+    def browser(self) -> Browser:
+        return shared.browser
 
     @property
     def url(self) -> URL:
