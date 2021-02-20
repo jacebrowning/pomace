@@ -21,7 +21,7 @@ python3 -m pip install --upgrade pomace && python3 -m pomace run
 or if you have Homebrew:
 
 ```
-brew install pipx && pipx run --no-cache pomace run
+brew install pipx; pipx run --no-cache pomace run
 ```
 
 ## Installation
