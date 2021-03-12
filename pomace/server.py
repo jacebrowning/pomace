@@ -13,6 +13,11 @@ def index():
     return redirect("/" + page.domain)
 
 
+@app.route("/favicon.ico")
+def favicon():
+    return ("", 204)
+
+
 @app.route("/<path:domain>")
 def pomace(domain: str):
     url = "https://" + domain
