@@ -67,6 +67,10 @@ def describe_action():
         def it_includes_the_verb_and_name(expect, action):
             expect(str(action)) == "fill_email"
 
+    def describe_humanized():
+        def it_describes_the_action(expect, action):
+            expect(action.humanized) == "Filling email"
+
     def describe_bool():
         def it_is_false_when_placeholder(expect, action):
             expect(bool(action)) == True

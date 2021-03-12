@@ -34,6 +34,10 @@ class Verb(Enum):
     CHOOSE = "choose"
     TYPE = "type"
 
+    @property
+    def humanized(self) -> str:
+        return (self.value.capitalize() + "ing").replace("eing", "ing")
+
     @classmethod
     def validate(cls, value: str, name: str) -> bool:
         values = [enum.value for enum in cls]

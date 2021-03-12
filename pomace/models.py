@@ -82,6 +82,10 @@ class Action:
     locators: List[Locator] = field(default_factory=lambda: [Locator()])
 
     @property
+    def humanized(self) -> str:
+        return self._verb.humanized + " " + self.name.replace("_", " ")
+
+    @property
     def sorted_locators(self) -> List[Locator]:
         return [x for x in sorted(self.locators, reverse=True) if x]
 
@@ -391,13 +395,19 @@ class Page:
     def __contains__(self, value):
         return value in self.text
 
-    def perform(self, name: str) -> Tuple["Page", bool]:
+    def perform(self, name: str, value: str = "", _logger=None) -> Tuple["Page", bool]:
+        _logger = _logger or log
         action = getattr(self, name)
         if action.verb in {"fill", "select"}:
-            value = settings.get_secret(action.name) or prompts.named_value(action.name)
-            settings.update_secret(action.name, value)
+            if not value:
+                value = settings.get_secret(action.name) or prompts.named_value(
+                    action.name
+                )
+                settings.update_secret(action.name, value)
+            _logger.info(f"{action.humanized} with {value!r}")
             page = action(value, _page=self)
         else:
+            _logger.info(f"{action.humanized}")
             page = action(_page=self)
         return page, page != self
 
