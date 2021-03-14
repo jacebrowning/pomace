@@ -137,9 +137,16 @@ class ServeCommand(BaseCommand):
         {--debug : Run the server in debug mode}
     """
 
-    def run_loop(self):
+    def handle(self):
+        self.configure_logging()
+        self.set_directory()
+        self.update_settings()
         prompts.bullet = None
-        server.app.run(debug=self.option("debug"))
+        utils.locate_models()
+        try:
+            server.app.run(debug=self.option("debug"))
+        finally:
+            utils.quit_browser()
 
 
 class CleanCommand(BaseCommand):

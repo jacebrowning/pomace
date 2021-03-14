@@ -40,6 +40,7 @@ def quit_browser(*, silence_logging: bool = False) -> bool:
             log.debug(e)
         else:
             did_quit = True
+        shared.browser = None
 
     logfile = Path("geckodriver.log")
     if logfile.exists():

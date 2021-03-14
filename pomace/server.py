@@ -1,16 +1,10 @@
 from flask import redirect, request
 from flask_api import FlaskAPI
 
-from . import models
+from . import models, utils
 
 
 app = FlaskAPI("Pomace")
-
-
-@app.route("/")
-def index():
-    page = models.auto()
-    return redirect("/" + page.domain)
 
 
 @app.route("/favicon.ico")
@@ -20,6 +14,8 @@ def favicon():
 
 @app.route("/<path:domain>")
 def pomace(domain: str):
+    utils.launch_browser()
+
     url = "https://" + domain
     page = models.Page.at(url)
 
@@ -30,8 +26,13 @@ def pomace(domain: str):
         domain = page.url.value.split("://", 1)[-1]
         return redirect("/" + domain)
 
-    return {
+    data = {
         "page": str(page),
         "actions": [str(a) for a in page.actions if a],
         "html": page.text,
     }
+
+    if not app.debug:
+        utils.quit_browser()
+
+    return data
