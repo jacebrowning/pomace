@@ -6,7 +6,7 @@ from importlib import reload
 import log
 from cleo import Application, Command
 
-from . import models, prompts, utils
+from . import models, prompts, server, utils
 from .config import settings
 
 
@@ -30,6 +30,7 @@ class BaseCommand(Command):  # pragma: no cover
         log.reset()
         log.init(verbosity=self.io.verbosity + 1)
         log.silence("datafiles", allow_warning=True)
+        log.silence("urllib3.connectionpool", allow_error=True)
 
     def set_directory(self):
         if self.option("root"):
@@ -123,6 +124,31 @@ class RunCommand(BaseCommand):  # pragma: no cover
         prompts.linebreak(force=True)
 
 
+class ServeCommand(BaseCommand):
+    """
+    Run pomace in service mode
+
+    serve
+        {domain? : Starting domain for the automation}
+        {--b|browser= : Browser to use for automation}
+        {--d|headless : Run the specified browser in a headless mode}
+        {--p|prompt=* : Prompt for secrets before running}
+        {--r|root= : Path to directory to containing models}
+        {--debug : Run the server in debug mode}
+    """
+
+    def handle(self):
+        self.configure_logging()
+        self.set_directory()
+        self.update_settings()
+        prompts.bullet = None
+        utils.locate_models()
+        try:
+            server.app.run(debug=self.option("debug"))
+        finally:
+            utils.quit_browser()
+
+
 class CleanCommand(BaseCommand):
     """
     Remove all unused actions and locators
@@ -148,4 +174,5 @@ application = Application()
 application.add(CloneCommand())
 application.add(ShellCommand())
 application.add(RunCommand())
+application.add(ServeCommand())
 application.add(CleanCommand())
