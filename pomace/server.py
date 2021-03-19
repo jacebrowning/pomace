@@ -7,12 +7,12 @@ from . import models, utils
 app = FlaskAPI("Pomace")
 
 
-@app.route("/favicon.ico")
-def favicon():
-    return ("", 204)
+@app.route("/")
+def index():
+    return redirect("/sites/example.com")
 
 
-@app.route("/<path:domain>")
+@app.route("/sites/<path:domain>")
 def pomace(domain: str):
     utils.launch_browser()
 
@@ -24,7 +24,7 @@ def pomace(domain: str):
 
     if request.args:
         domain = page.url.value.split("://", 1)[-1]
-        return redirect("/" + domain)
+        return redirect("/sites/" + domain)
 
     data = {
         "page": str(page),
