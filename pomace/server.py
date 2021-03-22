@@ -1,4 +1,4 @@
-from flask import redirect, request
+from flask import redirect, request, url_for
 from flask_api import FlaskAPI
 
 from . import models, utils
@@ -22,14 +22,13 @@ def pomace(domain: str):
     for action, value in request.args.items():
         page, _updated = page.perform(action, value, _logger=app.logger)
 
-    if request.args:
-        domain = page.url.value.split("://", 1)[-1]
-        return redirect("/sites/" + domain)
-
+    domain = page.url.value.split("://", 1)[-1]
     data = {
-        "page": str(page),
-        "actions": [str(a) for a in page.actions if a],
+        "id": sum(ord(c) for c in page.text),
+        "url": str(page.url),
         "html": page.text,
+        "_next": url_for(".pomace", domain=domain, _external=True),
+        "_actions": [str(a) for a in page.actions if a],
     }
 
     if not app.debug:

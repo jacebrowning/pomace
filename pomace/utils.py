@@ -6,6 +6,8 @@ from pathlib import Path
 import log
 from gitman.decorators import preserve_cwd
 from gitman.models import Source
+from selenium.common.exceptions import WebDriverException
+from urllib3.exceptions import HTTPError
 
 from . import browser, shared
 from .config import settings
@@ -14,12 +16,20 @@ from .config import settings
 def launch_browser(delay: float = 0.0, *, restore_previous_url: bool = True) -> bool:
     did_launch = False
 
+    if shared.browser:
+        try:
+            log.debug(f"Current browser windows: {shared.browser.windows}")
+            log.debug(f"Current browser URL: {shared.browser.url}")
+        except (WebDriverException, HTTPError) as e:
+            log.warn(str(e).strip())
+            shared.browser = None
+
     if not shared.browser:
         shared.browser = browser.launch()
         browser.resize(shared.browser)
         did_launch = True
 
-    if restore_previous_url:
+    if restore_previous_url and settings.url:
         shared.browser.visit(settings.url)
         time.sleep(delay)
 
