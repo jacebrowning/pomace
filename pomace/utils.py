@@ -19,7 +19,7 @@ def launch_browser(delay: float = 0.0) -> bool:
         browser.resize(shared.browser)
         did_launch = True
 
-    shared.browser.visit(settings.url)
+    shared.browser.visit(settings.url or "http://example.com")
     time.sleep(delay)
 
     return did_launch
