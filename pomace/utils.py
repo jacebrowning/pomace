@@ -11,7 +11,7 @@ from . import browser, shared
 from .config import settings
 
 
-def launch_browser(delay: float = 0.0) -> bool:
+def launch_browser(delay: float = 0.0, *, restore_previous_url: bool = True) -> bool:
     did_launch = False
 
     if not shared.browser:
@@ -19,8 +19,9 @@ def launch_browser(delay: float = 0.0) -> bool:
         browser.resize(shared.browser)
         did_launch = True
 
-    shared.browser.visit(settings.url or "http://example.com")
-    time.sleep(delay)
+    if restore_previous_url:
+        shared.browser.visit(settings.url)
+        time.sleep(delay)
 
     return did_launch
 

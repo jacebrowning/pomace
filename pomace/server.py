@@ -14,7 +14,7 @@ def index():
 
 @app.route("/sites/<path:domain>")
 def pomace(domain: str):
-    utils.launch_browser()
+    utils.launch_browser(restore_previous_url=False)
 
     url = "https://" + domain
     page = models.Page.at(url)
