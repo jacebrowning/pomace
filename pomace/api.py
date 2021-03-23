@@ -1,4 +1,3 @@
-import atexit
 import inspect
 from typing import Optional
 
@@ -44,10 +43,7 @@ def visit(
     if headless is not None:
         settings.browser.headless = headless
 
-    if utils.launch_browser(delay):
-        log.silence("urllib3.connectionpool")
-        atexit.register(utils.quit_browser, silence_logging=True)
-
+    utils.launch_browser(delay, silence_logging=True)
     utils.locate_models(caller=inspect.currentframe())
 
     return models.auto()

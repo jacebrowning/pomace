@@ -1,6 +1,5 @@
 # pylint: disable=unused-import,import-outside-toplevel
 
-import atexit as _atexit
 
 import pomace
 from pomace import prompts as _prompts, utils as _utils
@@ -34,7 +33,6 @@ def _display_settings():
 
 
 if __name__ == "__main__":
-    _atexit.register(_utils.quit_browser)
     _configure_logging()
     _display_settings()
     _prompts.browser_if_unset()

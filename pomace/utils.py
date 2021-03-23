@@ -1,3 +1,4 @@
+import atexit
 import inspect
 import os
 import time
@@ -13,8 +14,16 @@ from . import browser, shared
 from .config import settings
 
 
-def launch_browser(delay: float = 0.0, *, restore_previous_url: bool = True) -> bool:
+def launch_browser(
+    delay: float = 0.0,
+    *,
+    silence_logging: bool = False,
+    restore_previous_url: bool = True,
+) -> bool:
     did_launch = False
+
+    if silence_logging:
+        log.silence("urllib3.connectionpool")
 
     if shared.browser:
         try:
@@ -26,6 +35,7 @@ def launch_browser(delay: float = 0.0, *, restore_previous_url: bool = True) -> 
 
     if not shared.browser:
         shared.browser = browser.launch()
+        atexit.register(quit_browser, silence_logging=silence_logging)
         browser.resize(shared.browser)
         did_launch = True
 
