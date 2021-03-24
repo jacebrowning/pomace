@@ -1,4 +1,5 @@
 from contextlib import suppress
+from functools import cached_property
 from typing import Callable, List, Optional, Tuple
 
 import log
@@ -292,17 +293,33 @@ class Page:
 
         return cls(**kwargs)  # type: ignore
 
-    @property
-    def browser(self) -> Browser:
-        return shared.browser
+    @cached_property
+    def identity(self) -> int:
+        return sum(ord(c) for c in self.html.prettify())
 
-    @property
+    @cached_property
     def url(self) -> URL:
         return URL(self.domain, self.path)
 
-    @property
+    @cached_property
     def exact(self) -> bool:
         return "{" not in self.path
+
+    @cached_property
+    def title(self) -> str:
+        return self.browser.title
+
+    @cached_property
+    def text(self) -> str:
+        return self.browser.html
+
+    @cached_property
+    def html(self) -> BeautifulSoup:
+        return BeautifulSoup(self.text, "html.parser")
+
+    @property
+    def browser(self) -> Browser:
+        return shared.browser
 
     @property
     def active(self) -> bool:
@@ -331,14 +348,6 @@ class Page:
 
         log.debug(f"{self!r} is active")
         return True
-
-    @property
-    def text(self) -> str:
-        return shared.browser.html
-
-    @property
-    def html(self) -> BeautifulSoup:
-        return BeautifulSoup(self.text, "html.parser")
 
     def __repr__(self):
         if self.variant == "default":
