@@ -54,14 +54,6 @@ class Verb(Enum):
     def updates(self) -> bool:
         return self not in {self.CLICK, self.TYPE}
 
-    @property
-    def wait(self) -> float:
-        if self in {self.CLICK}:
-            return 2.0
-        if self in {self.TYPE}:
-            return 1.0
-        return 0.0
-
     def get_default_locators(self, name: str) -> Iterator[Tuple[str, str]]:
         if self is self.CLICK:
             yield Mode.TEXT.value, inflection.titleize(name)
@@ -98,7 +90,7 @@ class Verb(Enum):
             time.sleep(delay)
 
         if wait is None:
-            wait = self.wait
+            wait = 0.0 if self.updates else 3.0
         if wait:
             log.debug(f"Waiting {wait} seconds for URL to change: {previous_url}")
 
@@ -110,4 +102,5 @@ class Verb(Enum):
             current_url = shared.browser.url
             if current_url != previous_url:
                 log.debug(f"URL changed after {elapsed} seconds: {current_url}")
+                time.sleep(delay or 0.5)
                 break
