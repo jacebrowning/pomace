@@ -292,23 +292,33 @@ class Page:
         if variant:
             kwargs["variant"] = variant
 
-        return cls(**kwargs)  # type: ignore
+        page = cls(**kwargs)  # type: ignore
+        log.debug(f"Loaded {page.url}: {page.title} ({page.identity})")
+        return page
 
-    @cached_property
-    def url(self) -> URL:
+    @property
+    def url_pattern(self) -> URL:
         return URL(self.domain, self.path)
 
-    @cached_property
+    @property
     def exact(self) -> bool:
         return "{" not in self.path
 
+    @property
+    def browser(self) -> Browser:
+        return shared.browser
+
     @cached_property
-    def identity(self) -> int:
-        return sum(ord(c) for c in self.text)
+    def url(self) -> str:
+        return self.browser.url
 
     @cached_property
     def title(self) -> str:
         return self.browser.title
+
+    @cached_property
+    def identity(self) -> int:
+        return sum(ord(c) for c in self.text)
 
     @cached_property
     def text(self) -> str:
@@ -324,14 +334,10 @@ class Page:
         return BeautifulSoup(self.browser.html, "html.parser")
 
     @property
-    def browser(self) -> Browser:
-        return shared.browser
-
-    @property
     def active(self) -> bool:
         log.debug(f"Determining if {self!r} is active")
 
-        if self.url != URL(shared.browser.url):
+        if self.url_pattern != URL(shared.browser.url):
             log.debug(f"{self!r} is inactive: URL not matched")
             return False
 
@@ -357,13 +363,13 @@ class Page:
 
     def __repr__(self):
         if self.variant == "default":
-            return f"Page.at('{self.url.value}')"
-        return f"Page.at('{self.url.value}', variant='{self.variant}')"
+            return f"Page.at('{self.url_pattern}')"
+        return f"Page.at('{self.url_pattern}', variant='{self.variant}')"
 
     def __str__(self):
         if self.variant == "default":
-            return f"{self.url}"
-        return f"{self.url} ({self.variant})"
+            return f"{self.url_pattern}"
+        return f"{self.url_pattern} ({self.variant})"
 
     def __dir__(self):
         names = []

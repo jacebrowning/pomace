@@ -22,11 +22,13 @@ def pomace(domain: str):
     for action, value in request.args.items():
         page, _updated = page.perform(action, value, _logger=app.logger)
 
-    domain = page.url.value.split("://", 1)[-1]
+    domain = page.url.split("://", 1)[-1]
     data = {
-        "id": sum(ord(c) for c in page.text),
-        "url": str(page.url),
-        "html": page.text,
+        "id": page.identity,
+        "url": page.url,
+        "title": page.title,
+        "html": page.html.prettify(),
+        "text": page.text,
         "_next": url_for(".pomace", domain=domain, _external=True),
         "_actions": [str(a) for a in page.actions if a],
     }

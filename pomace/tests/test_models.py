@@ -17,7 +17,7 @@ def action():
 
 
 @pytest.fixture
-def page():
+def page(mockbrowser):
     return Page("example.com", "/foo/bar")
 
 
