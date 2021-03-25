@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.7a8"
+version = "0.7a9"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -81,6 +81,7 @@ pytest-cov = "*"
 pytest-describe = { git = "https://github.com/pytest-dev/pytest-describe", rev = "9014bf3ee564518aad3622b5f035f7ca6139e398" }
 pytest-expecter = "^2.0"
 pytest-mock = "^2.0"
+pytest-vcr = "^1.0.2"
 pytest-random = "*"
 freezegun = "*"
 

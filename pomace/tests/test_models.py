@@ -1,6 +1,7 @@
 # pylint: disable=expression-not-assigned,unused-variable,redefined-outer-name,unused-argument
 
 import pytest
+import requests
 
 from ..models import Action, Locator, Page
 
@@ -173,3 +174,16 @@ def describe_page():
             expect(page.clean()) == 4
             expect(len(page.locators.inclusions)) == 1
             expect(len(page.locators.exclusions)) == 1
+
+    def describe_properties():
+        @pytest.mark.vcr()
+        def it_computes_values_based_on_the_html(expect, page, mockbrowser):
+            mockbrowser.html = requests.get("http://example.com").text
+            expect(page.text) == (
+                "Example Domain\n"
+                "Example Domain\n"
+                "This domain is for use in illustrative examples in documents. You may use this\n"
+                "domain in literature without prior coordination or asking for permission.\n"
+                "More information..."
+            )
+            expect(page.identity) == 19078

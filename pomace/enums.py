@@ -90,7 +90,7 @@ class Verb(Enum):
             time.sleep(delay)
 
         if wait is None:
-            wait = 0.0 if self.updates else 3.0
+            wait = 0.0 if self.updates else 5.0
         if wait:
             log.debug(f"Waiting {wait} seconds for URL to change: {previous_url}")
 

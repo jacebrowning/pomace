@@ -39,12 +39,14 @@ class MockBrowser:
 
 @pytest.fixture
 def mockbrowser(monkeypatch):
-    monkeypatch.setattr(shared, "browser", MockBrowser())
+    browser = MockBrowser()
+    monkeypatch.setattr(shared, "browser", browser)
+    return browser
 
 
 def pytest_configure(config):
     log.init(debug=True)
-    log.silence("faker")
+    log.silence("faker", "vcr")
 
     terminal = config.pluginmanager.getplugin("terminal")
     terminal.TerminalReporter.showfspath = False

@@ -1,4 +1,5 @@
 from contextlib import suppress
+from copy import copy
 from functools import cached_property
 from typing import Callable, List, Optional, Tuple
 
@@ -294,10 +295,6 @@ class Page:
         return cls(**kwargs)  # type: ignore
 
     @cached_property
-    def identity(self) -> int:
-        return sum(ord(c) for c in self.html.prettify())
-
-    @cached_property
     def url(self) -> URL:
         return URL(self.domain, self.path)
 
@@ -306,16 +303,25 @@ class Page:
         return "{" not in self.path
 
     @cached_property
+    def identity(self) -> int:
+        return sum(ord(c) for c in self.text)
+
+    @cached_property
     def title(self) -> str:
         return self.browser.title
 
     @cached_property
     def text(self) -> str:
-        return self.browser.html
+        html = copy(self.html)
+        for element in html(["script", "style"]):
+            element.extract()
+        lines = (line.strip() for line in html.get_text().splitlines())
+        chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+        return "\n".join(chunk for chunk in chunks if chunk)
 
     @cached_property
     def html(self) -> BeautifulSoup:
-        return BeautifulSoup(self.text, "html.parser")
+        return BeautifulSoup(self.browser.html, "html.parser")
 
     @property
     def browser(self) -> Browser:
