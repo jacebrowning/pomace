@@ -60,6 +60,7 @@ faker = "^4.1.1"
 zipcodes = "^1.1.2"
 
 # Utilities
+cached-property = "^1.5.2" # needed for Python < 3.8
 beautifulsoup4 = "^4.8.2"
 inflection = "~0.4.0"
 minilog = "^2.0"
