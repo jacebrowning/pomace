@@ -2,7 +2,7 @@
 
 Dynamic page objects for browser automation.
 
-[![Unix Build Status](https://img.shields.io/travis/jacebrowning/pomace/main.svg?label=unix)](https://travis-ci.org/jacebrowning/pomace)
+[![Unix Build Status](https://img.shields.io/github/workflow/status/jacebrowning/pomace/main?label=unix)](https://github.com/jacebrowning/pomace/actions?query=branch%3Amain)
 [![Windows Build Status](https://img.shields.io/appveyor/ci/jacebrowning/pomace/main.svg?label=window)](https://ci.appveyor.com/project/jacebrowning/pomace)
 [![Coverage Status](https://img.shields.io/coveralls/jacebrowning/pomace/main.svg)](https://coveralls.io/r/jacebrowning/pomace)
 [![PyPI Version](https://img.shields.io/pypi/v/pomace.svg)](https://pypi.org/project/pomace)

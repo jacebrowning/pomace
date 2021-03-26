@@ -1,4 +1,4 @@
-name: Pomace
+name: main
 
 on: [push]
 
