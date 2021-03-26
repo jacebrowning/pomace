@@ -98,6 +98,10 @@ class Action:
         except IndexError:
             return Locator("id", "placeholder")
 
+    @property
+    def valid(self) -> bool:
+        return self.locator.uses >= 0
+
     def __post_init__(self):
         if self.verb and self._verb != Verb.TYPE and not self.sorted_locators:
             if settings.dev:
@@ -376,7 +380,8 @@ class Page:
         add_placeholder = True
         for action in self.actions:
             if action:
-                names.append(str(action))
+                if action.valid:
+                    names.append(str(action))
             else:
                 add_placeholder = False
         if add_placeholder:
