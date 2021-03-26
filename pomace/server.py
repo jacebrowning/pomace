@@ -1,3 +1,5 @@
+from urllib.parse import unquote
+
 from flask import redirect, request, url_for
 from flask_api import FlaskAPI
 
@@ -9,28 +11,31 @@ app = FlaskAPI("Pomace")
 
 @app.route("/")
 def index():
-    return redirect("/sites/example.com")
+    return redirect("/sites?url=http://example.com")
 
 
-@app.route("/sites/<path:domain>")
-def pomace(domain: str):
+@app.route("/sites")
+def pomace():
+    if "url" not in request.args:
+        return redirect("/")
+
     utils.launch_browser(restore_previous_url=False)
 
-    url = "https://" + domain
-    page = models.Page.at(url)
+    url = request.args.get("url")
+    page = models.Page.at(url)  # type: ignore
 
     for action, value in request.args.items():
-        page, _updated = page.perform(action, value, _logger=app.logger)
+        if "_" in action:
+            page, _updated = page.perform(action, value, _logger=app.logger)
 
-    domain = page.url.split("://", 1)[-1]
     data = {
         "id": page.identity,
         "url": page.url,
         "title": page.title,
         "html": page.html.prettify(),
         "text": page.text,
-        "_next": url_for(".pomace", domain=domain, _external=True),
-        "_actions": [str(a) for a in page.actions if a],
+        "_next": unquote(url_for(".pomace", url=page.url, _external=True)),
+        "_actions": dir(page),
     }
 
     if not app.debug:
