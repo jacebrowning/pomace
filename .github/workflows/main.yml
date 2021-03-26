@@ -35,8 +35,9 @@ jobs:
       run: make check
 
     - name: Test code
-      run: |
-        make test
-        pip install coveralls
-        coveralls
-        ocular
+      run: make test
+
+    - name: Upload coverage
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
