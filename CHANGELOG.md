@@ -1,3 +1,10 @@
+# 0.7 (2021-03-26)
+
+- Updated shutdown sequence to delete `geckodriver.log` automatically.
+- Changed `Page.text` to return just the extracted text from a page.
+- Added `Page.identity` as a checksum of the page's text.
+- Added an experimental `pomace serve` mode to invoke Pomace as a web API.
+
 # 0.6 (2021-01-02)
 
 - Renamed automatic page load function from `autopage()` to `auto()`.
