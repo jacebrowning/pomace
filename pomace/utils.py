@@ -63,13 +63,13 @@ def quit_browser(*, silence_logging: bool = False) -> bool:
             did_quit = True
         shared.browser = None
 
-    for logfile in [
-        Path("geckodriver.log").resolve(),
-        Path().resolve().parent / "geckodriver.log",
-    ]:
+    path = Path().resolve()
+    for _ in range(5):
+        logfile = path / "geckodriver.log"
         if logfile.exists():
             log.debug(f"Deleting {logfile}")
             logfile.unlink()
+        path = path.parent
 
     return did_quit
 
