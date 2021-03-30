@@ -34,6 +34,9 @@ class MockBrowser:
     def find_by_name(self, value):
         return [MockElement(f"mockelement:name={value}")]
 
+    def find_by_css(self, value):
+        return [MockElement(f"mockelement:css={value}")]
+
     links = MockLinks()
 
 
