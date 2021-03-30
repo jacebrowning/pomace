@@ -25,6 +25,6 @@ def describe_verb():
                 ("name", "first-name"),
                 ("id", "first_name"),
                 ("id", "first-name"),
-                ("css", '[aria-label="First Name"]'),
+                ("aria-label", "First Name"),
                 ("id", "FirstName"),
             ]

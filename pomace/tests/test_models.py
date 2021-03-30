@@ -44,8 +44,12 @@ def describe_locator():
             expect(locator.find()) == "mockelement:name=email"
 
         def it_can_find_links_by_partial_text(expect, mockbrowser, locator):
-            locator.mode = "partial_text"
+            locator.mode = "text (partial)"
             expect(locator.find()) == "mockelement:links.partial_text=email"
+
+        def it_can_find_links_by_aria_label(expect, mockbrowser, locator):
+            locator.mode = "aria-label"
+            expect(locator.find()) == 'mockelement:css=[aria-label="email"]'
 
     def describe_score():
         def it_updates_uses(expect, locator):

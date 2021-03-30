@@ -14,8 +14,9 @@ class Mode(Enum):
     NAME = "name"
     ID = "id"
     TEXT = "text"
-    PARTIAL_TEXT = "partial_text"
+    PARTIAL_TEXT = "text (partial)"  # extended
     VALUE = "value"
+    ARIA_LABEL = "aria-label"  # extended
     CSS = "css"
     TAG = "tag"
     XPATH = "xpath"
@@ -23,8 +24,15 @@ class Mode(Enum):
     @property
     def finder(self):
         if self is self.PARTIAL_TEXT:
-            return getattr(shared.browser.links, f"find_by_{self.value}")
+            return shared.browser.links.find_by_partial_text
+        if self is self.ARIA_LABEL:
+            return shared.browser.find_by_css
         return getattr(shared.browser, f"find_by_{self.value}")
+
+    def find(self, value):
+        if self is self.ARIA_LABEL:
+            value = f'[aria-label="{value}"]'
+        return self.finder(value)
 
 
 class Verb(Enum):
@@ -67,7 +75,7 @@ class Verb(Enum):
             yield Mode.NAME.value, inflection.dasherize(name)
             yield Mode.ID.value, name
             yield Mode.ID.value, inflection.dasherize(name)
-            yield Mode.CSS.value, f'[aria-label="{inflection.titleize(name)}"]'
+            yield Mode.ARIA_LABEL.value, inflection.titleize(name)
             yield Mode.ID.value, inflection.titleize(name).replace(" ", "")
 
     def pre_action(self):

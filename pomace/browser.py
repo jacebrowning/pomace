@@ -55,7 +55,7 @@ def resize(browser: Browser):
 
 def save_url(browser: Browser):
     if settings.browser != browser.url:
-        log.debug(f"Saving last browser url: {browser.url}")
+        log.debug(f"Saving last browser URL: {browser.url}")
         settings.url = browser.url
 
 

@@ -40,7 +40,7 @@ class Locator:
         return bool(self.mode and self.value)
 
     def find(self) -> Optional[WebDriverElement]:
-        elements = self._mode.finder(self.value)
+        elements = self._mode.find(self.value)
         index = self.index
         try:
             element = elements[index]
