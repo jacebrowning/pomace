@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.7.3"
+version = "0.7.4"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -91,7 +91,7 @@ coveragespace = "^4.1"
 
 # Documentation
 mkdocs = "^1.0"
-pygments = "*"
+pygments = "^2.7.4"
 
 # Tooling
 pyinstaller = "*"
