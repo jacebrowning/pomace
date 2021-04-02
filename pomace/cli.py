@@ -43,7 +43,10 @@ class BaseCommand(Command):  # pragma: no cover
         settings.browser.headless = self.option("headless")
 
         if self.argument("domain"):
-            settings.url = "https://" + self.argument("domain")
+            if "://" in self.argument("domain"):
+                settings.url = self.argument("domain")
+            else:
+                settings.url = "http://" + self.argument("domain")
 
 
 class CloneCommand(BaseCommand):
