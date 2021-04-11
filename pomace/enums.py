@@ -76,6 +76,7 @@ class Verb(Enum):
             yield Mode.ID.value, name
             yield Mode.ID.value, inflection.dasherize(name)
             yield Mode.ARIA_LABEL.value, inflection.titleize(name)
+            yield Mode.CSS.value, f'[placeholder="{inflection.titleize(name)}"]'
             yield Mode.ID.value, inflection.titleize(name).replace(" ", "")
 
     def pre_action(self):

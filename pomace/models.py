@@ -89,7 +89,11 @@ class Action:
 
     @property
     def sorted_locators(self) -> List[Locator]:
-        return [x for x in sorted(self.locators, reverse=True) if x]
+        locators = [x for x in sorted(self.locators, reverse=True) if x]
+        if len(locators) > 1 and locators[0].uses == 0 and locators[1].uses < 0:
+            log.debug("Trying new locator first")
+            return [locators[0]]
+        return locators
 
     @property
     def locator(self) -> Locator:

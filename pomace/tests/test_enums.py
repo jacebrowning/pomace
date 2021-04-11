@@ -26,5 +26,6 @@ def describe_verb():
                 ("id", "first_name"),
                 ("id", "first-name"),
                 ("aria-label", "First Name"),
+                ("css", '[placeholder="First Name"]'),
                 ("id", "FirstName"),
             ]
