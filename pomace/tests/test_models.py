@@ -76,6 +76,38 @@ def describe_action():
         def it_describes_the_action(expect, action):
             expect(action.humanized) == "Filling email"
 
+    def describe_sorted_locators():
+        def it_orders_by_use(expect, action):
+            action.locators = [
+                Locator("id", "email", uses=-2),
+                Locator("name", "email", uses=-3),
+                Locator("value", "email", uses=-1),
+            ]
+            modes = [locator.mode for locator in action.sorted_locators]
+            expect(modes) == ["value", "id", "name"]
+
+        def it_tries_new_locators_first(expect, action):
+            action.locators = [
+                Locator("name", "email", uses=-1),
+                Locator("id", "email", uses=0),
+            ]
+            expect(len(action.sorted_locators)) == 1
+            expect(action.locator.mode) == "id"
+
+        def it_only_includes_invalid_locators_when_no_other_options(expect, action):
+            action.locators = [
+                Locator("id", "email", uses=2),
+                Locator("name", "email", uses=3),
+                Locator("value", "email", uses=-1),
+            ]
+            modes = [locator.mode for locator in action.sorted_locators]
+            expect(modes) == ["name", "id"]
+
+    def describe_locator():
+        def it_returns_placeholder_when_no_locators_defined(expect, action):
+            action.locators = []
+            expect(action.locator.value) == "placeholder"
+
     def describe_bool():
         def it_is_false_when_placeholder(expect, action):
             expect(bool(action)) == True
