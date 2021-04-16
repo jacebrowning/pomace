@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.7.6"
+version = "0.7.7"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -58,6 +58,7 @@ parse = "^1.14.0"
 # Data
 faker = "^4.1.1"
 zipcodes = "^1.1.2"
+us = "^2.0.2"
 
 # Utilities
 cached-property = "^1.5.2" # needed for Python < 3.8

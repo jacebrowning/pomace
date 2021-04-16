@@ -1,5 +1,6 @@
 # pylint: disable=expression-not-assigned,unused-variable,redefined-outer-name,unused-argument
 
+import log
 import pytest
 
 from ..types import URL, Fake
@@ -119,6 +120,11 @@ def describe_person():
 
     def it_includes_name_in_email(expect, person):
         expect(person.email).icontains(person.last_name)
+
+    def it_includes_state_name_and_abbr(expect, person):
+        log.info(f"State: {person.state} ({person.state_abbr})")
+        expect(len(person.state)) >= 4
+        expect(len(person.state_abbr)) == 2
 
     @pytest.mark.parametrize(
         "name",

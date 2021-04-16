@@ -5,6 +5,7 @@ from urllib.parse import urlparse
 
 import faker
 import log
+import us
 import zipcodes
 from parse import parse
 
@@ -91,6 +92,7 @@ class Person:
     address: str
     city: str
     state: str
+    state_abbr: str
     county: str
     zip_code: str
 
@@ -125,6 +127,7 @@ class Person:
             email_address,
             place["address"],
             place["city"],
+            us.states.lookup(place["state"]).name,
             place["state"],
             place["county"],
             place["zip_code"],
