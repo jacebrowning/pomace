@@ -130,12 +130,14 @@ def describe_person():
         "name",
         [
             "address",
+            "birthday",
             "cell_phone",
             "county",
             "email",
             "honorific",
             "phone",
             "prefix",
+            "street_address",
             "zip",
         ],
     )

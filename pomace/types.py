@@ -72,11 +72,13 @@ class URL:
 
 
 ALIASES = {
+    "birthday": "date_of_birth",
     "cell_phone": "phone_number",
     "email_address": "email",
     "email": "email_address",
     "phone": "phone_number",
     "prefix": "honorific",
+    "street_address": "address",
     "zip_code": "postcode",
     "zip": "zip_code",
 }
@@ -89,6 +91,7 @@ class Person:
     honorific: str
     first_name: str
     last_name: str
+    date_of_birth: str
     phone_number: str
     email_address: str
     address: str
@@ -133,6 +136,7 @@ class Person:
             prefix,
             first_name,
             last_name,
+            fake.birthday,
             phone_number,
             email_address,
             place["address"],
@@ -180,3 +184,9 @@ class Fake:
     @property
     def person(self) -> Person:
         return Person.random(self)
+
+    @property
+    def birthday(self) -> str:
+        return self._generator.date_of_birth(minimum_age=18, maximum_age=80).strftime(
+            "%m/%d/%Y"
+        )
