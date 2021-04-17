@@ -81,6 +81,8 @@ ALIASES = {
     "zip": "zip_code",
 }
 
+STREETS = ["First", "Second", "Third", "Fourth", "Park", "Main"]
+
 
 @dataclass
 class Person:
@@ -110,15 +112,23 @@ class Person:
                 fake.first_name_male,
                 fake.last_name,
             )
+
         phone_number = str(random.randint(1000000000, 9999999999))
         email_address = f"{first_name}{last_name}@{fake.free_email_domain}".lower()
-        place = random.choice(zipcodes.filter_by())
-        number = random.randint(50, 200)
-        street = random.choice(["First", "Second", "Third", "Fourth", "Park", "Main"])
+
+        while True:
+            place = random.choice(zipcodes.filter_by())
+            state = us.states.lookup(place["state"])
+            if state and state.statehood_year:
+                break
+
         if random.random() < 0.75:
+            number = random.randint(50, 200)
+            street = random.choice(STREETS)
             place["address"] = f"{number} {street} St."
         else:
             place["address"] = fake.street_address
+
         return cls(
             prefix,
             first_name,
@@ -127,8 +137,8 @@ class Person:
             email_address,
             place["address"],
             place["city"],
-            us.states.lookup(place["state"]).name,
-            place["state"],
+            state.name,
+            state.abbr,
             place["county"],
             place["zip_code"],
         )
