@@ -242,7 +242,7 @@ colorama = "*"
 
 [[package]]
 name = "datafiles"
-version = "0.13b7"
+version = "0.13b8"
 description = "File-based ORM for dataclasses."
 category = "main"
 optional = false
@@ -254,7 +254,7 @@ classproperties = ">=0.1.3,<0.2.0"
 minilog = ">=2.0,<3.0"
 parse = ">=1.12,<2.0"
 PyYAML = ">=5.2,<6.0"
-"ruamel.yaml" = ">=0.16.10,<0.17.0"
+"ruamel.yaml" = ">=0.17.4,<0.18.0"
 tomlkit = ">=0.5.3,<0.6.0"
 typing-extensions = ">=3.7,<4.0"
 
@@ -1044,14 +1044,14 @@ dev = ["pytest"]
 
 [[package]]
 name = "ruamel.yaml"
-version = "0.16.12"
+version = "0.17.4"
 description = "ruamel.yaml is a YAML parser/emitter that supports roundtrip preservation of comments, seq/map flow style, and map key order"
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3"
 
 [package.dependencies]
-"ruamel.yaml.clib" = {version = ">=0.1.2", markers = "platform_python_implementation == \"CPython\" and python_version < \"3.9\""}
+"ruamel.yaml.clib" = {version = ">=0.1.2", markers = "platform_python_implementation == \"CPython\" and python_version < \"3.10\""}
 
 [package.extras]
 docs = ["ryd"]
@@ -1325,7 +1325,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "92783f64433ad3e735376ee673d606889230e49446d03835f0156fea51c077c6"
+content-hash = "efbb8d34c072f3531463cd3a5c019444b2bd87bd8d9551c9bd215f39a2de7358"
 
 [metadata.files]
 altgraph = [
@@ -1467,8 +1467,8 @@ crayons = [
     {file = "crayons-0.4.0.tar.gz", hash = "sha256:bd33b7547800f2cfbd26b38431f9e64b487a7de74a947b0fafc89b45a601813f"},
 ]
 datafiles = [
-    {file = "datafiles-0.13b7-py3-none-any.whl", hash = "sha256:521e2a1124f0a1a479b24dba0ed6fee701f7add7b6d4f860eeb0d2dd3496337c"},
-    {file = "datafiles-0.13b7.tar.gz", hash = "sha256:dabe46a1e3cce19089360a55d382c226afd2bd993c086fb92fa5a6a4d9d0c419"},
+    {file = "datafiles-0.13b8-py3-none-any.whl", hash = "sha256:5c1a04a071e46ca8c25f0a2ddb8bef167ee29e70e2c1293beee220061d54ff68"},
+    {file = "datafiles-0.13b8.tar.gz", hash = "sha256:a19a9c5322f068cc4e0d755d7a758414044d331c71c870cad1661ba2d301d87c"},
 ]
 decorator = [
     {file = "decorator-4.4.2-py2.py3-none-any.whl", hash = "sha256:41fa54c2a0cc4ba648be4fd43cff00aedf5b9465c9bf18d64325bc225f08f760"},
@@ -1899,8 +1899,8 @@ rope = [
     {file = "rope-0.18.0.tar.gz", hash = "sha256:786b5c38c530d4846aa68a42604f61b4e69a493390e3ca11b88df0fbfdc3ed04"},
 ]
 "ruamel.yaml" = [
-    {file = "ruamel.yaml-0.16.12-py2.py3-none-any.whl", hash = "sha256:012b9470a0ea06e4e44e99e7920277edf6b46eee0232a04487ea73a7386340a5"},
-    {file = "ruamel.yaml-0.16.12.tar.gz", hash = "sha256:076cc0bc34f1966d920a49f18b52b6ad559fbe656a0748e3535cf7b3f29ebf9e"},
+    {file = "ruamel.yaml-0.17.4-py3-none-any.whl", hash = "sha256:ac79fb25f5476e8e9ed1c53b8a2286d2c3f5dde49eb37dbcee5c7eb6a8415a22"},
+    {file = "ruamel.yaml-0.17.4.tar.gz", hash = "sha256:44bc6b54fddd45e4bc0619059196679f9e8b79c027f4131bb072e6a22f4d5e28"},
 ]
 "ruamel.yaml.clib" = [
     {file = "ruamel.yaml.clib-0.2.2-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:28116f204103cb3a108dfd37668f20abe6e3cafd0d3fd40dba126c732457b3cc"},
