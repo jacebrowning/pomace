@@ -13,12 +13,12 @@ ci: format check test mkdocs ## Run all tasks that determine CI status
 watch: install .clean-test ## Continuously run all CI tasks when files chanage
 	poetry run sniffer
 
-.PHONY: run ## Start the program
-run: install
-	poetry run python $(PACKAGE)/__main__.py run
+.PHONY: run
+run: install ## Start the program
+	poetry run python $(PACKAGE)/__main__.py
 
-.PHONY: ipython ## Launch an IPython session
-ipython: install
+.PHONY: shell
+shell: install ## Launch an IPython session
 	poetry run ipython --ipython-dir=notebooks
 
 # SYSTEM DEPENDENCIES #########################################################
@@ -130,9 +130,8 @@ $(MKDOCS_INDEX): docs/requirements.txt mkdocs.yml docs/*.md
 	poetry run mkdocs build --clean --strict
 
 docs/requirements.txt: poetry.lock
-	@ poetry run pip install --quiet --upgrade pip
-	@ poetry run pip list --format=freeze | grep mkdocs > $@
-	@ poetry run pip list --format=freeze | grep Pygments >> $@
+	@ poetry export --dev --without-hashes | grep mkdocs > $@
+	@ poetry export --dev --without-hashes | grep pygments >> $@
 
 .PHONY: uml
 uml: install docs/*.png
