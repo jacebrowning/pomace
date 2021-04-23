@@ -38,6 +38,6 @@ jobs:
       run: make test
 
     - name: Upload coverage
-      uses: coverallsapp/github-action@master
+      uses: codecov/codecov-action@v1
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        fail_ci_if_error: true
