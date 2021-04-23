@@ -105,3 +105,11 @@ def clone_models(url: str, *, domain: str = "", force: bool = False):
     assert "." in domain, f"Invalid domain: {domain}"
     source = Source(url, directory)
     source.update_files(force=force)
+
+
+def run_script(script: str) -> bool:
+    path = Path(script)
+    if not path.is_file():
+        return False
+    exec(path.read_text())  # pylint: disable=exec-used
+    return True
