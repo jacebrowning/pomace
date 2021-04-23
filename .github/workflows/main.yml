@@ -40,5 +40,4 @@ jobs:
     - name: Upload coverage
       uses: codecov/codecov-action@v1
       with:
-        files: .cache/coverage
         fail_ci_if_error: true
