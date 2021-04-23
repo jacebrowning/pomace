@@ -37,8 +37,7 @@ jobs:
     - name: Test code
       run: make test
 
-    # TODO: Enable coverage upload
-    # - name: Upload coverage
-    #   uses: coverallsapp/github-action@master
-    #   with:
-    #     github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Upload coverage
+      uses: codecov/codecov-action@v1
+      with:
+        fail_ci_if_error: true
