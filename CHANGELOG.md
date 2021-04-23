@@ -1,6 +1,6 @@
 # 0.8 (beta)
 
-- Renamed `run` command to `visit`.
+- Added `exec` command to run Python scripts.
 
 # 0.7 (2021-03-26)
 

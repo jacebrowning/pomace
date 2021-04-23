@@ -21,7 +21,7 @@ class BaseCommand(Command):  # pragma: no cover
         utils.launch_browser()
         utils.locate_models()
         try:
-            self.run_loop()
+            self.run()
         finally:
             utils.quit_browser()
             prompts.linebreak()
@@ -51,7 +51,7 @@ class BaseCommand(Command):  # pragma: no cover
 
 class CleanCommand(BaseCommand):
     """
-    Remove all unused actions and locators
+    Remove unused actions in local site definitions
 
     clean
         {domain? : Limit cleaning to a single domain}
@@ -72,7 +72,7 @@ class CleanCommand(BaseCommand):
 
 class CloneCommand(BaseCommand):
     """
-    Download site definitions from a Git repository
+    Download site definitions from a git repository
 
     clone
         {url : Git repository URL containing pomace models}
@@ -92,51 +92,34 @@ class CloneCommand(BaseCommand):
         )
 
 
-class ShellCommand(BaseCommand):  # pragma: no cover
+class ExecCommand(BaseCommand):  # pragma: no cover
     """
-    Launch an interactive shell
+    Run a Python script
 
-    shell
-        {domain? : Starting domain for the automation}
+    exec
+        {script : Path to a Python script}
         {--b|browser= : Browser to use for automation}
         {--d|headless : Run the specified browser in a headless mode}
         {--r|root= : Path to directory to containing models}
     """
 
-    def run_loop(self):
-        prompts.shell()
+    def update_settings(self):
+        if self.option("browser"):
+            settings.browser.name = self.option("browser").lower()
+
+        settings.browser.headless = self.option("headless")
+
+    def run(self):
+        self.line(f'Running <fg=white;options=bold>{self.argument("script")}</>')
+        if not utils.run_script(self.argument("script")):
+            self.line("<error>Script not found</error>")
 
 
-class ServeCommand(BaseCommand):
+class RunCommand(BaseCommand):  # pragma: no cover
     """
-    Run pomace in server mode
+    Start the command-line interface
 
-    serve
-        {domain? : Starting domain for the automation}
-        {--b|browser= : Browser to use for automation}
-        {--d|headless : Run the specified browser in a headless mode}
-        {--p|prompt=* : Prompt for secrets before running}
-        {--r|root= : Path to directory to containing models}
-        {--debug : Run the server in debug mode}
-    """
-
-    def handle(self):
-        self.configure_logging()
-        self.set_directory()
-        self.update_settings()
-        prompts.bullet = None
-        utils.locate_models()
-        try:
-            server.app.run(debug=self.option("debug"))
-        finally:
-            utils.quit_browser()
-
-
-class VisitCommand(BaseCommand):  # pragma: no cover
-    """
-    Run pomace in a loop
-
-    visit
+    run
         {domain? : Starting domain for the automation}
         {--b|browser= : Browser to use for automation}
         {--d|headless : Run the specified browser in a headless mode}
@@ -144,7 +127,7 @@ class VisitCommand(BaseCommand):  # pragma: no cover
         {--r|root= : Path to directory to containing models}
     """
 
-    def run_loop(self):
+    def run(self):
         for name in self.option("prompt"):
             prompts.secret_if_unset(name)
 
@@ -173,9 +156,50 @@ class VisitCommand(BaseCommand):  # pragma: no cover
         prompts.linebreak(force=True)
 
 
+class ShellCommand(BaseCommand):  # pragma: no cover
+    """
+    Launch an interactive shell
+
+    shell
+        {domain? : Starting domain for the automation}
+        {--b|browser= : Browser to use for automation}
+        {--d|headless : Run the specified browser in a headless mode}
+        {--r|root= : Path to directory to containing models}
+    """
+
+    def run(self):
+        prompts.shell()
+
+
+class ServeCommand(BaseCommand):
+    """
+    Start the web API interaface
+
+    serve
+        {domain? : Starting domain for the automation}
+        {--b|browser= : Browser to use for automation}
+        {--d|headless : Run the specified browser in a headless mode}
+        {--p|prompt=* : Prompt for secrets before running}
+        {--r|root= : Path to directory to containing models}
+        {--debug : Run the server in debug mode}
+    """
+
+    def handle(self):
+        self.configure_logging()
+        self.set_directory()
+        self.update_settings()
+        prompts.bullet = None
+        utils.locate_models()
+        try:
+            server.app.run(debug=self.option("debug"))
+        finally:
+            utils.quit_browser()
+
+
 application = Application()
 application.add(CleanCommand())
 application.add(CloneCommand())
+application.add(ExecCommand())
+application.add(RunCommand())
 application.add(ServeCommand())
 application.add(ShellCommand())
-application.add(VisitCommand())
