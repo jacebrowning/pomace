@@ -1,3 +1,7 @@
+# 0.8 (beta)
+
+- Renamed `run` command to `visit`.
+
 # 0.7 (2021-03-26)
 
 - Updated shutdown sequence to delete `geckodriver.log` automatically.

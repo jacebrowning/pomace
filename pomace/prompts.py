@@ -188,7 +188,13 @@ def mode_and_value() -> Tuple[str, str]:
 
 @no_type_check
 def shell():
-    linebreak()
+    try:
+        get_ipython()  # type: ignore
+    except NameError:
+        log.debug("Launching IPython")
+        linebreak()
+    else:
+        return
 
     pomace = import_module("pomace")
     globals().update(

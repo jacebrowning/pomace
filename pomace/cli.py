@@ -49,9 +49,30 @@ class BaseCommand(Command):  # pragma: no cover
                 settings.url = "http://" + self.argument("domain")
 
 
+class CleanCommand(BaseCommand):
+    """
+    Remove all unused actions and locators
+
+    clean
+        {domain? : Limit cleaning to a single domain}
+        {--r|root= : Path to directory to containing models}
+    """
+
+    def handle(self):
+        self.configure_logging()
+        self.set_directory()
+        utils.locate_models()
+        if self.argument("domain"):
+            pages = models.Page.objects.filter(domain=self.argument("domain"))
+        else:
+            pages = models.Page.objects.all()
+        for page in pages:
+            page.clean(force=True)
+
+
 class CloneCommand(BaseCommand):
     """
-    Download a site definition from a Git repository
+    Download site definitions from a Git repository
 
     clone
         {url : Git repository URL containing pomace models}
@@ -86,11 +107,36 @@ class ShellCommand(BaseCommand):  # pragma: no cover
         prompts.shell()
 
 
-class RunCommand(BaseCommand):  # pragma: no cover
+class ServeCommand(BaseCommand):
+    """
+    Run pomace in server mode
+
+    serve
+        {domain? : Starting domain for the automation}
+        {--b|browser= : Browser to use for automation}
+        {--d|headless : Run the specified browser in a headless mode}
+        {--p|prompt=* : Prompt for secrets before running}
+        {--r|root= : Path to directory to containing models}
+        {--debug : Run the server in debug mode}
+    """
+
+    def handle(self):
+        self.configure_logging()
+        self.set_directory()
+        self.update_settings()
+        prompts.bullet = None
+        utils.locate_models()
+        try:
+            server.app.run(debug=self.option("debug"))
+        finally:
+            utils.quit_browser()
+
+
+class VisitCommand(BaseCommand):  # pragma: no cover
     """
     Run pomace in a loop
 
-    run
+    visit
         {domain? : Starting domain for the automation}
         {--b|browser= : Browser to use for automation}
         {--d|headless : Run the specified browser in a headless mode}
@@ -127,55 +173,9 @@ class RunCommand(BaseCommand):  # pragma: no cover
         prompts.linebreak(force=True)
 
 
-class ServeCommand(BaseCommand):
-    """
-    Run pomace in service mode
-
-    serve
-        {domain? : Starting domain for the automation}
-        {--b|browser= : Browser to use for automation}
-        {--d|headless : Run the specified browser in a headless mode}
-        {--p|prompt=* : Prompt for secrets before running}
-        {--r|root= : Path to directory to containing models}
-        {--debug : Run the server in debug mode}
-    """
-
-    def handle(self):
-        self.configure_logging()
-        self.set_directory()
-        self.update_settings()
-        prompts.bullet = None
-        utils.locate_models()
-        try:
-            server.app.run(debug=self.option("debug"))
-        finally:
-            utils.quit_browser()
-
-
-class CleanCommand(BaseCommand):
-    """
-    Remove all unused actions and locators
-
-    clean
-        {domain? : Limit cleaning to a single domain}
-        {--r|root= : Path to directory to containing models}
-    """
-
-    def handle(self):
-        self.configure_logging()
-        self.set_directory()
-        utils.locate_models()
-        if self.argument("domain"):
-            pages = models.Page.objects.filter(domain=self.argument("domain"))
-        else:
-            pages = models.Page.objects.all()
-        for page in pages:
-            page.clean(force=True)
-
-
 application = Application()
-application.add(CloneCommand())
-application.add(ShellCommand())
-application.add(RunCommand())
-application.add(ServeCommand())
 application.add(CleanCommand())
+application.add(CloneCommand())
+application.add(ServeCommand())
+application.add(ShellCommand())
+application.add(VisitCommand())
