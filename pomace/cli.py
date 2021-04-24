@@ -28,7 +28,8 @@ class BaseCommand(Command):  # pragma: no cover
 
     def configure_logging(self):
         log.reset()
-        log.init(verbosity=self.io.verbosity + 1)
+        shift = 2 if self._command.name == "exec" else 1
+        log.init(verbosity=self.io.verbosity + shift)
         log.silence("datafiles", allow_warning=True)
         log.silence("urllib3.connectionpool", allow_error=True)
 
@@ -110,9 +111,7 @@ class ExecCommand(BaseCommand):  # pragma: no cover
         settings.browser.headless = self.option("headless")
 
     def run(self):
-        self.line(f'Running <fg=white;options=bold>{self.argument("script")}</>')
-        if not utils.run_script(self.argument("script")):
-            self.line("<error>Script not found</error>")
+        utils.run_script(self.argument("script"))
 
 
 class RunCommand(BaseCommand):  # pragma: no cover

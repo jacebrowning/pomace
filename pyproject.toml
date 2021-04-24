@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.8b2"
+version = "0.8b3"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -42,18 +42,18 @@ python = "^3.7"
 
 # Interface
 cleo = "~0.8.1"
-bullet = "^2.1.0"
-ipython = "^7.20.0"
+bullet = "^2.1"
+ipdb = "~0.13.7"
 flask-api = "^2.0"
 
 # Automation
 splinter = "~0.14.0"
-webdriver_manager = "^2.5.0"
+webdriver_manager = "^2.5"
 
 # Persistence
 datafiles = "^0.13b8"
 gitman = "^2.3"
-parse = "^1.14.0"
+parse = "^1.14"
 
 # Data
 faker = "^4.1.1"
@@ -63,7 +63,7 @@ us = "^2.0.2"
 # Utilities
 cached-property = "^1.5.2" # needed for Python < 3.8
 beautifulsoup4 = "^4.8.2"
-inflection = "~0.4.0"
+inflection = "~0.4"
 minilog = "^2.0"
 
 [tool.poetry.dev-dependencies]
@@ -75,7 +75,7 @@ isort = "=5.5.1"
 # Linters
 mypy = "~0.782"
 pydocstyle = "*"
-pylint = "~2.6.0"
+pylint = "~2.6"
 
 # Testing
 pytest = "^5.4.3"

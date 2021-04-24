@@ -1,9 +1,12 @@
 import atexit
 import inspect
 import os
+import sys
 import time
+from bdb import BdbQuit
 from pathlib import Path
 
+import ipdb
 import log
 from gitman.decorators import preserve_cwd
 from gitman.models import Source
@@ -107,9 +110,17 @@ def clone_models(url: str, *, domain: str = "", force: bool = False):
     source.update_files(force=force)
 
 
-def run_script(script: str) -> bool:
-    path = Path(script)
-    if not path.is_file():
-        return False
-    exec(path.read_text())  # pylint: disable=exec-used
-    return True
+def run_script(script: str):
+    path = Path(script).resolve()
+    if path.is_file():
+        log.info(f"Running script: {path}")
+    else:
+        log.error(f"Script not found: {path}")
+    try:
+        exec(path.read_text())  # pylint: disable=exec-used
+    except (KeyboardInterrupt, BdbQuit):
+        pass
+    except Exception as e:
+        log.critical(f"Script exception: {e}")
+        _type, _value, traceback = sys.exc_info()
+        ipdb.post_mortem(traceback)
