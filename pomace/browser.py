@@ -1,6 +1,7 @@
 import sys
 
 import log
+from fake_useragent import UserAgent
 from splinter import Browser
 from splinter.exceptions import DriverNotFoundError
 from webdriver_manager import chrome, firefox
@@ -15,10 +16,10 @@ WEBDRIVER_MANAGERS = {
     "geckodriver": firefox.GeckoDriverManager,
 }
 
+USER_AGENT = "Mozilla/5.0 Gecko/20100101 Firefox/53.0"
+
 
 def launch() -> Browser:
-    options = {"headless": settings.browser.headless, "wait_time": 1.0}
-
     if not settings.browser.name:
         sys.exit("No browser specified")
 
@@ -28,6 +29,12 @@ def launch() -> Browser:
     settings.browser.name = settings.browser.name.lower()
     log.info(f"Launching browser: {settings.browser.name}")
 
+    options = {
+        "headless": settings.browser.headless,
+        "user_agent": UserAgent(fallback=USER_AGENT)[settings.browser.name],
+        "wait_time": 1.0,
+    }
+    log.debug(f"Options: {options}")
     try:
         return Browser(settings.browser.name, **options)
     except DriverNotFoundError:

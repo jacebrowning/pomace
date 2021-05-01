@@ -1,6 +1,7 @@
 # 0.8 (beta)
 
 - Added `exec` command to run Python scripts.
+- Added randomization of the browser's user agent.
 
 # 0.7 (2021-03-26)
 

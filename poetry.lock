@@ -275,6 +275,14 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "fake-useragent"
+version = "0.1.11"
+description = "Up to date simple useragent faker with real world database"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "faker"
 version = "4.18.0"
 description = "Faker is a Python package that generates fake data for you."
@@ -1337,7 +1345,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "1f365c6ad0f1919ba899f49d403a4ad344e5f0998bfece5f68515dabb94f179f"
+content-hash = "ecd572c31ee9e0de3bd590db21eb05e72c9c98337224cb6fb0043410826d6763"
 
 [metadata.files]
 altgraph = [
@@ -1488,6 +1496,9 @@ decorator = [
 ]
 docopt = [
     {file = "docopt-0.6.2.tar.gz", hash = "sha256:49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"},
+]
+fake-useragent = [
+    {file = "fake-useragent-0.1.11.tar.gz", hash = "sha256:c104998b750eb097eefc28ae28e92d66397598d2cf41a31aa45d5559ef1adf35"},
 ]
 faker = [
     {file = "Faker-4.18.0-py3-none-any.whl", hash = "sha256:2ba20a4438429cb08d729175d7bb0435ef3c2c4cedc7b1ceb703ee6da8dad906"},
