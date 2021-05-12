@@ -1,7 +1,8 @@
-# 0.8 (beta)
+# 0.8 (2021-05-12)
 
 - Added `exec` command to run Python scripts.
 - Added randomization of the browser's user agent.
+- Fixed Flask 2.0 incompatibility.
 
 # 0.7 (2021-03-26)
 
