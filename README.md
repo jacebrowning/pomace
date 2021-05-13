@@ -50,26 +50,33 @@ And launch the application:
 pomace run twitter.com
 ```
 
+## Troubleshooting
+
 If you are seeing this error:
 
+```
 Traceback (most recent call last):
-  File "/Users/clarencejones/.local/bin/pomace", line 5, in <module>
+  File "/Users/Me/.local/bin/pomace", line 5, in <module>
     from pomace.cli import application
-  File "/Users/clarencejones/.local/pipx/venvs/pomace/lib/python3.9/site-packages/pomace/cli.py", line 9, in <module>
+  File "/Users/Me/.local/pipx/venvs/pomace/lib/python3.9/site-packages/pomace/cli.py", line 9, in <module>
     from . import models, prompts, server, utils
-  File "/Users/clarencejones/.local/pipx/venvs/pomace/lib/python3.9/site-packages/pomace/server.py", line 4, in <module>
+  File "/Users/Me/.local/pipx/venvs/pomace/lib/python3.9/site-packages/pomace/server.py", line 4, in <module>
     from flask_api import FlaskAPI
-  File "/Users/clarencejones/.local/pipx/venvs/pomace/lib/python3.9/site-packages/flask_api/__init__.py", line 1, in <module>
+  File "/Users/Me/.local/pipx/venvs/pomace/lib/python3.9/site-packages/flask_api/__init__.py", line 1, in <module>
     from flask_api.app import FlaskAPI
-  File "/Users/clarencejones/.local/pipx/venvs/pomace/lib/python3.9/site-packages/flask_api/app.py", line 4, in <module>
+  File "/Users/Me/.local/pipx/venvs/pomace/lib/python3.9/site-packages/flask_api/app.py", line 4, in <module>
     from flask._compat import reraise, string_types, text_type
 ModuleNotFoundError: No module named 'flask._compat'
+```
 
+Trying uninstalling and reinstalling flask:
 
-Trying uninstalling and reinstalling flask
-
+```
 $ pip uninstall flask && python -m pip install flask
+```
 
-Then upgrading Pomace
+Then upgrading Pomace:
 
+```
 $ pipx upgrade pomace
+```
