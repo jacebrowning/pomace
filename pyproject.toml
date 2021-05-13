@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.8b6"
+version = "0.8"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -60,8 +60,9 @@ zipcodes = "^1.1.2"
 us = "^2.0.2"
 
 # Server
-flask = "<2.0"
 flask-api = "^2.0"
+flask = "<2.0" # fix incompatiblity
+werkzeug = "<2.0" # fix ncompatiblity
 
 # Utilities
 cached-property = "^1.5.2" # needed for Python < 3.8
