@@ -15,9 +15,6 @@ class BaseCommand(Command):  # pragma: no cover
         self.configure_logging()
         self.set_directory()
         self.update_settings()
-        prompts.browser_if_unset()
-        domains = list(set(p.domain for p in models.Page.objects.all()))
-        prompts.url_if_unset(domains)
         utils.launch_browser()
         utils.locate_models()
         try:
@@ -38,6 +35,11 @@ class BaseCommand(Command):  # pragma: no cover
             os.chdir(self.option("root"))
 
     def update_settings(self):
+        prompts.browser_if_unset()
+
+        domains = list(set(p.domain for p in models.Page.objects.all()))
+        prompts.url_if_unset(domains)
+
         if self.option("browser"):
             settings.browser.name = self.option("browser").lower()
 
@@ -105,6 +107,8 @@ class ExecCommand(BaseCommand):  # pragma: no cover
     """
 
     def update_settings(self):
+        prompts.browser_if_unset()
+
         if self.option("browser"):
             settings.browser.name = self.option("browser").lower()
 
