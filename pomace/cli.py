@@ -4,9 +4,10 @@ import os
 from importlib import reload
 
 import log
-from cleo import Application, Command
+from cleo.application import Application
+from cleo.commands.command import Command
 
-from . import models, prompts, server, utils
+from . import __version__, models, prompts, server, utils
 from .config import settings
 
 
@@ -199,7 +200,7 @@ class ServeCommand(BaseCommand):
             utils.quit_browser()
 
 
-application = Application()
+application = Application("pomace", __version__)
 application.add(CleanCommand())
 application.add(CloneCommand())
 application.add(ExecCommand())
