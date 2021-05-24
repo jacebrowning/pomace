@@ -14,16 +14,22 @@ def cli():
 
 
 def describe_clone():
-    def with_url(cli):
-        cli("clone https://github.com/jacebrowning/pomace-twitter.com")
-        assert Path("sites", "twitter.com").is_dir()
+    @pytest.fixture
+    def root():
+        return Path(__file__).parent.parent
 
-    def with_url_and_domain(cli):
+    def with_url(cli, root):
+        cli("clone https://github.com/jacebrowning/pomace-twitter.com")
+        path = root / "sites" / "twitter.com"
+        assert path.is_dir(), f"Expected directory: {path}"
+
+    def with_url_and_domain(cli, root):
         cli(
             "clone https://github.com/jacebrowning/pomace-twitter.com"
             " twitter.fake --force"
         )
-        assert Path("sites", "twitter.fake").is_dir()
+        path = root / "sites" / "twitter.fake"
+        assert path.is_dir(), f"Expected directory: {path}"
 
 
 def describe_clean():
