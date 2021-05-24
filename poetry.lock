@@ -242,7 +242,7 @@ colorama = "*"
 
 [[package]]
 name = "datafiles"
-version = "0.15a3"
+version = "0.15a4"
 description = "File-based ORM for dataclasses."
 category = "main"
 optional = false
@@ -1342,7 +1342,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "ebe375d420158998f7bd0716f7fd25b1d7385b53d9f183b8cdf1c3e0c07eaa4b"
+content-hash = "f71f7ce5105721652c1adfc5749f81d38a2fd0ef4961a547fe809b79a19cf033"
 
 [metadata.files]
 altgraph = [
@@ -1484,8 +1484,8 @@ crayons = [
     {file = "crayons-0.4.0.tar.gz", hash = "sha256:bd33b7547800f2cfbd26b38431f9e64b487a7de74a947b0fafc89b45a601813f"},
 ]
 datafiles = [
-    {file = "datafiles-0.15a3-py3-none-any.whl", hash = "sha256:d1856e2fbbba739ab84f6a94ef581165e76e3a833d59fbe9f5a36a82b2c76f65"},
-    {file = "datafiles-0.15a3.tar.gz", hash = "sha256:a522182ceb14617cf71e87d0afbe7d27ff75f310b1937729d3ee231b1e29422a"},
+    {file = "datafiles-0.15a4-py3-none-any.whl", hash = "sha256:5dd2b4e51c0c680e6c290770b9f36be03828373338aab5da6296c9e839b0f95e"},
+    {file = "datafiles-0.15a4.tar.gz", hash = "sha256:f524c89da5636cdbcf3c62ba9cd4b4bd83e69cf92d5e1d0d75c1b778ad3eaddf"},
 ]
 decorator = [
     {file = "decorator-4.4.2-py2.py3-none-any.whl", hash = "sha256:41fa54c2a0cc4ba648be4fd43cff00aedf5b9465c9bf18d64325bc225f08f760"},
