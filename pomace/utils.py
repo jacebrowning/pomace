@@ -4,6 +4,7 @@ import os
 import sys
 import time
 from bdb import BdbQuit
+from glob import iglob
 from pathlib import Path
 
 import ipdb
@@ -79,6 +80,7 @@ def quit_browser(*, silence_logging: bool = False) -> bool:
 
 def locate_models(*, caller=None):
     cwd = Path.cwd()
+    default = cwd / "sites"
 
     if caller:
         for frame in inspect.getouterframes(caller):
@@ -88,15 +90,18 @@ def locate_models(*, caller=None):
                 os.chdir(path.parent)
                 return
 
-    if (cwd / "sites").is_dir():
-        log.debug(f"Found models in current directory: {cwd}")
+    if default.is_dir():
+        log.debug(f"Found models in current directory: {default}")
         return
 
-    for path in cwd.iterdir():
-        if (path / "sites").is_dir():
+    for name in iglob("./**/sites", recursive=True):
+        path = Path(name).resolve()
+        if path.is_dir():
             log.debug(f"Found models in package directory: {path}")
-            os.chdir(path)
+            os.chdir(path.parent)
             return
+
+    log.debug(f"Unable to locate models directory, using default: {default}")
 
 
 @preserve_cwd
