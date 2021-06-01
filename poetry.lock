@@ -242,7 +242,7 @@ colorama = "*"
 
 [[package]]
 name = "datafiles"
-version = "0.15a4"
+version = "0.15"
 description = "File-based ORM for dataclasses."
 category = "main"
 optional = false
@@ -313,7 +313,7 @@ dotenv = ["python-dotenv"]
 
 [[package]]
 name = "flask-api"
-version = "3.0b1"
+version = "3.0"
 description = "Browsable web APIs for Flask."
 category = "main"
 optional = false
@@ -1342,7 +1342,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "f71f7ce5105721652c1adfc5749f81d38a2fd0ef4961a547fe809b79a19cf033"
+content-hash = "aa2d910056ec56916f29bb0873958303fe90ace8a49d8c3302a448032d102ea2"
 
 [metadata.files]
 altgraph = [
@@ -1484,8 +1484,8 @@ crayons = [
     {file = "crayons-0.4.0.tar.gz", hash = "sha256:bd33b7547800f2cfbd26b38431f9e64b487a7de74a947b0fafc89b45a601813f"},
 ]
 datafiles = [
-    {file = "datafiles-0.15a4-py3-none-any.whl", hash = "sha256:5dd2b4e51c0c680e6c290770b9f36be03828373338aab5da6296c9e839b0f95e"},
-    {file = "datafiles-0.15a4.tar.gz", hash = "sha256:f524c89da5636cdbcf3c62ba9cd4b4bd83e69cf92d5e1d0d75c1b778ad3eaddf"},
+    {file = "datafiles-0.15-py3-none-any.whl", hash = "sha256:a86fe090fad2b6aab43850e0b11e97775e64446f078a243207a60c057d13cf99"},
+    {file = "datafiles-0.15.tar.gz", hash = "sha256:0fc52c9582cd26d314bce4a86532803d293601c398abba055fb4cad50fb39b86"},
 ]
 decorator = [
     {file = "decorator-4.4.2-py2.py3-none-any.whl", hash = "sha256:41fa54c2a0cc4ba648be4fd43cff00aedf5b9465c9bf18d64325bc225f08f760"},
@@ -1506,8 +1506,8 @@ flask = [
     {file = "Flask-2.0.0.tar.gz", hash = "sha256:168e8507792cb8a3aa06afbe5d4d431d3e07c6318bc3893ceecb81aff09f848d"},
 ]
 flask-api = [
-    {file = "Flask-API-3.0b1.tar.gz", hash = "sha256:cbe4134c102df8381a20628ffb315a2086e21cfb136951a2d96f85dd5aad5620"},
-    {file = "Flask_API-3.0b1-py3-none-any.whl", hash = "sha256:66d66b86d9459ad1d8d62c2c921bbf9872df96884187f96e2933be0274f3f6af"},
+    {file = "Flask-API-3.0.tar.gz", hash = "sha256:9b687a8b7cf9cfa1f89402455d2b869990574c703fdfb2f8c34604016b6f0ce0"},
+    {file = "Flask_API-3.0-py3-none-any.whl", hash = "sha256:e8d155273a1d6fc4f8f78594cd83d3b1ac1112d1192bb1f8c690c9cd525546db"},
 ]
 freezegun = [
     {file = "freezegun-1.0.0-py2.py3-none-any.whl", hash = "sha256:02b35de52f4699a78f6ac4518e4cd3390dddc43b0aeb978335a8f270a2d9668b"},
