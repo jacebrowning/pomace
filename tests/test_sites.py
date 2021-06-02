@@ -54,12 +54,12 @@ def test_unused_actions_are_removed_on_forced_cleanup(expect, browser):
 def test_multiple_indices_are_tried(expect, browser):
     page = Page.at("https://www.mtggoldfish.com/metagame/standard#paper")
     with suppress(AttributeError):
-        page.click_gruul_adventures.locators = []
+        page.click_sultai_control.locators = []
         page.datafile.save()
 
-    page.click_gruul_adventures()
+    page.click_sultai_control()
 
-    expect(page.click_gruul_adventures.sorted_locators[0].index) == 1
+    expect(page.click_sultai_control.sorted_locators[0].index) == 1
 
 
 def test_links_are_opened_in_the_same_window(expect, browser):
