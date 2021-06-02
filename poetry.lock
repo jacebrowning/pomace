@@ -295,7 +295,7 @@ text-unidecode = "1.3"
 
 [[package]]
 name = "flask"
-version = "2.0.0"
+version = "2.0.1"
 description = "A simple framework for building complex web applications."
 category = "main"
 optional = false
@@ -313,7 +313,7 @@ dotenv = ["python-dotenv"]
 
 [[package]]
 name = "flask-api"
-version = "3.0"
+version = "3.0b2"
 description = "Browsable web APIs for Flask."
 category = "main"
 optional = false
@@ -451,7 +451,7 @@ colors = ["colorama (>=0.4.3,<0.5.0)"]
 
 [[package]]
 name = "itsdangerous"
-version = "2.0.0"
+version = "2.0.1"
 description = "Safely pass data to untrusted environments and back."
 category = "main"
 optional = false
@@ -1289,7 +1289,7 @@ requests = "*"
 
 [[package]]
 name = "werkzeug"
-version = "2.0.0"
+version = "2.0.1"
 description = "The comprehensive WSGI web application library."
 category = "main"
 optional = false
@@ -1342,7 +1342,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "aa2d910056ec56916f29bb0873958303fe90ace8a49d8c3302a448032d102ea2"
+content-hash = "826a0373fc6f3b6437df5726b8909102553db9681e22c81c204bd7c17db31f7d"
 
 [metadata.files]
 altgraph = [
@@ -1502,12 +1502,12 @@ faker = [
     {file = "Faker-4.18.0.tar.gz", hash = "sha256:6279746aed175a693108238e6d1ab8d7e26d0ec7ff8474f61025b9fdaae15d65"},
 ]
 flask = [
-    {file = "Flask-2.0.0-py3-none-any.whl", hash = "sha256:1833a4b36ace08dfa1510d86f1bb6fc595d990ec1b838e03ac8dd80ac0705954"},
-    {file = "Flask-2.0.0.tar.gz", hash = "sha256:168e8507792cb8a3aa06afbe5d4d431d3e07c6318bc3893ceecb81aff09f848d"},
+    {file = "Flask-2.0.1-py3-none-any.whl", hash = "sha256:a6209ca15eb63fc9385f38e452704113d679511d9574d09b2cf9183ae7d20dc9"},
+    {file = "Flask-2.0.1.tar.gz", hash = "sha256:1c4c257b1892aec1398784c63791cbaa43062f1f7aeb555c4da961b20ee68f55"},
 ]
 flask-api = [
-    {file = "Flask-API-3.0.tar.gz", hash = "sha256:9b687a8b7cf9cfa1f89402455d2b869990574c703fdfb2f8c34604016b6f0ce0"},
-    {file = "Flask_API-3.0-py3-none-any.whl", hash = "sha256:e8d155273a1d6fc4f8f78594cd83d3b1ac1112d1192bb1f8c690c9cd525546db"},
+    {file = "Flask-API-3.0b2.tar.gz", hash = "sha256:5f9b834acd6ddebee690ab590f7ab5229fc53132a05635ff975bca5452e22a2b"},
+    {file = "Flask_API-3.0b2-py3-none-any.whl", hash = "sha256:37e6a6a7887a0bddfab9342774852d3827e80943a73a9efa07e44d021be5a61d"},
 ]
 freezegun = [
     {file = "freezegun-1.0.0-py2.py3-none-any.whl", hash = "sha256:02b35de52f4699a78f6ac4518e4cd3390dddc43b0aeb978335a8f270a2d9668b"},
@@ -1548,8 +1548,8 @@ isort = [
     {file = "isort-5.5.1.tar.gz", hash = "sha256:92533892058de0306e51c88f22ece002a209dc8e80288aa3cec6d443060d584f"},
 ]
 itsdangerous = [
-    {file = "itsdangerous-2.0.0-py3-none-any.whl", hash = "sha256:e2cb4ae918f07ab2a2f9a91dec2695bd1f25a19d31861a70015ad537ccb5e807"},
-    {file = "itsdangerous-2.0.0.tar.gz", hash = "sha256:99b1053ccce68066dfc0b4465ef8779027e6d577377c8270e21a3d6289cac111"},
+    {file = "itsdangerous-2.0.1-py3-none-any.whl", hash = "sha256:5174094b9637652bdb841a3029700391451bd092ba3db90600dea710ba28e97c"},
+    {file = "itsdangerous-2.0.1.tar.gz", hash = "sha256:9e724d68fc22902a1435351f84c3fb8623f303fffcc566a4cb952df8c572cff0"},
 ]
 jedi = [
     {file = "jedi-0.17.2-py2.py3-none-any.whl", hash = "sha256:98cc583fa0f2f8304968199b01b6b4b94f469a1f4a74c1560506ca2a211378b5"},
@@ -2099,8 +2099,8 @@ webdriver-manager = [
     {file = "webdriver_manager-2.5.3-py2.py3-none-any.whl", hash = "sha256:469db6cfa5458359045789c99b3909e0e690e122f27f54cba126954eb2dab5c9"},
 ]
 werkzeug = [
-    {file = "Werkzeug-2.0.0-py3-none-any.whl", hash = "sha256:64c02f6495ba01eddd6625b3675f357cd358a73f1e38458a56ad86c5baa30b53"},
-    {file = "Werkzeug-2.0.0.tar.gz", hash = "sha256:3389bbfe6d40c6dd25e6d3f974155163c8b3de5bbda6a89342d4ab93fae80ba0"},
+    {file = "Werkzeug-2.0.1-py3-none-any.whl", hash = "sha256:6c1ec500dcdba0baa27600f6a22f6333d8b662d22027ff9f6202e3367413caa8"},
+    {file = "Werkzeug-2.0.1.tar.gz", hash = "sha256:1de1db30d010ff1af14a009224ec49ab2329ad2cde454c8a708130642d579c42"},
 ]
 wrapt = [
     {file = "wrapt-1.12.1.tar.gz", hash = "sha256:b62ffa81fb85f4332a4f609cab4ac40709470da05643a082ec1eb88e6d9b97d7"},
