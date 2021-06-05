@@ -313,7 +313,7 @@ dotenv = ["python-dotenv"]
 
 [[package]]
 name = "flask-api"
-version = "3.0b2"
+version = "3.0b6"
 description = "Browsable web APIs for Flask."
 category = "main"
 optional = false
@@ -1342,7 +1342,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "826a0373fc6f3b6437df5726b8909102553db9681e22c81c204bd7c17db31f7d"
+content-hash = "2a0bd3922fb4599adeb5c1372a9a3da1db1fdda0a5e6356beb44618f08912e6c"
 
 [metadata.files]
 altgraph = [
@@ -1506,8 +1506,8 @@ flask = [
     {file = "Flask-2.0.1.tar.gz", hash = "sha256:1c4c257b1892aec1398784c63791cbaa43062f1f7aeb555c4da961b20ee68f55"},
 ]
 flask-api = [
-    {file = "Flask-API-3.0b2.tar.gz", hash = "sha256:5f9b834acd6ddebee690ab590f7ab5229fc53132a05635ff975bca5452e22a2b"},
-    {file = "Flask_API-3.0b2-py3-none-any.whl", hash = "sha256:37e6a6a7887a0bddfab9342774852d3827e80943a73a9efa07e44d021be5a61d"},
+    {file = "Flask-API-3.0b6.tar.gz", hash = "sha256:a3396720b71a442561ffb51649c83057419eb65449bf5dd543a9efe6606574f7"},
+    {file = "Flask_API-3.0b6-py3-none-any.whl", hash = "sha256:b5987b4e97b780fd705c4517b505108adad9d3d5b5ddebe01e32fcb15a8086ca"},
 ]
 freezegun = [
     {file = "freezegun-1.0.0-py2.py3-none-any.whl", hash = "sha256:02b35de52f4699a78f6ac4518e4cd3390dddc43b0aeb978335a8f270a2d9668b"},
