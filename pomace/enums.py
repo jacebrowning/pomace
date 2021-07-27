@@ -95,13 +95,13 @@ class Verb(Enum):
         wait: Optional[float] = None,
     ):
         if delay:
-            log.debug(f"Waiting {delay} seconds before continuing")
+            log.info(f"Waiting {delay} seconds before continuing")
             time.sleep(delay)
 
         if wait is None:
             wait = 0.0 if self.updates else 5.0
         if wait:
-            log.debug(f"Waiting {wait} seconds for URL to change: {previous_url}")
+            log.info(f"Waiting {wait} seconds for URL to change: {previous_url}")
 
         elapsed = 0.0
         start = time.time()
