@@ -20,6 +20,8 @@ class BaseCommand(Command):  # pragma: no cover
         utils.locate_models()
         try:
             self.run()
+        except KeyboardInterrupt:
+            log.debug("User cancelled loop")
         finally:
             utils.quit_browser()
             prompts.linebreak()
@@ -36,13 +38,9 @@ class BaseCommand(Command):  # pragma: no cover
             os.chdir(self.option("root"))
 
     def update_settings(self):
-        prompts.browser_if_unset()
-
-        domains = list(set(p.domain for p in models.Page.objects.all()))
-        prompts.url_if_unset(domains)
-
         if self.option("browser"):
             settings.browser.name = self.option("browser").lower()
+        prompts.browser_if_unset()
 
         settings.browser.headless = self.option("headless")
 
@@ -51,6 +49,8 @@ class BaseCommand(Command):  # pragma: no cover
                 settings.url = self.argument("domain")
             else:
                 settings.url = "http://" + self.argument("domain")
+        domains = list(set(p.domain for p in models.Page.objects.all()))
+        prompts.url_if_unset(domains)
 
 
 class CleanCommand(BaseCommand):

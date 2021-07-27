@@ -130,7 +130,11 @@ def named_value(name: str) -> Optional[str]:
         return None
 
     shared.linebreak = False
-    command = bullet.Input(prompt="Value for " + name.replace("_", " ") + ": ")
+    prompt = "Value for " + name.replace("_", " ") + ": "
+    if "pass" in name.lower():
+        command = bullet.Password(prompt=prompt)
+    else:
+        command = bullet.Input(prompt=prompt)
     value = command.launch()
     return value
 
