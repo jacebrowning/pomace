@@ -1,3 +1,7 @@
+# 0.9 (unreleased)
+
+- Added `alias` command to map alternate domains to existing models.
+
 # 0.8 (2021-05-12)
 
 - Added `exec` command to run Python scripts.

@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 import log
 from datafiles import datafile, field
@@ -40,6 +40,7 @@ class Site:
 class Settings:
     browser: Browser = field(default_factory=Browser)
     url: str = ""
+    aliases: Dict[str, str] = field(default_factory=dict)
     secrets: List[Site] = field(default_factory=list)
 
     dev = True

@@ -6,11 +6,23 @@ import pytest
 from cleo import ApplicationTester
 
 from pomace.cli import application
+from pomace.models import domain
 
 
 @pytest.fixture
 def cli():
     return ApplicationTester(application).execute
+
+
+def describe_alias():
+    def it_updates_mapping(cli):
+        cli("alias staging.twitter.com twitter.com")
+        assert domain("https://staging.twitter.com") == "twitter.com"
+
+
+def describe_clean():
+    def with_domain(cli):
+        cli("clean twitter.fake")
 
 
 def describe_clone():
@@ -30,8 +42,3 @@ def describe_clone():
         )
         path = root / "sites" / "twitter.fake"
         assert path.is_dir(), f"Expected directory: {path}"
-
-
-def describe_clean():
-    def with_domain(cli):
-        cli("clean twitter.fake")

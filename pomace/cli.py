@@ -53,6 +53,26 @@ class BaseCommand(Command):  # pragma: no cover
         prompts.url_if_unset(domains)
 
 
+class AliasCommand(BaseCommand):
+    """
+    Map one domain's site definitions to another
+
+    alias
+        {source : Domain to map to another}
+        {target : Domain with existing models}
+    """
+
+    def handle(self):
+        self.configure_logging()
+        source = self.argument("source")
+        target = self.argument("target")
+        settings.aliases[source] = target
+        self.line(
+            f"<fg=white;options=bold>{source}</> mapped to "
+            f"<fg=white;options=bold>{target}</>"
+        )
+
+
 class CleanCommand(BaseCommand):
     """
     Remove unused actions in local site definitions
@@ -201,6 +221,7 @@ class ServeCommand(BaseCommand):
 
 
 application = Application("pomace", __version__)
+application.add(AliasCommand())
 application.add(CleanCommand())
 application.add(CloneCommand())
 application.add(ExecCommand())

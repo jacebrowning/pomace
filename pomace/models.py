@@ -299,7 +299,7 @@ class Page:
         if shared.browser.url != url:
             log.info(f"Redirected to {url}")
 
-        kwargs = {"domain": URL(url).domain, "path": URL(url).path}
+        kwargs = {"domain": domain(url), "path": URL(url).path}
         variant = variant or URL(url).fragment
         if variant:
             kwargs["variant"] = variant
@@ -475,7 +475,7 @@ def auto() -> Page:
     matching_pages = []
     found_exact_match = False
 
-    for page in Page.objects.filter(domain=URL(shared.browser.url).domain):
+    for page in Page.objects.filter(domain=domain(shared.browser.url)):
         if page.active:
             matching_pages.append(page)
             if page.exact:
@@ -497,3 +497,11 @@ def auto() -> Page:
     page = Page.at(shared.browser.url)
     page.datafile.save()
     return page
+
+
+def domain(url: str) -> str:
+    value = URL(url).domain
+    with suppress(KeyError):
+        value = settings.aliases[value]
+        log.debug(f"Mapped {url} to alias: {value}")
+    return value
