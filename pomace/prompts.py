@@ -18,9 +18,6 @@ except ImportError:
     bullet = None  # https://github.com/Mckinsey666/bullet/issues/2
     warnings.warn("Interactive CLI prompts not yet supported on Windows")
 
-if "pytest" in sys.modules:
-    bullet = None
-
 
 RELOAD_ACTIONS = "<reload actions>"
 ADD_ACTION = "<add action>"
@@ -45,12 +42,16 @@ def offset(function):
     return wrapper
 
 
+def noninteractive() -> bool:
+    return bullet is None or not sys.stdin.isatty() or "CI" in os.environ
+
+
 @offset
 def browser_if_unset():
     if settings.browser.name:
         return
 
-    if "CI" in os.environ or not bullet:
+    if noninteractive():
         value = os.getenv("BROWSER") or browser.NAMES[0]
         settings.browser.name = value.lower()
         return
@@ -69,7 +70,7 @@ def url_if_unset(domains=None):
     if settings.url:
         return
 
-    if "CI" in os.environ or not bullet:
+    if noninteractive():
         settings.url = "http://example.com"
         return
 
@@ -89,7 +90,7 @@ def secret_if_unset(name: str):
     if settings.get_secret(name, _log=False):
         return
 
-    if "CI" in os.environ or not bullet:
+    if noninteractive():
         settings.set_secret(name, "<unset>")
         return
 
@@ -126,7 +127,7 @@ def action(page) -> Optional[str]:
 
 @offset
 def named_value(name: str) -> Optional[str]:
-    if not bullet:
+    if noninteractive():
         return None
 
     shared.linebreak = False
@@ -165,7 +166,7 @@ def verb_and_name() -> Tuple[str, str]:
 
 @offset
 def mode_and_value() -> Tuple[str, str]:
-    if not bullet:
+    if noninteractive():
         return "", ""
 
     choices = [CANCEL] + [mode.value for mode in enums.Mode] + [DEBUG]
