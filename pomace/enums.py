@@ -101,7 +101,7 @@ class Verb(Enum):
         if wait is None:
             wait = 0.0 if self.updates else 5.0
         if wait:
-            log.info(f"Waiting {wait} seconds for URL to change: {previous_url}")
+            log.info(f"Waiting up to {wait} seconds for URL to change: {previous_url}")
 
         elapsed = 0.0
         start = time.time()

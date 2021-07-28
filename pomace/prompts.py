@@ -1,5 +1,6 @@
 import os
 import sys
+import warnings
 from functools import wraps
 from importlib import import_module
 from typing import Optional, Tuple, no_type_check
@@ -15,11 +16,10 @@ try:
     import bullet
 except ImportError:
     bullet = None  # https://github.com/Mckinsey666/bullet/issues/2
-    log.warn("Interactive CLI prompts not yet supported on Windows")
+    warnings.warn("Interactive CLI prompts not yet supported on Windows")
 
 if "pytest" in sys.modules:
     bullet = None
-    log.warn("Interactive CLI prompts disabled while testing")
 
 
 RELOAD_ACTIONS = "<reload actions>"

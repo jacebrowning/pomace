@@ -4,6 +4,7 @@ from pkg_resources import (
 )
 
 from .api import *
+from .config import settings
 
 
 try:

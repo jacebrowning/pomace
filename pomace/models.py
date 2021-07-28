@@ -334,7 +334,7 @@ class Page:
 
     @cached_property
     def text(self) -> str:
-        html = copy(self.html)
+        html = copy(self.soup)
         for element in html(["script", "style"]):
             element.extract()
         lines = (line.strip() for line in html.get_text().splitlines())
@@ -342,14 +342,19 @@ class Page:
         return "\n".join(chunk for chunk in chunks if chunk)
 
     @cached_property
-    def html(self) -> BeautifulSoup:
-        return BeautifulSoup(self.browser.html, "html.parser")
+    def html(self) -> str:
+        return self.browser.html
+
+    @cached_property
+    def soup(self) -> BeautifulSoup:
+        return BeautifulSoup(self.html, "html.parser")
 
     @property
     def active(self) -> bool:
         log.debug(f"Determining if {self!r} is active")
 
-        if self.url_pattern != URL(shared.browser.url):
+        url = URL(domain(shared.browser.url), URL(shared.browser.url).path)
+        if self.url_pattern != url:
             log.debug(f"{self!r} is inactive: URL not matched")
             return False
 
