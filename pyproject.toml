@@ -79,7 +79,7 @@ pydocstyle = "*"
 pylint = "~2.6"
 
 # Testing
-pytest = "^5.4.3"
+pytest = "^6.2.4"
 pytest-cov = "*"
 pytest-describe = { git = "https://github.com/pytest-dev/pytest-describe", rev = "9014bf3ee564518aad3622b5f035f7ca6139e398" }
 pytest-expecter = "^2.0"
@@ -92,8 +92,8 @@ freezegun = "*"
 coveragespace = "^4.1"
 
 # Documentation
-mkdocs = "^1.0"
-pygments = "^2.7.4"
+mkdocs = "^1.2.2"
+pygments = "^2.9"
 
 # Tooling
 pyinstaller = "*"
