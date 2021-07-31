@@ -2,7 +2,6 @@
 
 from pathlib import Path
 
-import log
 import pytest
 from cleo import ApplicationTester
 
@@ -33,15 +32,15 @@ def describe_clone():
 
     def with_url(expect, cli, root):
         cli("clone https://github.com/jacebrowning/pomace-twitter.com")
-        path = root / "sites" / "twitter.com"
-        log.info(f"Text path: {path}")
-        expect(path.is_dir()) == True
+        sites = root / "sites"
+        path = sites / "twitter.com"
+        expect(list((sites).iterdir())).contains(path)
 
     def with_url_and_domain(expect, cli, root):
         cli(
             "clone https://github.com/jacebrowning/pomace-twitter.com"
             " twitter.fake --force"
         )
-        path = root / "sites" / "twitter.fake"
-        log.info(f"Text path: {path}")
-        expect(path.is_dir()) == True
+        sites = root / "sites"
+        path = sites / "twitter.fake"
+        expect(list((sites).iterdir())).contains(path)
