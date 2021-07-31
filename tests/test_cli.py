@@ -27,20 +27,24 @@ def describe_clean():
 
 def describe_clone():
     @pytest.fixture
-    def root():
-        return Path(__file__).parent.parent
+    def sites():
+        for path in [
+            Path(__file__).parent / "sites",
+            Path(__file__).parent.parent / "sites",
+        ]:
+            if path.is_dir():
+                return path
+        raise RuntimeError("No sites directory")
 
-    def with_url(expect, cli, root):
+    def with_url(expect, cli, sites):
         cli("clone https://github.com/jacebrowning/pomace-twitter.com")
-        sites = root / "sites"
         path = sites / "twitter.com"
         expect(list((sites).iterdir())).contains(path)
 
-    def with_url_and_domain(expect, cli, root):
+    def with_url_and_domain(expect, cli, sites):
         cli(
             "clone https://github.com/jacebrowning/pomace-twitter.com"
             " twitter.fake --force"
         )
-        sites = root / "sites"
         path = sites / "twitter.fake"
         expect(list((sites).iterdir())).contains(path)
