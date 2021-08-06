@@ -1,6 +1,6 @@
 import random
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Union
 from urllib.parse import urlparse
 
 import faker
@@ -8,9 +8,13 @@ import log
 import us
 import zipcodes
 from parse import parse
+from playwright.sync_api import Browser as PlaywrightBrowser
+from splinter import Browser as SplinterBrowser
 
 
 __all__ = ["URL"]
+
+GenericBrowser = Union[PlaywrightBrowser, SplinterBrowser]
 
 
 class URL:

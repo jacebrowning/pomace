@@ -2,11 +2,12 @@ import sys
 
 import log
 from fake_useragent import UserAgent
-from splinter import Browser
+from splinter import Browser as SplinterBrowser
 from splinter.exceptions import DriverNotFoundError
 from webdriver_manager import chrome, firefox
 
 from .config import settings
+from .types import GenericBrowser
 
 
 NAMES = ["Firefox", "Chrome"]
@@ -19,7 +20,7 @@ WEBDRIVER_MANAGERS = {
 USER_AGENT = "Mozilla/5.0 Gecko/20100101 Firefox/53.0"
 
 
-def launch() -> Browser:
+def launch() -> GenericBrowser:
     if not settings.browser.name:
         sys.exit("No browser specified")
 
@@ -36,7 +37,7 @@ def launch() -> Browser:
     }
     log.debug(f"Options: {options}")
     try:
-        return Browser(settings.browser.name, **options)
+        return SplinterBrowser(settings.browser.name, **options)
     except DriverNotFoundError:
         sys.exit(f"Unsupported browser: {settings.browser.name}")
     except Exception as e:  # pylint: disable=broad-except
@@ -48,25 +49,25 @@ def launch() -> Browser:
         for driver, manager in WEBDRIVER_MANAGERS.items():
             if driver in str(e).lower():
                 options["executable_path"] = manager().install()
-                return Browser(settings.browser.name, **options)
+                return SplinterBrowser(settings.browser.name, **options)
 
         raise e from None
 
 
-def resize(browser: Browser):
+def resize(browser: GenericBrowser):
     browser.driver.set_window_size(settings.browser.width, settings.browser.height)
     browser.driver.set_window_position(0, 0)
     size = browser.driver.get_window_size()
     log.debug(f"Resized browser: {size}")
 
 
-def save_url(browser: Browser):
+def save_url(browser: GenericBrowser):
     if settings.browser != browser.url:
         log.debug(f"Saving last browser URL: {browser.url}")
         settings.url = browser.url
 
 
-def save_size(browser: Browser):
+def save_size(browser: GenericBrowser):
     size = browser.driver.get_window_size()
     if size != (settings.browser.width, settings.browser.height):
         log.debug(f"Saving last browser size: {size}")

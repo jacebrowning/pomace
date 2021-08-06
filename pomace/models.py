@@ -12,14 +12,13 @@ from selenium.common.exceptions import (
 )
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
-from splinter import Browser
 from splinter.driver.webdriver import WebDriverElement
 from splinter.exceptions import ElementDoesNotExist
 
 from . import prompts, shared
 from .config import settings
 from .enums import Mode, Verb
-from .types import URL
+from .types import URL, GenericBrowser
 
 
 __all__ = ["Locator", "Action", "Page", "auto"]
@@ -317,7 +316,7 @@ class Page:
         return "{" not in self.path
 
     @property
-    def browser(self) -> Browser:
+    def browser(self) -> GenericBrowser:
         return shared.browser
 
     @cached_property

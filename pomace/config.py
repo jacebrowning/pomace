@@ -38,6 +38,7 @@ class Site:
 
 @datafile("./pomace.yml", defaults=True)
 class Settings:
+    framework: str = "splinter"
     browser: Browser = field(default_factory=Browser)
     url: str = ""
     aliases: Dict[str, str] = field(default_factory=dict)

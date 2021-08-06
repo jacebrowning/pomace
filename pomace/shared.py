@@ -1,5 +1,5 @@
-from splinter import Browser
+from .types import GenericBrowser
 
 
-browser: Browser = None
+browser: GenericBrowser = None
 linebreak: bool = True
