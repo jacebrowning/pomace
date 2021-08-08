@@ -280,13 +280,6 @@ description = "Up to date simple useragent faker with real world database"
 category = "main"
 optional = false
 python-versions = "*"
-develop = false
-
-[package.source]
-type = "git"
-url = "https://github.com/Jordan9675/fake-useragent"
-reference = "d8ca49d341829adb1f0efa7a309337bdc1c2b978"
-resolved_reference = "d8ca49d341829adb1f0efa7a309337bdc1c2b978"
 
 [[package]]
 name = "faker"
@@ -1321,7 +1314,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "53b79a10aa34079a068b43a8df5e4d6ea40a567b88920408cadf37661c5b929e"
+content-hash = "633614c38d1c8772414331da46b94393aaeecc992ca5e71f86f93a3ab3f991e8"
 
 [metadata.files]
 altgraph = [
@@ -1473,7 +1466,9 @@ decorator = [
 docopt = [
     {file = "docopt-0.6.2.tar.gz", hash = "sha256:49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"},
 ]
-fake-useragent = []
+fake-useragent = [
+    {file = "fake-useragent-0.1.11.tar.gz", hash = "sha256:c104998b750eb097eefc28ae28e92d66397598d2cf41a31aa45d5559ef1adf35"},
+]
 faker = [
     {file = "Faker-4.18.0-py3-none-any.whl", hash = "sha256:2ba20a4438429cb08d729175d7bb0435ef3c2c4cedc7b1ceb703ee6da8dad906"},
     {file = "Faker-4.18.0.tar.gz", hash = "sha256:6279746aed175a693108238e6d1ab8d7e26d0ec7ff8474f61025b9fdaae15d65"},

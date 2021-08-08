@@ -1,11 +1,12 @@
 import sys
 
 import log
-from fake_useragent import UserAgent
+from fake_useragent import UserAgent, utils
 from splinter import Browser
 from splinter.exceptions import DriverNotFoundError
 from webdriver_manager import chrome, firefox
 
+from . import patched
 from .config import settings
 
 
@@ -29,6 +30,7 @@ def launch() -> Browser:
     settings.browser.name = settings.browser.name.lower()
     log.info(f"Launching browser: {settings.browser.name}")
 
+    utils.get_browsers = patched.get_browsers
     options = {
         "headless": settings.browser.headless,
         "user_agent": UserAgent(fallback=USER_AGENT)[settings.browser.name],
