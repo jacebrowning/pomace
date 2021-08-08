@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.8.13"
+version = "0.8.14"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -63,7 +63,7 @@ us = "^2.0.2"
 # Utilities
 cached-property = "^1.5.2" # needed for Python < 3.8
 beautifulsoup4 = "^4.8.2"
-fake-useragent ="~0.1.11"
+fake-useragent = { git = "https://github.com/Jordan9675/fake-useragent", rev = "d8ca49d341829adb1f0efa7a309337bdc1c2b978" } # wait for ~0.1.12
 inflection = "~0.4"
 minilog = "^2.0"
 
