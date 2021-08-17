@@ -56,13 +56,13 @@ class Locator:
             log.debug(f"{self} found element: {element.outer_html}")
             return element
 
-    def score(self, value: int) -> bool:
+    def score(self, value: int, *, limit: int = 0) -> bool:
         previous = self.uses
 
         if value > 0:
-            self.uses = min(99, max(1, self.uses + value))
+            self.uses = min(limit or 9, max(1, self.uses + value))
         else:
-            self.uses = max(-1, self.uses + value)
+            self.uses = max(limit or -1, self.uses + value)
 
         if self.uses == previous:
             return False
@@ -109,6 +109,20 @@ class Action:
     @property
     def valid(self) -> bool:
         return self.locator.uses >= 0
+
+    @property
+    def _max_locator_uses(self) -> int:
+        try:
+            return self.sorted_locators[1].uses + 1
+        except IndexError:
+            return self.sorted_locators[0].uses
+
+    @property
+    def _min_locator_uses(self) -> int:
+        try:
+            return self.sorted_locators[-2].uses - 1
+        except IndexError:
+            return self.sorted_locators[-1].uses
 
     def __post_init__(self):
         if self.verb and self._verb != Verb.TYPE and not self.sorted_locators:
@@ -175,9 +189,9 @@ class Action:
                 if element:
                     function = getattr(element, self.verb)
                     if self._perform_action(function, *args, **kwargs):
-                        locator.score(+1)
+                        locator.score(+1, limit=self._max_locator_uses)
                         return False
-            locator.score(-1)
+            locator.score(-1, limit=self._min_locator_uses)
 
         return True
 

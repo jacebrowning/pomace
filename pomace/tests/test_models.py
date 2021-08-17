@@ -57,14 +57,14 @@ def describe_locator():
             expect(locator.uses) == 1
 
         def it_tops_out_at_max_value(expect, locator):
-            locator.score(+99)
-            expect(locator.score(+1)) == False
-            expect(locator.uses) == 99
+            locator.score(+99, limit=42)
+            expect(locator.score(+1, limit=42)) == False
+            expect(locator.uses) == 42
 
         def it_bottoms_out_at_min_value(expect, locator):
-            locator.score(-1)
-            expect(locator.score(-1)) == False
-            expect(locator.uses) == -1
+            locator.score(-99, limit=-42)
+            expect(locator.score(-1, limit=-42)) == False
+            expect(locator.uses) == -42
 
 
 def describe_action():

@@ -115,5 +115,5 @@ class Verb(Enum):
                 time.sleep(delay or 0.5)
                 break
             if elapsed > 1.0 and not logged:
-                log.info(f"Waiting up to {wait} seconds for the URL to change")
+                log.info(f"Waiting {wait} seconds for the URL to change")
                 logged = True
