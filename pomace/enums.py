@@ -114,6 +114,6 @@ class Verb(Enum):
                 log.debug(f"URL changed after {elapsed} seconds to {current_url}")
                 time.sleep(delay or 0.5)
                 break
-            if elapsed > 0.5 and not logged:
+            if elapsed > 1.0 and not logged:
                 log.info(f"Waiting up to {wait} seconds for the URL to change")
                 logged = True
