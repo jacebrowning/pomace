@@ -118,14 +118,14 @@ def describe_action():
         def it_removes_unused_locators(expect, action):
             previous_count = len(action.locators)
             action.locators[0].uses = -1
-            action.locators[1].uses = 99
+            action.locators[1].uses = 2
 
             expect(action.clean("<page>")) == previous_count - 1
             expect(len(action.locators)) == 1
 
         def it_requires_one_locator_to_exceed_usage_threshold(expect, action):
             previous_count = len(action.locators)
-            action.locators[0].uses = 98
+            action.locators[0].uses = 1
 
             expect(action.clean("<page>")) == 0
             expect(len(action.locators)) == previous_count

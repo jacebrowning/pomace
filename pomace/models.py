@@ -113,16 +113,16 @@ class Action:
     @property
     def _max_locator_uses(self) -> int:
         try:
-            return self.sorted_locators[1].uses + 1
+            return max(1, self.sorted_locators[1].uses) * 2
         except IndexError:
-            return self.sorted_locators[0].uses
+            return max(2, self.sorted_locators[0].uses)
 
     @property
     def _min_locator_uses(self) -> int:
         try:
-            return self.sorted_locators[-2].uses - 1
+            return min(-1, self.sorted_locators[-2].uses) * 2
         except IndexError:
-            return self.sorted_locators[-1].uses
+            return min(-2, self.sorted_locators[-1].uses)
 
     def __post_init__(self):
         if self.verb and self._verb != Verb.TYPE and not self.sorted_locators:
@@ -222,7 +222,7 @@ class Action:
         for locator in self.locators:
             if locator.uses <= 0:
                 unused_locators.append(locator)
-            if locator.uses >= 99:
+            if locator.uses > 1:
                 remove_unused_locators = True
 
         log.debug(f"Found {len(unused_locators)} unused locators for {self} on {page}")
@@ -263,13 +263,13 @@ class Locators:
         for locator in self.inclusions:
             if locator.uses <= 0:
                 unused_inclusion_locators.append(locator)
-            if locator.uses >= 99:
+            if locator.uses > 1:
                 remove_unused_locators = True
 
         for locator in self.exclusions:
             if locator.uses <= 0:
                 unused_exclusion_locators.append(locator)
-            if locator.uses >= 99:
+            if locator.uses > 1:
                 remove_unused_locators = True
 
         count = len(unused_inclusion_locators) + len(unused_exclusion_locators)
