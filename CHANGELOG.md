@@ -3,6 +3,7 @@
 - Added `alias` command to map alternate domains to existing models.
 - Updated `Page.html` to return a string.
 - Added `Page.soup` to return parsed HTML using Beautiful Soup.
+- Updated locators to only count `uses` when it will impact the ordering.
 
 # 0.8 (2021-05-12)
 

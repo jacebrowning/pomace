@@ -27,7 +27,7 @@ def test_type_actions_are_supported(expect, browser):
     page.fill_search("foobar")
     page.type_enter()
 
-    expect(shared.browser.url) == "https://en.wikipedia.org/wiki/Foobar"
+    expect(shared.browser.url).endswith("wikipedia.org/wiki/Foobar")
 
 
 def test_modifier_keys_are_supported(expect, browser):
@@ -38,7 +38,7 @@ def test_modifier_keys_are_supported(expect, browser):
     page.type_shift_tab()
     page.type_enter()
 
-    expect(shared.browser.url) == "https://en.wikipedia.org/wiki/Foobar"
+    expect(shared.browser.url).endswith("wikipedia.org/wiki/Foobar")
 
 
 def test_unused_actions_are_removed_on_forced_cleanup(expect, browser):

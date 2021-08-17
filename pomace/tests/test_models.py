@@ -57,14 +57,14 @@ def describe_locator():
             expect(locator.uses) == 1
 
         def it_tops_out_at_max_value(expect, locator):
-            locator.score(+99)
-            expect(locator.score(+1)) == False
-            expect(locator.uses) == 99
+            locator.score(+99, limit=42)
+            expect(locator.score(+1, limit=42)) == False
+            expect(locator.uses) == 42
 
         def it_bottoms_out_at_min_value(expect, locator):
-            locator.score(-1)
-            expect(locator.score(-1)) == False
-            expect(locator.uses) == -1
+            locator.score(-99, limit=-42)
+            expect(locator.score(-1, limit=-42)) == False
+            expect(locator.uses) == -42
 
 
 def describe_action():
@@ -118,14 +118,14 @@ def describe_action():
         def it_removes_unused_locators(expect, action):
             previous_count = len(action.locators)
             action.locators[0].uses = -1
-            action.locators[1].uses = 99
+            action.locators[1].uses = 2
 
             expect(action.clean("<page>")) == previous_count - 1
             expect(len(action.locators)) == 1
 
         def it_requires_one_locator_to_exceed_usage_threshold(expect, action):
             previous_count = len(action.locators)
-            action.locators[0].uses = 98
+            action.locators[0].uses = 1
 
             expect(action.clean("<page>")) == 0
             expect(len(action.locators)) == previous_count
