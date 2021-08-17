@@ -101,15 +101,19 @@ class Verb(Enum):
         if wait is None:
             wait = 0.0 if self.updates else 5.0
         if wait:
-            log.info(f"Waiting up to {wait} seconds for URL to change: {previous_url}")
+            log.debug(f"Waiting {wait} seconds for URL to change from {previous_url}")
 
         elapsed = 0.0
         start = time.time()
+        logged = False
         while elapsed < wait:
             time.sleep(0.1)
             elapsed = round(time.time() - start, 1)
             current_url = shared.browser.url
             if current_url != previous_url:
-                log.debug(f"URL changed after {elapsed} seconds: {current_url}")
+                log.debug(f"URL changed after {elapsed} seconds to {current_url}")
                 time.sleep(delay or 0.5)
                 break
+            if elapsed > 0.5 and not logged:
+                log.info(f"Waiting up to {wait} seconds for the URL to change")
+                logged = True
