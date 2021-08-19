@@ -4,7 +4,7 @@ import log
 from datafiles import datafile, field
 
 from . import shared
-from .types import URL
+from .types import URL, PlaywrightBrowser
 
 
 log.silence("datafiles", allow_warning=True)
@@ -53,6 +53,7 @@ class Settings:
         return self.get_secret(name) or ""
 
     def get_secret(self, name, *, _log=True) -> Optional[str]:
+        assert not isinstance(shared.browser, PlaywrightBrowser)
         domain = URL(shared.browser.url).domain
         for site in self.secrets:
             if site.domain == domain:
@@ -64,6 +65,7 @@ class Settings:
         return None
 
     def set_secret(self, name, value):
+        assert not isinstance(shared.browser, PlaywrightBrowser)
         domain = URL(shared.browser.url).domain
         self._ensure_site(domain)
         site: Site = self._get_site(domain)  # type: ignore
@@ -75,6 +77,7 @@ class Settings:
             site.data.append(Secret(name, value))
 
     def update_secret(self, name, value):
+        assert not isinstance(shared.browser, PlaywrightBrowser)
         domain = URL(shared.browser.url).domain
         site = self._get_site(domain)
         if site:

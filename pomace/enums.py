@@ -7,6 +7,7 @@ import log
 from selenium.webdriver.common.keys import Keys
 
 from . import shared
+from .types import PlaywrightBrowser
 
 
 class Mode(Enum):
@@ -23,6 +24,7 @@ class Mode(Enum):
 
     @property
     def finder(self):
+        assert not isinstance(shared.browser, PlaywrightBrowser)
         if self is self.PARTIAL_TEXT:
             return shared.browser.links.find_by_partial_text
         if self is self.ARIA_LABEL:
@@ -81,6 +83,7 @@ class Verb(Enum):
 
     def pre_action(self):
         if self is self.CLICK:
+            assert not isinstance(shared.browser, PlaywrightBrowser)
             shared.browser.execute_script(
                 """
                 Array.from(document.querySelectorAll('a[target="_blank"]'))
@@ -109,6 +112,7 @@ class Verb(Enum):
         while elapsed < wait:
             time.sleep(0.1)
             elapsed = round(time.time() - start, 1)
+            assert not isinstance(shared.browser, PlaywrightBrowser)
             current_url = shared.browser.url
             if current_url != previous_url:
                 log.debug(f"URL changed after {elapsed} seconds to {current_url}")

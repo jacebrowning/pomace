@@ -2,13 +2,14 @@ import sys
 
 import log
 from fake_useragent import UserAgent, utils
-from splinter import Browser as SplinterBrowser
+from splinter import Browser as get_splinter_browser
 from splinter.exceptions import DriverNotFoundError
 from webdriver_manager import chrome, firefox
 
 from . import patched
 from .config import settings
-from .types import GenericBrowser
+from .types import PlaywrightBrowser  # pylint: disable=unused-import
+from .types import GenericBrowser, SplinterBrowser
 
 
 NAMES = ["Firefox", "Chrome"]
@@ -39,7 +40,7 @@ def launch() -> GenericBrowser:
     }
     log.debug(f"Options: {options}")
     try:
-        return SplinterBrowser(settings.browser.name, **options)
+        return get_splinter_browser(settings.browser.name, **options)
     except DriverNotFoundError:
         sys.exit(f"Unsupported browser: {settings.browser.name}")
     except Exception as e:  # pylint: disable=broad-except
@@ -51,12 +52,13 @@ def launch() -> GenericBrowser:
         for driver, manager in WEBDRIVER_MANAGERS.items():
             if driver in str(e).lower():
                 options["executable_path"] = manager().install()
-                return SplinterBrowser(settings.browser.name, **options)
+                return get_splinter_browser(settings.browser.name, **options)
 
         raise e from None
 
 
 def resize(browser: GenericBrowser):
+    assert isinstance(browser, SplinterBrowser)
     browser.driver.set_window_size(settings.browser.width, settings.browser.height)
     browser.driver.set_window_position(0, 0)
     size = browser.driver.get_window_size()
@@ -64,12 +66,14 @@ def resize(browser: GenericBrowser):
 
 
 def save_url(browser: GenericBrowser):
+    assert isinstance(browser, SplinterBrowser)
     if settings.browser != browser.url:
         log.debug(f"Saving last browser URL: {browser.url}")
         settings.url = browser.url
 
 
 def save_size(browser: GenericBrowser):
+    assert isinstance(browser, SplinterBrowser)
     size = browser.driver.get_window_size()
     if size != (settings.browser.width, settings.browser.height):
         log.debug(f"Saving last browser size: {size}")

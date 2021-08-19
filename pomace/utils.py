@@ -16,6 +16,7 @@ from urllib3.exceptions import HTTPError
 
 from . import browser, shared
 from .config import settings
+from .types import PlaywrightBrowser
 
 
 def launch_browser(
@@ -30,6 +31,7 @@ def launch_browser(
         log.silence("urllib3.connectionpool")
 
     if shared.browser:
+        assert not isinstance(shared.browser, PlaywrightBrowser)
         try:
             log.debug(f"Current browser windows: {shared.browser.windows}")
             log.debug(f"Current browser URL: {shared.browser.url}")
@@ -44,6 +46,7 @@ def launch_browser(
         did_launch = True
 
     if restore_previous_url and settings.url:
+        assert not isinstance(shared.browser, PlaywrightBrowser)
         shared.browser.visit(settings.url)
         time.sleep(delay)
 
@@ -60,6 +63,7 @@ def quit_browser(*, silence_logging: bool = False) -> bool:
         try:
             browser.save_url(shared.browser)
             browser.save_size(shared.browser)
+            assert not isinstance(shared.browser, PlaywrightBrowser)
             shared.browser.quit()
         except Exception as e:
             log.debug(e)

@@ -4,6 +4,7 @@ from contextlib import suppress
 
 from pomace import shared
 from pomace.models import Page
+from pomace.types import PlaywrightBrowser
 
 
 def test_locator_uses_are_persisted(expect, browser):
@@ -27,6 +28,7 @@ def test_type_actions_are_supported(expect, browser):
     page.fill_search("foobar")
     page.type_enter()
 
+    assert not isinstance(shared.browser, PlaywrightBrowser)
     expect(shared.browser.url).endswith("wikipedia.org/wiki/Foobar")
 
 
@@ -38,6 +40,7 @@ def test_modifier_keys_are_supported(expect, browser):
     page.type_shift_tab()
     page.type_enter()
 
+    assert not isinstance(shared.browser, PlaywrightBrowser)
     expect(shared.browser.url).endswith("wikipedia.org/wiki/Foobar")
 
 

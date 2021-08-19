@@ -18,7 +18,7 @@ from splinter.exceptions import ElementDoesNotExist
 from . import prompts, shared
 from .config import settings
 from .enums import Mode, Verb
-from .types import URL, GenericBrowser
+from .types import URL, GenericBrowser, PlaywrightBrowser
 
 
 __all__ = ["Locator", "Action", "Page", "auto"]
@@ -168,6 +168,7 @@ class Action:
                 assert len(names) == 2, "Multiple modifier keys not supported"
                 modifier = getattr(Keys, names[0].upper())
                 key = getattr(Keys, names[-1].upper())
+                assert not isinstance(shared.browser, PlaywrightBrowser)
                 function = (
                     ActionChains(shared.browser.driver)
                     .key_down(modifier)
@@ -177,6 +178,7 @@ class Action:
                 )
             else:
                 key = getattr(Keys, self.name.upper())
+                assert not isinstance(shared.browser, PlaywrightBrowser)
                 function = ActionChains(shared.browser.driver).send_keys(key).perform
             self._perform_action(function, *args, **kwargs)
             return False
@@ -195,6 +197,7 @@ class Action:
         return True
 
     def _perform_action(self, function: Callable, *args, **kwargs) -> bool:
+        assert not isinstance(shared.browser, PlaywrightBrowser)
         previous_url = shared.browser.url
         delay = kwargs.pop("delay", None)
         wait = kwargs.pop("wait", None)
@@ -305,6 +308,7 @@ class Page:
 
     @classmethod
     def at(cls, url: str, *, variant: str = "") -> "Page":
+        assert not isinstance(shared.browser, PlaywrightBrowser)
         if shared.browser.url != url:
             log.info(f"Visiting {url}")
             shared.browser.visit(url)
@@ -335,10 +339,12 @@ class Page:
 
     @cached_property
     def url(self) -> str:
+        assert not isinstance(self.browser, PlaywrightBrowser)
         return self.browser.url
 
     @cached_property
     def title(self) -> str:
+        assert not isinstance(self.browser, PlaywrightBrowser)
         return self.browser.title
 
     @cached_property
@@ -356,6 +362,7 @@ class Page:
 
     @cached_property
     def html(self) -> str:
+        assert not isinstance(self.browser, PlaywrightBrowser)
         return self.browser.html
 
     @cached_property
@@ -366,7 +373,8 @@ class Page:
     def active(self) -> bool:
         log.debug(f"Determining if {self!r} is active")
 
-        url = URL(domain(shared.browser.url), URL(shared.browser.url).path)
+        assert not isinstance(self.browser, PlaywrightBrowser)
+        url = URL(domain(self.browser.url), URL(self.browser.url).path)
         if self.url_pattern != url:
             log.debug(f"{self!r} is inactive: URL not matched")
             return False
@@ -493,6 +501,7 @@ def auto() -> Page:
     matching_pages = []
     found_exact_match = False
 
+    assert not isinstance(shared.browser, PlaywrightBrowser)
     for page in Page.objects.filter(domain=domain(shared.browser.url)):
         if page.active:
             matching_pages.append(page)

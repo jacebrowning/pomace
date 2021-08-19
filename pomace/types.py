@@ -9,12 +9,13 @@ import us
 import zipcodes
 from parse import parse
 from playwright.sync_api import Browser as PlaywrightBrowser
-from splinter import Browser as SplinterBrowser
+from splinter.browser import ChromeWebDriver, FirefoxWebDriver
 
 
 __all__ = ["URL"]
 
-GenericBrowser = Union[PlaywrightBrowser, SplinterBrowser]
+SplinterBrowser = (ChromeWebDriver, FirefoxWebDriver)
+GenericBrowser = Union[ChromeWebDriver, FirefoxWebDriver, PlaywrightBrowser]
 
 
 class URL:
