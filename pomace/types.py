@@ -14,8 +14,8 @@ from splinter.browser import ChromeWebDriver, FirefoxWebDriver
 
 __all__ = ["URL"]
 
-SplinterBrowser = (ChromeWebDriver, FirefoxWebDriver)
-GenericBrowser = Union[ChromeWebDriver, FirefoxWebDriver, PlaywrightBrowser]
+SplinterBrowser = Union[ChromeWebDriver, FirefoxWebDriver]
+GenericBrowser = Union[PlaywrightBrowser, SplinterBrowser]
 
 
 class URL:

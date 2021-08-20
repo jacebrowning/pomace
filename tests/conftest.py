@@ -27,6 +27,7 @@ def pytest_runtest_setup(item):
 @pytest.fixture(scope="session", autouse=True)
 def settings():
     backup = _settings.datafile.text
+    _settings.framework = "splinter"
     yield _settings
     _settings.datafile.text = backup
 
@@ -36,6 +37,7 @@ def browser(settings):
     if "APPVEYOR" in os.environ:
         # TODO: https://github.com/jacebrowning/pomace/issues/42
         pytest.skip("Launching browsers on AppVeyor causes build timeouts")
+    settings.framework = "splinter"
     settings.browser.name = "chrome"
     settings.browser.headless = True
     settings.url = "http://example.com"

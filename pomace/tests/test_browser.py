@@ -17,12 +17,14 @@ def describe_launch():
 
     def it_forces_lowercase_browser_name(expect, mocker):
         settings.browser.name = "Firefox"
-        mocker.patch.object(browser, "get_splinter_browser")
+        mocker.patch.object(browser, "sync_playwright")
+        mocker.patch.object(browser.splinter, "Browser")
         browser.launch()
         expect(settings.browser.name) == "firefox"
 
     def it_handles_unspecified_browser(expect, mocker):
         settings.browser.name = "open"
-        mocker.patch.object(browser, "get_splinter_browser")
+        mocker.patch.object(browser, "sync_playwright")
+        mocker.patch.object(browser.splinter, "Browser")
         browser.launch()
         expect(settings.browser.name) == "firefox"

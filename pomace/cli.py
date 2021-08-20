@@ -23,7 +23,7 @@ class BaseCommand(Command):  # pragma: no cover
         except KeyboardInterrupt:
             log.debug("User cancelled loop")
         finally:
-            utils.quit_browser()
+            utils.close_browser()
             prompts.linebreak()
 
     def configure_logging(self):
@@ -217,7 +217,7 @@ class ServeCommand(BaseCommand):
         try:
             server.app.run(debug=self.option("debug"))
         finally:
-            utils.quit_browser()
+            utils.close_browser()
 
 
 application = Application("pomace", __version__)
