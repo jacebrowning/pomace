@@ -99,7 +99,7 @@ def save_url(browser: GenericBrowser):
     else:
         url = browser.url
 
-    if settings.url != url:
+    if "://" in url and settings.url != url:
         log.debug(f"Saving last browser URL: {url}")
         settings.url = url
 

@@ -197,8 +197,7 @@ class Action:
         return True
 
     def _perform_action(self, function: Callable, *args, **kwargs) -> bool:
-        assert not isinstance(shared.browser, PlaywrightBrowser)
-        previous_url = shared.browser.url
+        previous_url = shared.get_url()
         delay = kwargs.pop("delay", None)
         wait = kwargs.pop("wait", None)
         self._verb.pre_action()
@@ -308,12 +307,11 @@ class Page:
 
     @classmethod
     def at(cls, url: str, *, variant: str = "") -> "Page":
-        assert not isinstance(shared.browser, PlaywrightBrowser)
-        if shared.browser.url != url:
+        if shared.get_url() != url:
             log.info(f"Visiting {url}")
-            shared.browser.visit(url)
+            shared.visit(url)
 
-        if shared.browser.url != url:
+        if shared.get_url() != url:
             log.info(f"Redirected to {url}")
 
         kwargs = {"domain": domain(url), "path": URL(url).path}
@@ -338,9 +336,8 @@ class Page:
         return shared.browser
 
     @cached_property
-    def url(self) -> str:
-        assert not isinstance(self.browser, PlaywrightBrowser)
-        return self.browser.url
+    def url(self) -> str:  # pylint: disable=no-self-use
+        return shared.get_url()
 
     @cached_property
     def title(self) -> str:
@@ -373,8 +370,7 @@ class Page:
     def active(self) -> bool:
         log.debug(f"Determining if {self!r} is active")
 
-        assert not isinstance(self.browser, PlaywrightBrowser)
-        url = URL(domain(self.browser.url), URL(self.browser.url).path)
+        url = URL(domain(self.url), URL(self.url).path)
         if self.url_pattern != url:
             log.debug(f"{self!r} is inactive: URL not matched")
             return False
@@ -501,8 +497,7 @@ def auto() -> Page:
     matching_pages = []
     found_exact_match = False
 
-    assert not isinstance(shared.browser, PlaywrightBrowser)
-    for page in Page.objects.filter(domain=domain(shared.browser.url)):
+    for page in Page.objects.filter(domain=domain(shared.get_url())):
         if page.active:
             matching_pages.append(page)
             if page.exact:
@@ -520,8 +515,8 @@ def auto() -> Page:
                     shared.linebreak = False
         return matching_pages[0]
 
-    log.info(f"Creating new page: {shared.browser.url}")
-    page = Page.at(shared.browser.url)
+    log.info(f"Creating new page: {shared.get_url()}")
+    page = Page.at(shared.get_url())
     page.datafile.save()
     return page
 

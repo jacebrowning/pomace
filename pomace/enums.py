@@ -112,8 +112,7 @@ class Verb(Enum):
         while elapsed < wait:
             time.sleep(0.1)
             elapsed = round(time.time() - start, 1)
-            assert not isinstance(shared.browser, PlaywrightBrowser)
-            current_url = shared.browser.url
+            current_url = shared.get_url()
             if current_url != previous_url:
                 log.debug(f"URL changed after {elapsed} seconds to {current_url}")
                 time.sleep(delay or 0.5)
