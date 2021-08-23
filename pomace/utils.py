@@ -31,10 +31,9 @@ def launch_browser(
         log.silence("urllib3.connectionpool")
 
     if shared.browser:
-        assert not isinstance(shared.browser, PlaywrightBrowser)
         try:
-            log.debug(f"Current browser windows: {shared.browser.windows}")
-            log.debug(f"Current browser URL: {shared.get_url()}")
+            log.debug(f"Current browser windows: {shared.client.windows}")
+            log.debug(f"Current browser URL: {shared.client.url}")
         except (WebDriverException, HTTPError) as e:
             log.warn(str(e).strip())
             shared.browser = None

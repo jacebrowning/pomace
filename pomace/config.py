@@ -53,7 +53,7 @@ class Settings:
         return self.get_secret(name) or ""
 
     def get_secret(self, name, *, _log=True) -> Optional[str]:
-        domain = URL(shared.get_url()).domain
+        domain = URL(shared.client.url).domain
         for site in self.secrets:
             if site.domain == domain:
                 for secret in site.data:
@@ -64,7 +64,7 @@ class Settings:
         return None
 
     def set_secret(self, name, value):
-        domain = URL(shared.get_url()).domain
+        domain = URL(shared.client.url).domain
         self._ensure_site(domain)
         site: Site = self._get_site(domain)  # type: ignore
         for secret in site.data:
@@ -75,7 +75,7 @@ class Settings:
             site.data.append(Secret(name, value))
 
     def update_secret(self, name, value):
-        domain = URL(shared.get_url()).domain
+        domain = URL(shared.client.url).domain
         site = self._get_site(domain)
         if site:
             for secret in site.data:

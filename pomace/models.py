@@ -197,7 +197,7 @@ class Action:
         return True
 
     def _perform_action(self, function: Callable, *args, **kwargs) -> bool:
-        previous_url = shared.get_url()
+        previous_url = shared.client.url
         delay = kwargs.pop("delay", None)
         wait = kwargs.pop("wait", None)
         self._verb.pre_action()
@@ -307,11 +307,11 @@ class Page:
 
     @classmethod
     def at(cls, url: str, *, variant: str = "") -> "Page":
-        if shared.get_url() != url:
+        if shared.client.url != url:
             log.info(f"Visiting {url}")
-            shared.visit(url)
+            shared.client.visit(url)
 
-        if shared.get_url() != url:
+        if shared.client.url != url:
             log.info(f"Redirected to {url}")
 
         kwargs = {"domain": domain(url), "path": URL(url).path}
@@ -337,12 +337,11 @@ class Page:
 
     @cached_property
     def url(self) -> str:  # pylint: disable=no-self-use
-        return shared.get_url()
+        return shared.client.url
 
     @cached_property
-    def title(self) -> str:
-        assert not isinstance(self.browser, PlaywrightBrowser)
-        return self.browser.title
+    def title(self) -> str:  # pylint: disable=no-self-use
+        return shared.client.title
 
     @cached_property
     def identity(self) -> int:
@@ -358,9 +357,8 @@ class Page:
         return "\n".join(chunk for chunk in chunks if chunk)
 
     @cached_property
-    def html(self) -> str:
-        assert not isinstance(self.browser, PlaywrightBrowser)
-        return self.browser.html
+    def html(self) -> str:  # pylint: disable=no-self-use
+        return shared.client.html
 
     @cached_property
     def soup(self) -> BeautifulSoup:
@@ -497,7 +495,7 @@ def auto() -> Page:
     matching_pages = []
     found_exact_match = False
 
-    for page in Page.objects.filter(domain=domain(shared.get_url())):
+    for page in Page.objects.filter(domain=domain(shared.client.url)):
         if page.active:
             matching_pages.append(page)
             if page.exact:
@@ -515,8 +513,8 @@ def auto() -> Page:
                     shared.linebreak = False
         return matching_pages[0]
 
-    log.info(f"Creating new page: {shared.get_url()}")
-    page = Page.at(shared.get_url())
+    log.info(f"Creating new page: {shared.client.url}")
+    page = Page.at(shared.client.url)
     page.datafile.save()
     return page
 
