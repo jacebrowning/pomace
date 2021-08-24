@@ -6,6 +6,7 @@ import log
 from bs4 import BeautifulSoup
 from cached_property import cached_property
 from datafiles import datafile, field, mapper
+from playwright.sync_api import ElementHandle
 from selenium.common.exceptions import (
     ElementNotInteractableException,
     WebDriverException,
@@ -41,8 +42,16 @@ class Locator:
     def find(self) -> Optional[WebDriverElement]:
         elements = self._mode.find(self.value)
         index = self.index
+
+        if isinstance(shared.browser, PlaywrightBrowser):
+            try:
+                return elements[index]
+            except IndexError:
+                return None
+
         try:
             element = elements[index]
+            assert not isinstance(element, ElementHandle)
             if index == 0 and not element.visible:
                 log.debug(f"{self} found invisible element: {element.outer_html}")
                 index += 1

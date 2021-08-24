@@ -1,13 +1,13 @@
 import time
 from enum import Enum
-from typing import Iterator, Optional, Tuple
+from typing import Callable, Iterator, Optional, Tuple
 
 import inflection
 import log
 from selenium.webdriver.common.keys import Keys
 
 from . import shared
-from .types import PlaywrightBrowser
+from .types import GenericElement, PlaywrightBrowser
 
 
 class Mode(Enum):
@@ -23,17 +23,25 @@ class Mode(Enum):
     XPATH = "xpath"
 
     @property
-    def finder(self):
-        assert not isinstance(shared.browser, PlaywrightBrowser)
+    def finder(self) -> Callable:
+        if isinstance(shared.browser, PlaywrightBrowser):
+            return shared.client.page.query_selector_all
+
         if self is self.PARTIAL_TEXT:
             return shared.browser.links.find_by_partial_text
+
         if self is self.ARIA_LABEL:
             return shared.browser.find_by_css
+
         return getattr(shared.browser, f"find_by_{self.value}")
 
-    def find(self, value):
+    def find(self, value) -> GenericElement:
         if self is self.ARIA_LABEL:
             value = f'[aria-label="{value}"]'
+        elif isinstance(shared.browser, PlaywrightBrowser):
+            if self is not self.CSS:
+                value = f"{self.value}={value}"
+
         return self.finder(value)
 
 
@@ -83,7 +91,12 @@ class Verb(Enum):
 
     def pre_action(self):
         if self is self.CLICK:
-            assert not isinstance(shared.browser, PlaywrightBrowser)
+            if isinstance(shared.browser, PlaywrightBrowser):
+                log.warn(
+                    "Forcing Playwright browsers to open links "
+                    "in the same window is not yet supported"
+                )
+                return
             shared.browser.execute_script(
                 """
                 Array.from(document.querySelectorAll('a[target="_blank"]'))

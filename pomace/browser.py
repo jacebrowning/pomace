@@ -17,12 +17,14 @@ __all__ = ["launch", "resize", "save_url", "save_size", "close"]
 
 NAMES = ["Firefox", "Chrome"]
 
+PLAYWRIGHT_BROWSERS = {"chrome": "chromium"}
+
 WEBDRIVER_MANAGERS = {
     "chromedriver": chrome.ChromeDriverManager,
     "geckodriver": firefox.GeckoDriverManager,
 }
 
-USER_AGENT = "Mozilla/5.0 Gecko/20100101 Firefox/53.0"
+FALLBACK_USER_AGENT = "Mozilla/5.0 Gecko/20100101 Firefox/53.0"
 
 
 def launch() -> GenericBrowser:
@@ -37,14 +39,15 @@ def launch() -> GenericBrowser:
 
     log.info(f"Launching {settings.browser.name!r} using {settings.framework!r}")
     try:
-        function = globals()[f"_launch_{settings.framework}_browser"]
+        function = LAUNCHERS[settings.framework]
     except KeyError:
         raise ValueError(f"Unsupported framework: {settings.framework}") from None
     else:
         return function(settings.browser.name, settings.browser.headless)
 
 
-def _launch_playwright_browser(name: str, headless: bool) -> PlaywrightBrowser:
+def launch_playwright_browser(name: str, headless: bool) -> PlaywrightBrowser:
+    name = PLAYWRIGHT_BROWSERS.get(name, name)
     playwright = sync_playwright().start()
     try:
         browser = getattr(playwright, name)
@@ -55,11 +58,11 @@ def _launch_playwright_browser(name: str, headless: bool) -> PlaywrightBrowser:
     return instance
 
 
-def _launch_splinter_browser(name: str, headless: bool) -> SplinterBrowser:
+def launch_splinter_browser(name: str, headless: bool) -> SplinterBrowser:
     utils.get_browsers = patched.get_browsers
     options = {
         "headless": headless,
-        "user_agent": UserAgent(fallback=USER_AGENT)[name],
+        "user_agent": UserAgent(fallback=FALLBACK_USER_AGENT)[name],
         "wait_time": 1.0,
     }
     log.debug(f"Options: {options}")
@@ -79,6 +82,12 @@ def _launch_splinter_browser(name: str, headless: bool) -> SplinterBrowser:
                 return splinter.Browser(name, **options)
 
         raise e from None
+
+
+LAUNCHERS = {
+    "playwright": launch_playwright_browser,
+    "splinter": launch_splinter_browser,
+}
 
 
 def resize(browser: GenericBrowser):
