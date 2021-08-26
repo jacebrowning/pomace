@@ -115,7 +115,8 @@ def clone_models(url: str, *, domain: str = "", force: bool = False):
     domain = domain or repository.replace("pomace-", "")
     directory = Path("sites") / domain
     log.info(f"Cloning {url} to {directory}")
-    assert "." in domain, f"Invalid domain: {domain}"
+    if "." not in domain:
+        raise ValueError(f"Invalid domain: {domain}")
     source = Source(url, directory)
     source.update_files(force=force)
 

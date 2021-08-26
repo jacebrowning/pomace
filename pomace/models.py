@@ -11,8 +11,6 @@ from selenium.common.exceptions import (
     ElementNotInteractableException,
     WebDriverException,
 )
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
 from splinter.driver.webdriver import WebDriverElement
 from splinter.exceptions import ElementDoesNotExist
 
@@ -173,22 +171,9 @@ class Action:
     def _trying_locators(self, *args, **kwargs) -> bool:
         if self._verb == Verb.TYPE:
             if "_" in self.name:
-                names = self.name.split("_")
-                assert len(names) == 2, "Multiple modifier keys not supported"
-                modifier = getattr(Keys, names[0].upper())
-                key = getattr(Keys, names[-1].upper())
-                assert not isinstance(shared.browser, PlaywrightBrowser)
-                function = (
-                    ActionChains(shared.browser.driver)
-                    .key_down(modifier)
-                    .send_keys(key)
-                    .key_up(modifier)
-                    .perform
-                )
+                function = shared.client.type_key_with_modifier(self.name.split("_"))
             else:
-                key = getattr(Keys, self.name.upper())
-                assert not isinstance(shared.browser, PlaywrightBrowser)
-                function = ActionChains(shared.browser.driver).send_keys(key).perform
+                function = shared.client.type_key(self.name)
             self._perform_action(function, *args, **kwargs)
             return False
 
