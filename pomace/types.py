@@ -1,6 +1,6 @@
 import random
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Union
 from urllib.parse import urlparse
 
 import faker
@@ -8,9 +8,16 @@ import log
 import us
 import zipcodes
 from parse import parse
+from splinter.browser import ChromeWebDriver, FirefoxWebDriver
+from splinter.driver import ElementAPI as SplinterElements
 
 
 __all__ = ["URL"]
+
+SplinterBrowser = Union[ChromeWebDriver, FirefoxWebDriver]
+GenericBrowser = Union[SplinterBrowser]
+
+GenericElement = Union[SplinterElements]
 
 
 class URL:

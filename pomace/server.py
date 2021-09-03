@@ -39,6 +39,6 @@ def pomace():
     }
 
     if not app.debug:
-        utils.quit_browser()
+        utils.close_browser()
 
     return data

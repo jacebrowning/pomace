@@ -1,12 +1,13 @@
 import time
 from enum import Enum
-from typing import Iterator, Optional, Tuple
+from typing import Callable, Iterator, Optional, Tuple
 
 import inflection
 import log
 from selenium.webdriver.common.keys import Keys
 
 from . import shared
+from .types import GenericElement
 
 
 class Mode(Enum):
@@ -22,14 +23,14 @@ class Mode(Enum):
     XPATH = "xpath"
 
     @property
-    def finder(self):
+    def finder(self) -> Callable:
         if self is self.PARTIAL_TEXT:
             return shared.browser.links.find_by_partial_text
         if self is self.ARIA_LABEL:
             return shared.browser.find_by_css
         return getattr(shared.browser, f"find_by_{self.value}")
 
-    def find(self, value):
+    def find(self, value) -> GenericElement:
         if self is self.ARIA_LABEL:
             value = f'[aria-label="{value}"]'
         return self.finder(value)

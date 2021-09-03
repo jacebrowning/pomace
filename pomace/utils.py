@@ -39,7 +39,7 @@ def launch_browser(
 
     if not shared.browser:
         shared.browser = browser.launch()
-        atexit.register(quit_browser, silence_logging=silence_logging)
+        atexit.register(close_browser, silence_logging=silence_logging)
         browser.resize(shared.browser)
         did_launch = True
 
@@ -50,8 +50,8 @@ def launch_browser(
     return did_launch
 
 
-def quit_browser(*, silence_logging: bool = False) -> bool:
-    did_quit = False
+def close_browser(*, silence_logging: bool = False) -> bool:
+    did_close = False
 
     if silence_logging:
         log.silence("pomace", "selenium", allow_warning=True)
@@ -60,11 +60,11 @@ def quit_browser(*, silence_logging: bool = False) -> bool:
         try:
             browser.save_url(shared.browser)
             browser.save_size(shared.browser)
-            shared.browser.quit()
+            browser.close(shared.browser)
         except Exception as e:
             log.debug(e)
         else:
-            did_quit = True
+            did_close = True
         shared.browser = None
 
     path = Path().resolve()
@@ -75,7 +75,7 @@ def quit_browser(*, silence_logging: bool = False) -> bool:
             logfile.unlink()
         path = path.parent
 
-    return did_quit
+    return did_close
 
 
 def locate_models(*, caller=None):
@@ -110,7 +110,8 @@ def clone_models(url: str, *, domain: str = "", force: bool = False):
     domain = domain or repository.replace("pomace-", "")
     directory = Path("sites") / domain
     log.info(f"Cloning {url} to {directory}")
-    assert "." in domain, f"Invalid domain: {domain}"
+    if "." not in domain:
+        raise ValueError(f"Invalid domain: {domain}")
     source = Source(url, directory)
     source.update_files(force=force)
 
