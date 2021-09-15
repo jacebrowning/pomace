@@ -11,7 +11,6 @@ from parse import parse
 from splinter.browser import ChromeWebDriver, FirefoxWebDriver
 from splinter.driver import ElementAPI as SplinterElements
 
-
 __all__ = ["URL"]
 
 SplinterBrowser = Union[ChromeWebDriver, FirefoxWebDriver]

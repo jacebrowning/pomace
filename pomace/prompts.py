@@ -11,7 +11,6 @@ from IPython import embed
 from . import browser, enums, shared
 from .config import settings
 
-
 try:
     import bullet
 except ImportError:

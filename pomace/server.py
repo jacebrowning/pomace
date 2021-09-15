@@ -5,7 +5,6 @@ from flask_api import FlaskAPI
 
 from . import models, utils
 
-
 app = FlaskAPI("Pomace")
 
 

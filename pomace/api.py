@@ -7,7 +7,6 @@ from . import models, prompts, types, utils
 from .config import settings
 from .models import Page, auto
 
-
 __all__ = [
     "auto",
     "clean",

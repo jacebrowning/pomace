@@ -1,15 +1,14 @@
 import sys
 
 import log
-from fake_useragent import UserAgent, utils
 import splinter
+from fake_useragent import UserAgent, utils
 from splinter.exceptions import DriverNotFoundError
 from webdriver_manager import chrome, firefox
 
 from . import patched
 from .config import settings
 from .types import GenericBrowser
-
 
 __all__ = ["launch", "resize", "save_url", "save_size", "close"]
 

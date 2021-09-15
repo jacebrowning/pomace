@@ -70,8 +70,8 @@ minilog = "^2.0"
 [tool.poetry.dev-dependencies]
 
 # Formatters
-black = "=20.8b1"
-isort = "=5.5.1"
+black = "=21.8b0"
+isort = "=5.9.3"
 
 # Linters
 mypy = "~0.782"
@@ -105,6 +105,10 @@ rope = "^0.18"
 [tool.poetry.scripts]
 
 pomace = "pomace.cli:application.run"
+
+[tool.isort]
+
+profile = "black"
 
 [build-system]
 
