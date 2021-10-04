@@ -51,7 +51,7 @@ splinter = "^0.15"
 webdriver_manager = "^2.5"
 
 # Persistence
-datafiles = "^0.15"
+datafiles = "^1.0b1"
 gitman = "^2.3"
 parse = "^1.14"
 
