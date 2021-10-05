@@ -250,7 +250,7 @@ colorama = "*"
 
 [[package]]
 name = "datafiles"
-version = "1.0b1"
+version = "1.0"
 description = "File-based ORM for dataclasses."
 category = "main"
 optional = false
@@ -365,14 +365,14 @@ dev = ["twine", "markdown", "flake8", "wheel"]
 
 [[package]]
 name = "gitman"
-version = "2.3.2"
+version = "3.0.1"
 description = "A language-agnostic dependency manager using Git."
 category = "main"
 optional = false
 python-versions = ">=3.7,<4.0"
 
 [package.dependencies]
-datafiles = ">=0.11"
+datafiles = ">=1.0,<2.0"
 minilog = ">=2.0,<3.0"
 
 [[package]]
@@ -1351,7 +1351,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "93ba8c4633cfd7388db60b957f7a0c8ead6dc4f603690d5b010d5156ba8d1072"
+content-hash = "6dfacca5856125ab49c9e02c268f5af8d5a7e87a2d203ee3c5bd9e75ca0ea23c"
 
 [metadata.files]
 altgraph = [
@@ -1475,8 +1475,8 @@ crayons = [
     {file = "crayons-0.4.0.tar.gz", hash = "sha256:bd33b7547800f2cfbd26b38431f9e64b487a7de74a947b0fafc89b45a601813f"},
 ]
 datafiles = [
-    {file = "datafiles-1.0b1-py3-none-any.whl", hash = "sha256:c3b40580dab7cf62bd3c5735fc6263eeea27c473b670e453027e5e55f8899ae1"},
-    {file = "datafiles-1.0b1.tar.gz", hash = "sha256:ad30a3194a5de5898af7fc05e70c9a2676e4956b4572bc521371ca32e84c3415"},
+    {file = "datafiles-1.0-py3-none-any.whl", hash = "sha256:4e51fe4f2cc88a702f17a5919ba4104dd3bf83d0cec825bd6ac49c24ecc84ceb"},
+    {file = "datafiles-1.0.tar.gz", hash = "sha256:f43b04bb5b76e8e5d9a2c9a9e83d2babba4e5e0ba9d2e50204557455d29ca727"},
 ]
 decorator = [
     {file = "decorator-5.1.0-py3-none-any.whl", hash = "sha256:7b12e7c3c6ab203a29e157335e9122cb03de9ab7264b137594103fd4a683b374"},
@@ -1512,8 +1512,8 @@ ghp-import = [
     {file = "ghp_import-2.0.2-py3-none-any.whl", hash = "sha256:5f8962b30b20652cdffa9c5a9812f7de6bcb56ec475acac579807719bf242c46"},
 ]
 gitman = [
-    {file = "gitman-2.3.2-py3-none-any.whl", hash = "sha256:278125b86d66db5bcf670037465fa968c192b3757fbb4f5594ff0c42bc931060"},
-    {file = "gitman-2.3.2.tar.gz", hash = "sha256:b54b301d231866220594e8f5de973f9ae851db73224a3d6d30ee4432bd6ee3e4"},
+    {file = "gitman-3.0.1-py3-none-any.whl", hash = "sha256:955d42394cdd242426b21855a41806a8e3f805ae2bf30e6822c5cedb8dd210e7"},
+    {file = "gitman-3.0.1.tar.gz", hash = "sha256:557d2f39b245386d2573617af571baf68949acf9708f3356c86e5769e6bbf09e"},
 ]
 idna = [
     {file = "idna-3.2-py3-none-any.whl", hash = "sha256:14475042e284991034cb48e06f6851428fb14c4dc953acd9be9a5e95c7b6dd7a"},
