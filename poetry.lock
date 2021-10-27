@@ -1152,18 +1152,19 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "splinter"
-version = "0.15.0"
+version = "0.16.0"
 description = "browser abstraction for web acceptance testing"
 category = "main"
 optional = false
 python-versions = "*"
 
 [package.dependencies]
-selenium = ">=3.141.0"
+selenium = ">=3.141.0,<4.0"
 six = "*"
 
 [package.extras]
 django = ["Django (>=1.7.11)", "lxml (>=2.3.6)", "cssselect", "six"]
+edge = ["msedge-selenium-tools"]
 flask = ["Flask (>=1.0.2)", "lxml (>=2.3.6)", "cssselect"]
 "zope.testbrowser" = ["zope.testbrowser (>=5.2.4)", "lxml (>=4.2.4)", "cssselect"]
 
@@ -1351,7 +1352,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "6dfacca5856125ab49c9e02c268f5af8d5a7e87a2d203ee3c5bd9e75ca0ea23c"
+content-hash = "99df1e48eb5bf10a4fdb49dc01f2b8dd7d0678a71b0b3adf210633ce9e1eeae4"
 
 [metadata.files]
 altgraph = [
@@ -2021,9 +2022,8 @@ soupsieve = [
     {file = "soupsieve-2.2.1.tar.gz", hash = "sha256:052774848f448cf19c7e959adf5566904d525f33a3f8b6ba6f6f8f26ec7de0cc"},
 ]
 splinter = [
-    {file = "splinter-0.15.0-py2-none-any.whl", hash = "sha256:18b9d992352953cdd61ca8ece9616c9f214b47caebf8893266cb46bce60f6d60"},
-    {file = "splinter-0.15.0-py3-none-any.whl", hash = "sha256:3f63f946fd96b750b4fd3c49ffb17abd6dc03d094b4836753e6be33f53fcfee1"},
-    {file = "splinter-0.15.0.tar.gz", hash = "sha256:218f4433018f9d1710a3201de7c22284273ab8bf29e5793247844fd74aafaf89"},
+    {file = "splinter-0.16.0-py3-none-any.whl", hash = "sha256:8d0734d483cb288f9edef2c7f5f5ad007dce6918e7bb902fe72057361219bf96"},
+    {file = "splinter-0.16.0.tar.gz", hash = "sha256:dbbbbee217d47d63bf607afdd2e2bdcee173dfbf492480115a5b99b201963ef0"},
 ]
 text-unidecode = [
     {file = "text-unidecode-1.3.tar.gz", hash = "sha256:bad6603bb14d279193107714b288be206cac565dfa49aa5b105294dd5c4aab93"},
