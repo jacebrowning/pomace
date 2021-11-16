@@ -19,7 +19,6 @@ from .config import settings
 from .enums import Mode, Verb
 from .types import URL, GenericBrowser, PlaywrightBrowser
 
-
 __all__ = ["Locator", "Action", "Page", "auto"]
 
 

@@ -8,13 +8,10 @@ import log
 import us
 import zipcodes
 from parse import parse
-from playwright.sync_api import (
-    Browser as PlaywrightBrowser,
-    ElementHandle as PlaywrightElement,
-)
+from playwright.sync_api import Browser as PlaywrightBrowser
+from playwright.sync_api import ElementHandle as PlaywrightElement
 from splinter.browser import ChromeWebDriver, FirefoxWebDriver
 from splinter.driver import ElementAPI as SplinterElements
-
 
 __all__ = ["URL"]
 

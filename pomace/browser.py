@@ -11,7 +11,6 @@ from . import patched
 from .config import settings
 from .types import GenericBrowser, PlaywrightBrowser, SplinterBrowser
 
-
 __all__ = ["launch", "resize", "save_url", "save_size", "close"]
 
 

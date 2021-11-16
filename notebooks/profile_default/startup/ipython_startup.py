@@ -2,7 +2,8 @@
 
 
 import pomace
-from pomace import prompts as _prompts, utils as _utils
+from pomace import prompts as _prompts
+from pomace import utils as _utils
 from pomace.config import settings
 from pomace.models import Page, auto
 from pomace.shared import browser

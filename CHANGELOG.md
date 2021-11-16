@@ -1,4 +1,4 @@
-# 0.9 (unreleased)
+# 0.9 (2021-10-27)
 
 - Added `alias` command to map alternate domains to existing models.
 - Updated `Page.html` to return a string.

@@ -6,7 +6,6 @@ from selenium.webdriver.common.keys import Keys
 
 from .types import GenericBrowser, PlaywrightBrowser
 
-
 __all__ = ["browser", "client", "linebreak"]
 
 browser: GenericBrowser = None

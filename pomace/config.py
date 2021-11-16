@@ -6,7 +6,6 @@ from datafiles import datafile, field
 from . import shared
 from .types import URL
 
-
 log.silence("datafiles", allow_warning=True)
 
 
