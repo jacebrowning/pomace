@@ -47,6 +47,7 @@ ipdb = "~0.13.7"
 flask-api = "^3.0"
 
 # Automation
+selenium = "^4.1"
 splinter = "^0.17"
 webdriver_manager = "^2.5"
 
