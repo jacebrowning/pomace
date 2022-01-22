@@ -107,6 +107,10 @@ rope = "^0.18"
 
 pomace = "pomace.cli:application.run"
 
+[tool.black]
+
+quiet = "true"
+
 [tool.isort]
 
 profile = "black"
