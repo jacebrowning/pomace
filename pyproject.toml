@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.9.2"
+version = "0.9.3"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -65,7 +65,7 @@ us = "^2.0.2"
 cached-property = "^1.5.2" # needed for Python < 3.8
 beautifulsoup4 = "^4.8.2"
 fake-useragent ="~0.1.11"
-inflection = "~0.4"
+inflection = "^0.5.1"
 minilog = "^2.0"
 
 [tool.poetry.dev-dependencies]

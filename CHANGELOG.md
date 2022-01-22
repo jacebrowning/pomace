@@ -1,3 +1,7 @@
+# 0.10 (unreleased)
+
+- Added URL pattern detection when using `auto()` to create pages.
+
 # 0.9 (2021-10-27)
 
 - Added `alias` command to map alternate domains to existing models.

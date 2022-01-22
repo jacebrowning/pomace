@@ -1,9 +1,11 @@
 import random
 from dataclasses import dataclass
-from typing import Optional, Union
+from typing import Optional, Tuple, Union
 from urllib.parse import urlparse
+from uuid import UUID
 
 import faker
+import inflection
 import log
 import us
 import zipcodes
@@ -17,6 +19,19 @@ SplinterBrowser = Union[ChromeWebDriver, FirefoxWebDriver]
 GenericBrowser = Union[SplinterBrowser]
 
 GenericElement = Union[SplinterElements]
+
+
+def is_identifier(value: str) -> bool:
+    if value.isnumeric():
+        return True
+    if "_" in value:
+        return True
+    try:
+        UUID(value)
+    except ValueError:
+        return False
+    else:
+        return True
 
 
 class URL:
@@ -75,6 +90,22 @@ class URL:
     @property
     def fragment(self) -> str:
         return urlparse(self.value).fragment.replace("/", "_").strip("_")
+
+    def detect_patterns(self) -> Tuple["URL", bool]:
+        updated = False
+
+        parts = self.path.split("/")
+        placeholder = 0
+        for index, part in enumerate(parts):
+            if is_identifier(part):
+                placeholder += 1
+                name = inflection.singularize(parts[index - 1])
+                if name.isnumeric() or "{" in name:
+                    name = f"id_{placeholder}"
+                parts[index] = "{" + name + "}"
+                updated = True
+
+        return URL(self.domain, "/".join(parts)), updated
 
 
 ALIASES = {
