@@ -2,6 +2,7 @@ import random
 from dataclasses import dataclass
 from typing import Optional, Tuple, Union
 from urllib.parse import urlparse
+from uuid import UUID
 
 import faker
 import inflection
@@ -18,6 +19,19 @@ SplinterBrowser = Union[ChromeWebDriver, FirefoxWebDriver]
 GenericBrowser = Union[SplinterBrowser]
 
 GenericElement = Union[SplinterElements]
+
+
+def is_identifier(value: str) -> bool:
+    if value.isnumeric():
+        return True
+    if "_" in value:
+        return True
+    try:
+        UUID(value)
+    except ValueError:
+        return False
+    else:
+        return True
 
 
 class URL:
@@ -83,7 +97,7 @@ class URL:
         parts = self.path.split("/")
         placeholder = 0
         for index, part in enumerate(parts):
-            if part.isnumeric():
+            if is_identifier(part):
                 placeholder += 1
                 name = inflection.singularize(parts[index - 1])
                 if name.isnumeric() or "{" in name:

@@ -111,8 +111,14 @@ def describe_url():
                     "https://example.com/items/123/456/789",
                     "https://example.com/items/{item}/{id_2}/{id_3}",
                 ),
-                # TODO: Detect UUIDs
-                # TODO: Detect slugs like "name_of_thing"
+                (
+                    "https://example.com/items/20f5484b88ae49b08af03a389b4917dd",
+                    "https://example.com/items/{item}",
+                ),
+                (
+                    "https://en.wikipedia.org/wiki/Selenium_(software)",
+                    "https://en.wikipedia.org/wiki/{wiki}",
+                ),
             ],
         )
         def it_replaces_ids_with_placeholders(expect, before, after):
