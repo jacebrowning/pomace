@@ -87,6 +87,26 @@ def describe_url():
             url = URL("http://example.com/signup/#/step/2/")
             expect(url.fragment) == "step_2"
 
+    def describe_detect_patterns():
+        @pytest.mark.parametrize(
+            ("before", "after"),
+            [
+                (
+                    "https://example.com/items/42",
+                    "https://example.com/items/{item}",
+                ),
+                (
+                    "http://example.com/items/42/",
+                    "https://example.com/items/{item}",
+                ),
+                # TODO: test index error
+                # TODO: test multiple keys
+            ],
+        )
+        def it_replaces_ids_with_placeholders(expect, before, after):
+            url, updated = URL(before).detect_patterns()
+            expect(url.value) == after
+
 
 def describe_fake():
     @pytest.fixture

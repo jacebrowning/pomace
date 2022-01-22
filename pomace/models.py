@@ -489,7 +489,7 @@ class Page:
         return count
 
 
-def auto() -> Page:
+def auto(*, detect_patterns: bool = True) -> Page:
     matching_pages = []
     found_exact_match = False
 
@@ -510,6 +510,14 @@ def auto() -> Page:
                 if prompts.bullet:
                     shared.linebreak = False
         return matching_pages[0]
+
+    if detect_patterns:
+        url, updated = URL(shared.browser.url).detect_patterns()
+        if updated:
+            log.info(f"Creating new page: {url}")
+            page = Page(url.domain, url.path)
+            page.datafile.save()
+            return auto(detect_patterns=False)
 
     log.info(f"Creating new page: {shared.browser.url}")
     page = Page.at(shared.browser.url)

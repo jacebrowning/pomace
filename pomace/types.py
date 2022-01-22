@@ -1,9 +1,10 @@
 import random
 from dataclasses import dataclass
-from typing import Optional, Union
+from typing import Optional, Tuple, Union
 from urllib.parse import urlparse
 
 import faker
+import inflection
 import log
 import us
 import zipcodes
@@ -75,6 +76,18 @@ class URL:
     @property
     def fragment(self) -> str:
         return urlparse(self.value).fragment.replace("/", "_").strip("_")
+
+    def detect_patterns(self) -> Tuple["URL", bool]:
+        updated = False
+
+        parts = self.path.split("/")
+        for index, part in enumerate(parts):
+            if part.isnumeric():
+                name = inflection.singularize(parts[index - 1])
+                parts[index] = "{" + name + "}"
+                updated = True
+
+        return URL(self.domain, "/".join(parts)), updated
 
 
 ALIASES = {
