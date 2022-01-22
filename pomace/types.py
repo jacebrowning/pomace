@@ -81,9 +81,13 @@ class URL:
         updated = False
 
         parts = self.path.split("/")
+        placeholder = 0
         for index, part in enumerate(parts):
             if part.isnumeric():
+                placeholder += 1
                 name = inflection.singularize(parts[index - 1])
+                if name.isnumeric() or "{" in name:
+                    name = f"id_{placeholder}"
                 parts[index] = "{" + name + "}"
                 updated = True
 

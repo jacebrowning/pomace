@@ -96,11 +96,23 @@ def describe_url():
                     "https://example.com/items/{item}",
                 ),
                 (
-                    "http://example.com/items/42/",
-                    "https://example.com/items/{item}",
+                    "https://example.com/items/1/parts/2",
+                    "https://example.com/items/{item}/parts/{part}",
                 ),
-                # TODO: test index error
-                # TODO: test multiple keys
+                (
+                    "https://example.com/42/",
+                    "https://example.com/{id_1}",
+                ),
+                (
+                    "https://example.com/items/123/456",
+                    "https://example.com/items/{item}/{id_2}",
+                ),
+                (
+                    "https://example.com/items/123/456/789",
+                    "https://example.com/items/{item}/{id_2}/{id_3}",
+                ),
+                # TODO: Detect UUIDs
+                # TODO: Detect slugs like "name_of_thing"
             ],
         )
         def it_replaces_ids_with_placeholders(expect, before, after):
