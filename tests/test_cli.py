@@ -1,6 +1,6 @@
 # pylint: disable=unused-variable,redefined-outer-name,expression-not-assigned
 
-import sys
+import platform
 from pathlib import Path
 
 import pytest
@@ -30,7 +30,7 @@ def describe_clone():
     @pytest.fixture
     def sites():
         # TODO: Get tests passing on AppVeyor CI
-        if sys.platform == "nt":
+        if platform.system() == "Windows":
             pytest.skip("Git no working on Window")
 
         path = Path(__file__).parent / "sites"
