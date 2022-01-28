@@ -6,20 +6,18 @@ import log
 from bs4 import BeautifulSoup
 from cached_property import cached_property
 from datafiles import datafile, field, mapper
+from playwright.sync_api import ElementHandle
 from selenium.common.exceptions import (
     ElementNotInteractableException,
     WebDriverException,
 )
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
-from splinter import Browser
 from splinter.driver.webdriver import WebDriverElement
 from splinter.exceptions import ElementDoesNotExist
 
 from . import prompts, shared
 from .config import settings
 from .enums import Mode, Verb
-from .types import URL
+from .types import URL, GenericBrowser, PlaywrightBrowser
 
 __all__ = ["Locator", "Action", "Page", "auto"]
 
@@ -41,8 +39,16 @@ class Locator:
     def find(self) -> Optional[WebDriverElement]:
         elements = self._mode.find(self.value)
         index = self.index
+
+        if isinstance(shared.browser, PlaywrightBrowser):
+            try:
+                return elements[index]
+            except IndexError:
+                return None
+
         try:
             element = elements[index]
+            assert not isinstance(element, ElementHandle)
             if index == 0 and not element.visible:
                 log.debug(f"{self} found invisible element: {element.outer_html}")
                 index += 1
@@ -164,20 +170,9 @@ class Action:
     def _trying_locators(self, *args, **kwargs) -> bool:
         if self._verb == Verb.TYPE:
             if "_" in self.name:
-                names = self.name.split("_")
-                assert len(names) == 2, "Multiple modifier keys not supported"
-                modifier = getattr(Keys, names[0].upper())
-                key = getattr(Keys, names[-1].upper())
-                function = (
-                    ActionChains(shared.browser.driver)
-                    .key_down(modifier)
-                    .send_keys(key)
-                    .key_up(modifier)
-                    .perform
-                )
+                function = shared.client.type_key_with_modifier(self.name.split("_"))
             else:
-                key = getattr(Keys, self.name.upper())
-                function = ActionChains(shared.browser.driver).send_keys(key).perform
+                function = shared.client.type_key(self.name)
             self._perform_action(function, *args, **kwargs)
             return False
 
@@ -195,7 +190,7 @@ class Action:
         return True
 
     def _perform_action(self, function: Callable, *args, **kwargs) -> bool:
-        previous_url = shared.browser.url
+        previous_url = shared.client.url
         delay = kwargs.pop("delay", None)
         wait = kwargs.pop("wait", None)
         self._verb.pre_action()
@@ -305,11 +300,11 @@ class Page:
 
     @classmethod
     def at(cls, url: str, *, variant: str = "") -> "Page":
-        if shared.browser.url != url:
+        if shared.client.url != url:
             log.info(f"Visiting {url}")
-            shared.browser.visit(url)
+            shared.client.visit(url)
 
-        if shared.browser.url != url:
+        if shared.client.url != url:
             log.info(f"Redirected to {url}")
 
         kwargs = {"domain": domain(url), "path": URL(url).path}
@@ -330,16 +325,16 @@ class Page:
         return "{" not in self.path
 
     @property
-    def browser(self) -> Browser:
+    def browser(self) -> GenericBrowser:
         return shared.browser
 
     @cached_property
-    def url(self) -> str:
-        return self.browser.url
+    def url(self) -> str:  # pylint: disable=no-self-use
+        return shared.client.url
 
     @cached_property
-    def title(self) -> str:
-        return self.browser.title
+    def title(self) -> str:  # pylint: disable=no-self-use
+        return shared.client.title
 
     @cached_property
     def identity(self) -> int:
@@ -355,8 +350,8 @@ class Page:
         return "\n".join(chunk for chunk in chunks if chunk)
 
     @cached_property
-    def html(self) -> str:
-        return self.browser.html
+    def html(self) -> str:  # pylint: disable=no-self-use
+        return shared.client.html
 
     @cached_property
     def soup(self) -> BeautifulSoup:
@@ -366,7 +361,7 @@ class Page:
     def active(self) -> bool:
         log.debug(f"Determining if {self!r} is active")
 
-        url = URL(domain(shared.browser.url), URL(shared.browser.url).path)
+        url = URL(domain(self.url), URL(self.url).path)
         if self.url_pattern != url:
             log.debug(f"{self!r} is inactive: URL not matched")
             return False
@@ -493,7 +488,7 @@ def auto(*, detect_patterns: bool = True) -> Page:
     matching_pages = []
     found_exact_match = False
 
-    for page in Page.objects.filter(domain=domain(shared.browser.url)):
+    for page in Page.objects.filter(domain=domain(shared.client.url)):
         if page.active:
             matching_pages.append(page)
             if page.exact:
@@ -512,15 +507,15 @@ def auto(*, detect_patterns: bool = True) -> Page:
         return matching_pages[0]
 
     if detect_patterns:
-        url, updated = URL(shared.browser.url).detect_patterns()
+        url, updated = URL(shared.client.url).detect_patterns()
         if updated:
             log.info(f"Creating new page: {url}")
             page = Page(url.domain, url.path)
             page.datafile.save()
             return auto(detect_patterns=False)
 
-    log.info(f"Creating new page: {shared.browser.url}")
-    page = Page.at(shared.browser.url)
+    log.info(f"Creating new page: {shared.client.url}")
+    page = Page.at(shared.client.url)
     page.datafile.save()
     return page
 

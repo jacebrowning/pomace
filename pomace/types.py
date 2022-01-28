@@ -1,6 +1,6 @@
 import random
 from dataclasses import dataclass
-from typing import Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union
 from urllib.parse import urlparse
 from uuid import UUID
 
@@ -10,15 +10,18 @@ import log
 import us
 import zipcodes
 from parse import parse
+from playwright.sync_api import Browser as PlaywrightBrowser
+from playwright.sync_api import ElementHandle as PlaywrightElement
 from splinter.browser import ChromeWebDriver, FirefoxWebDriver
 from splinter.driver import ElementAPI as SplinterElements
 
 __all__ = ["URL"]
 
 SplinterBrowser = Union[ChromeWebDriver, FirefoxWebDriver]
-GenericBrowser = Union[SplinterBrowser]
+GenericBrowser = Union[PlaywrightBrowser, SplinterBrowser]
 
-GenericElement = Union[SplinterElements]
+PlaywrightElements = List[PlaywrightElement]
+GenericElement = Union[PlaywrightElements, SplinterElements]
 
 
 def is_identifier(value: str) -> bool:

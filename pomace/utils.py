@@ -16,6 +16,7 @@ from urllib3.exceptions import HTTPError
 
 from . import browser, shared
 from .config import settings
+from .types import PlaywrightBrowser
 
 
 def launch_browser(
@@ -31,8 +32,8 @@ def launch_browser(
 
     if shared.browser:
         try:
-            log.debug(f"Current browser windows: {shared.browser.windows}")
-            log.debug(f"Current browser URL: {shared.browser.url}")
+            log.debug(f"Current browser windows: {shared.client.windows}")
+            log.debug(f"Current browser URL: {shared.client.url}")
         except (WebDriverException, HTTPError) as e:
             log.warn(str(e).strip())
             shared.browser = None
@@ -44,7 +45,11 @@ def launch_browser(
         did_launch = True
 
     if restore_previous_url and settings.url:
-        shared.browser.visit(settings.url)
+        if isinstance(shared.browser, PlaywrightBrowser):
+            page = shared.browser.new_page()
+            page.goto(settings.url)
+        else:
+            shared.browser.visit(settings.url)
         time.sleep(delay)
 
     return did_launch

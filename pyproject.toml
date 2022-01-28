@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.9.5"
+version = "0.9.6"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -47,6 +47,7 @@ ipdb = "~0.13.7"
 flask-api = "^3.0"
 
 # Automation
+playwright = "^1.18"
 selenium = "^4.1"
 splinter = "^0.17"
 webdriver_manager = "^3.5.2"

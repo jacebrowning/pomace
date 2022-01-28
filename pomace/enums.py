@@ -7,7 +7,7 @@ import log
 from selenium.webdriver.common.keys import Keys
 
 from . import shared
-from .types import GenericElement
+from .types import GenericElement, PlaywrightBrowser
 
 
 class Mode(Enum):
@@ -24,15 +24,24 @@ class Mode(Enum):
 
     @property
     def finder(self) -> Callable:
+        if isinstance(shared.browser, PlaywrightBrowser):
+            return shared.client.page.query_selector_all
+
         if self is self.PARTIAL_TEXT:
             return shared.browser.links.find_by_partial_text
+
         if self is self.ARIA_LABEL:
             return shared.browser.find_by_css
+
         return getattr(shared.browser, f"find_by_{self.value}")
 
     def find(self, value) -> GenericElement:
         if self is self.ARIA_LABEL:
             value = f'[aria-label="{value}"]'
+        elif isinstance(shared.browser, PlaywrightBrowser):
+            if self is not self.CSS:
+                value = f"{self.value}={value}"
+
         return self.finder(value)
 
 
@@ -82,6 +91,12 @@ class Verb(Enum):
 
     def pre_action(self):
         if self is self.CLICK:
+            if isinstance(shared.browser, PlaywrightBrowser):
+                log.warn(
+                    "Forcing Playwright browsers to open links "
+                    "in the same window is not yet supported"
+                )
+                return
             shared.browser.execute_script(
                 """
                 Array.from(document.querySelectorAll('a[target="_blank"]'))
@@ -110,7 +125,7 @@ class Verb(Enum):
         while elapsed < wait:
             time.sleep(0.1)
             elapsed = round(time.time() - start, 1)
-            current_url = shared.browser.url
+            current_url = shared.client.url
             if current_url != previous_url:
                 log.debug(f"URL changed after {elapsed} seconds to {current_url}")
                 time.sleep(delay or 0.5)
