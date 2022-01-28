@@ -60,7 +60,7 @@ def launch_playwright_browser(name: str, headless: bool) -> PlaywrightBrowser:
     except PlaywrightError as e:
         if "playwright install" not in str(e):
             raise e from None
-        subprocess.run((sys.executable, "-m", "playwright", "install"))
+        subprocess.run((sys.executable, "-m", "playwright", "install", name))
         instance = browser.launch(headless=headless)
 
     setattr(instance, "_playwright", playwright)
