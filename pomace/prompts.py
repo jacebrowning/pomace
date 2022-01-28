@@ -192,6 +192,10 @@ def mode_and_value() -> Tuple[str, str]:
 
 @no_type_check
 def shell():
+    if settings.framework == "playwright":
+        log.error("Shell mode is not supported with Playwright")
+        return
+
     try:
         get_ipython()  # type: ignore
     except NameError:
