@@ -13,7 +13,7 @@ from .types import GenericBrowser
 __all__ = ["launch", "resize", "save_url", "save_size", "close"]
 
 
-NAMES = ["Firefox", "Chrome"]
+NAMES = ["Firefox", "Chrome", "Chromium"]
 
 WEBDRIVER_MANAGERS = {
     "chromedriver": chrome.ChromeDriverManager,
