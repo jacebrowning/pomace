@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.9"
+version = "0.9.5"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -48,11 +48,12 @@ flask-api = "^3.0"
 
 # Automation
 playwright = "^1.13.1"
-splinter = "^0.16"
-webdriver_manager = "^2.5"
+selenium = "^4.1"
+splinter = "^0.17"
+webdriver_manager = "^3.5.2"
 
 # Persistence
-datafiles = "^1.0"
+datafiles = "^1.1"
 gitman = "^3.0"
 parse = "^1.14"
 
@@ -65,7 +66,7 @@ us = "^2.0.2"
 cached-property = "^1.5.2" # needed for Python < 3.8
 beautifulsoup4 = "^4.8.2"
 fake-useragent ="~0.1.11"
-inflection = "~0.4"
+inflection = "^0.5.1"
 minilog = "^2.0"
 
 [tool.poetry.dev-dependencies]
@@ -106,6 +107,10 @@ rope = "^0.18"
 [tool.poetry.scripts]
 
 pomace = "pomace.cli:application.run"
+
+[tool.black]
+
+quiet = "true"
 
 [tool.isort]
 

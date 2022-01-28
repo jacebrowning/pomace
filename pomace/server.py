@@ -20,8 +20,8 @@ def pomace():
 
     utils.launch_browser(restore_previous_url=False)
 
-    url = request.args.get("url")
-    page = models.Page.at(url)  # type: ignore
+    url = request.args["url"]
+    page = models.Page.at(url)
 
     for action, value in request.args.items():
         if "_" in action:
@@ -31,7 +31,7 @@ def pomace():
         "id": page.identity,
         "url": page.url,
         "title": page.title,
-        "html": page.html.prettify(),
+        "html": page.soup.prettify(),
         "text": page.text,
         "_next": unquote(url_for(".pomace", url=page.url, _external=True)),
         "_actions": dir(page),

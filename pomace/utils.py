@@ -96,13 +96,13 @@ def locate_models(*, caller=None):
                 return
 
     if default.is_dir():
-        log.debug(f"Found models in current directory: {default}")
+        log.info(f"Found models: {default}")
         return
 
     for name in iglob("./**/sites", recursive=True):
         path = Path(name).resolve()
         if path.is_dir():
-            log.debug(f"Found models in package directory: {path}")
+            log.info(f"Found models: {path}")
             os.chdir(path.parent)
             return
 

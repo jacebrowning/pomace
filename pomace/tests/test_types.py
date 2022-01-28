@@ -87,6 +87,44 @@ def describe_url():
             url = URL("http://example.com/signup/#/step/2/")
             expect(url.fragment) == "step_2"
 
+    def describe_detect_patterns():
+        @pytest.mark.parametrize(
+            ("before", "after"),
+            [
+                (
+                    "https://example.com/items/42",
+                    "https://example.com/items/{item}",
+                ),
+                (
+                    "https://example.com/items/1/parts/2",
+                    "https://example.com/items/{item}/parts/{part}",
+                ),
+                (
+                    "https://example.com/42/",
+                    "https://example.com/{id_1}",
+                ),
+                (
+                    "https://example.com/items/123/456",
+                    "https://example.com/items/{item}/{id_2}",
+                ),
+                (
+                    "https://example.com/items/123/456/789",
+                    "https://example.com/items/{item}/{id_2}/{id_3}",
+                ),
+                (
+                    "https://example.com/items/20f5484b88ae49b08af03a389b4917dd",
+                    "https://example.com/items/{item}",
+                ),
+                (
+                    "https://en.wikipedia.org/wiki/Selenium_(software)",
+                    "https://en.wikipedia.org/wiki/{wiki}",
+                ),
+            ],
+        )
+        def it_replaces_ids_with_placeholders(expect, before, after):
+            url, updated = URL(before).detect_patterns()
+            expect(url.value) == after
+
 
 def describe_fake():
     @pytest.fixture
