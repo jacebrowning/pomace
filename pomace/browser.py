@@ -1,8 +1,10 @@
+import subprocess
 import sys
 
 import log
 import splinter
 from fake_useragent import UserAgent, utils
+from playwright.sync_api import Error as PlaywrightError
 from playwright.sync_api import sync_playwright
 from splinter.exceptions import DriverNotFoundError
 from webdriver_manager import chrome, firefox
@@ -52,7 +54,15 @@ def launch_playwright_browser(name: str, headless: bool) -> PlaywrightBrowser:
         browser = getattr(playwright, name)
     except AttributeError:
         sys.exit(f"Unsupported browser: {name}")
-    instance = browser.launch(headless=headless)
+
+    try:
+        instance = browser.launch(headless=headless)
+    except PlaywrightError as e:
+        if "playwright install" not in str(e):
+            raise e from None
+        subprocess.run((sys.executable, "-m", "playwright", "install"))
+        instance = browser.launch(headless=headless)
+
     setattr(instance, "_playwright", playwright)
     return instance
 
