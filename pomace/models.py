@@ -1,12 +1,11 @@
 from contextlib import suppress
 from copy import copy
+from functools import cached_property
 from typing import Callable, List, Optional, Tuple
 
 import log
 from bs4 import BeautifulSoup
-from cached_property import cached_property
 from datafiles import datafile, field, mapper
-from playwright.sync_api import ElementHandle
 from selenium.common.exceptions import (
     ElementNotInteractableException,
     WebDriverException,
@@ -15,6 +14,7 @@ from splinter.driver.webdriver import WebDriverElement
 from splinter.exceptions import ElementDoesNotExist
 
 from . import prompts, shared
+from .compat import ElementHandle
 from .config import settings
 from .enums import Mode, Verb
 from .types import URL, GenericBrowser, PlaywrightBrowser

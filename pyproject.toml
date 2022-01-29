@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.9.6"
+version = "0.9.7"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -29,7 +29,6 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Topic :: Internet :: WWW/HTTP :: Browsers",
@@ -38,7 +37,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 
-python = "^3.7"
+python = "^3.8"
 
 # Interface
 cleo = "~0.8.1"
@@ -47,7 +46,7 @@ ipdb = "~0.13.7"
 flask-api = "^3.0"
 
 # Automation
-playwright = "^1.18"
+playwright = { version = "^1.18", markers = "platform_machine != 'armv7l'" }
 selenium = "^4.1"
 splinter = "^0.17"
 webdriver_manager = "^3.5.2"
@@ -63,7 +62,6 @@ zipcodes = "^1.1.2"
 us = "^2.0.2"
 
 # Utilities
-cached-property = "^1.5.2" # needed for Python < 3.8
 beautifulsoup4 = "^4.8.2"
 fake-useragent ="~0.1.11"
 inflection = "^0.5.1"
