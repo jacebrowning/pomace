@@ -1,3 +1,4 @@
+import platform
 import subprocess
 import sys
 
@@ -87,7 +88,15 @@ def launch_splinter_browser(name: str, headless: bool) -> SplinterBrowser:
         for driver, manager in WEBDRIVER_MANAGERS.items():
             if driver in str(e).lower():
                 options["executable_path"] = manager().install()
-                return splinter.Browser(name, **options)
+                try:
+                    return splinter.Browser(name, **options)
+                except OSError as e:
+                    if name == "firefox" and "arm" in platform.machine():
+                        sys.exit(
+                            "Your machine's architecture is not supported, see: "
+                            "https://firefox-source-docs.mozilla.org/testing/geckodriver/ARM.html"
+                        )
+                    raise e from None
 
         raise e from None
 
