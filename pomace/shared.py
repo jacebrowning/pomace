@@ -29,6 +29,7 @@ class _Client:
     @property
     def url(self) -> str:
         if isinstance(browser, PlaywrightBrowser):
+            self.page.bring_to_front()
             return self.page.url
 
         return browser.url
