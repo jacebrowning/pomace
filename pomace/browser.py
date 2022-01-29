@@ -4,12 +4,11 @@ import sys
 import log
 import splinter
 from fake_useragent import UserAgent, utils
-from playwright.sync_api import Error as PlaywrightError
-from playwright.sync_api import sync_playwright
 from splinter.exceptions import DriverNotFoundError
 from webdriver_manager import chrome, firefox
 
 from . import patched
+from .compat import PlaywrightError, playwright
 from .config import settings
 from .types import GenericBrowser, PlaywrightBrowser, SplinterBrowser
 
@@ -49,7 +48,7 @@ def launch() -> GenericBrowser:
 
 def launch_playwright_browser(name: str, headless: bool) -> PlaywrightBrowser:
     name = PLAYWRIGHT_BROWSERS.get(name, name)
-    playwright = sync_playwright().start()
+    _playwright = playwright().start()
     try:
         browser = getattr(playwright, name)
     except AttributeError:
@@ -59,11 +58,11 @@ def launch_playwright_browser(name: str, headless: bool) -> PlaywrightBrowser:
         instance = browser.launch(headless=headless)
     except PlaywrightError as e:
         if "playwright install" not in str(e):
-            raise e from None
+            raise e from None  # pylint: disable=raising-bad-type
         subprocess.run((sys.executable, "-m", "playwright", "install", name))
         instance = browser.launch(headless=headless)
 
-    setattr(instance, "_playwright", playwright)
+    setattr(instance, "_playwright", _playwright)
     return instance
 
 
@@ -97,6 +96,8 @@ LAUNCHERS = {
     "playwright": launch_playwright_browser,
     "splinter": launch_splinter_browser,
 }
+if playwright is None:
+    del LAUNCHERS["playwright"]
 
 
 def resize(browser: GenericBrowser):

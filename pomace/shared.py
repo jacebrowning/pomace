@@ -1,9 +1,9 @@
 from typing import Callable, List
 
-from playwright.sync_api import Page
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
+from .compat import Page
 from .types import GenericBrowser, PlaywrightBrowser
 
 __all__ = ["browser", "client", "linebreak"]
