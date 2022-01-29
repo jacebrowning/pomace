@@ -28,6 +28,9 @@ class _Client:
 
     @property
     def url(self) -> str:
+        if browser is None:
+            return ""
+
         if isinstance(browser, PlaywrightBrowser):
             self.page.bring_to_front()
             return self.page.url
@@ -86,6 +89,14 @@ class _Client:
             .key_up(modifier)
             .perform
         )
+
+    @staticmethod
+    def clear_cookies():
+        log.info("Clearing cookies")
+        if isinstance(browser, PlaywrightBrowser):
+            browser.contexts[0].clear_cookies()
+        else:
+            browser.cookies.delete()
 
 
 client = _Client()

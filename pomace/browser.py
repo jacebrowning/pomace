@@ -130,6 +130,7 @@ def save_url(browser: GenericBrowser):
 def save_size(browser: GenericBrowser):
     if isinstance(browser, PlaywrightBrowser):
         page = browser.contexts[0].pages[0]
+        # TODO: Figure out how to get the window size instead
         size: dict = page.viewport_size  # type: ignore
     else:
         size = browser.driver.get_window_size()

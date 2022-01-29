@@ -442,8 +442,8 @@ class Page:
     def __contains__(self, value):
         return value in self.text
 
-    def perform(self, name: str, value: str = "", _logger=None) -> Tuple["Page", bool]:
-        _logger = _logger or log
+    def perform(self, name: str, value: str = "", _log=None) -> Tuple["Page", bool]:
+        _log = _log or log
         action = getattr(self, name)
         if action.verb in {"fill", "select"}:
             if not value:
@@ -451,10 +451,10 @@ class Page:
                     action.name
                 )
                 settings.update_secret(action.name, value)
-            _logger.info(f"{action.humanized} with {value!r}")
+            _log.info(f"{action.humanized} with {value!r}")
             page = action(value, _page=self)
         else:
-            _logger.info(f"{action.humanized}")
+            _log.info(f"{action.humanized}")
             page = action(_page=self)
         return page, page != self
 

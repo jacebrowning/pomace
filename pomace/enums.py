@@ -39,9 +39,14 @@ class Mode(Enum):
         if self is self.ARIA_LABEL:
             value = f'[aria-label="{value}"]'
         elif isinstance(shared.browser, PlaywrightBrowser):
-            if self is not self.CSS:
+            if self is self.TEXT:
+                value = f"text={value!r}"
+            elif self is self.PARTIAL_TEXT:
+                value = f"text={value}"
+            elif self in [self.ID]:
                 value = f"{self.value}={value}"
-
+            elif self not in [self.CSS, self.XPATH]:
+                value = f"[{self.value}={value!r}]"
         return self.finder(value)
 
 
