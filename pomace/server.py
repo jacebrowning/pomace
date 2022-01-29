@@ -25,7 +25,7 @@ def pomace():
 
     for action, value in request.args.items():
         if "_" in action:
-            page, _updated = page.perform(action, value, _logger=app.logger)
+            page, _updated = page.perform(action, value, _log=app.logger)
 
     data = {
         "id": page.identity,
