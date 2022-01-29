@@ -1,10 +1,10 @@
 from contextlib import suppress
 from copy import copy
+from functools import cached_property
 from typing import Callable, List, Optional, Tuple
 
 import log
 from bs4 import BeautifulSoup
-from cached_property import cached_property
 from datafiles import datafile, field, mapper
 from selenium.common.exceptions import (
     ElementNotInteractableException,
