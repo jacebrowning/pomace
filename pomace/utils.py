@@ -16,7 +16,6 @@ from urllib3.exceptions import HTTPError
 
 from . import browser, shared
 from .config import settings
-from .types import PlaywrightBrowser
 
 
 def launch_browser(
@@ -41,15 +40,10 @@ def launch_browser(
     if not shared.browser:
         shared.browser = browser.launch()
         atexit.register(close_browser, silence_logging=silence_logging)
-        browser.resize(shared.browser)
         did_launch = True
 
     if restore_previous_url and settings.url:
-        if isinstance(shared.browser, PlaywrightBrowser):
-            page = shared.browser.new_page()
-            page.goto(settings.url)
-        else:
-            shared.browser.visit(settings.url)
+        shared.client.visit(settings.url, settings.browser.size)
         time.sleep(delay)
 
     return did_launch

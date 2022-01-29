@@ -13,7 +13,7 @@ from .compat import PlaywrightError, playwright
 from .config import settings
 from .types import GenericBrowser, PlaywrightBrowser, SplinterBrowser
 
-__all__ = ["launch", "resize", "save_url", "save_size", "close"]
+__all__ = ["launch", "save_url", "save_size", "close"]
 
 
 NAMES = ["Firefox", "Chrome"]
@@ -30,7 +30,8 @@ FALLBACK_USER_AGENT = "Mozilla/5.0 Gecko/20100101 Firefox/53.0"
 
 def launch() -> GenericBrowser:
     if not settings.browser.name:
-        sys.exit("No browser specified")
+        log.error("No browser specified")
+        sys.exit(1)
 
     if settings.browser.name == "open":
         settings.browser.name = NAMES[0]
@@ -42,18 +43,20 @@ def launch() -> GenericBrowser:
     try:
         function = LAUNCHERS[settings.framework]
     except KeyError:
-        raise ValueError(f"Unsupported framework: {settings.framework}") from None
-    else:
-        return function(settings.browser.name, settings.browser.headless)
+        log.error(f"Unsupported framework: {settings.framework}")
+        sys.exit(1)
+
+    return function(settings.browser.name, settings.browser.headless)
 
 
 def launch_playwright_browser(name: str, headless: bool) -> PlaywrightBrowser:
     name = PLAYWRIGHT_BROWSERS.get(name, name)
     _playwright = playwright().start()
     try:
-        browser = getattr(playwright, name)
+        browser = getattr(_playwright, name)
     except AttributeError:
-        sys.exit(f"Unsupported browser: {name}")
+        log.error(f"Unsupported browser: {name}")
+        sys.exit(1)
 
     try:
         instance = browser.launch(headless=headless)
@@ -78,12 +81,14 @@ def launch_splinter_browser(name: str, headless: bool) -> SplinterBrowser:
     try:
         return splinter.Browser(name, **options)
     except DriverNotFoundError:
-        sys.exit(f"Unsupported browser: {name}")
+        log.error(f"Unsupported browser: {name}")
+        sys.exit(1)
     except Exception as e:  # pylint: disable=broad-except
         log.debug(str(e))
 
         if "exited process" in str(e):
-            sys.exit("Browser update prevented launch. Please try again.")
+            log.error("Browser update prevented launch. Please try again.")
+            sys.exit(1)
 
         for driver, manager in WEBDRIVER_MANAGERS.items():
             if driver in str(e).lower():
@@ -92,10 +97,11 @@ def launch_splinter_browser(name: str, headless: bool) -> SplinterBrowser:
                     return splinter.Browser(name, **options)
                 except OSError as e:
                     if driver == "geckodriver" and "arm" in platform.machine():
-                        sys.exit(
-                            "Your machine's architecture is not supported, see: "
+                        log.error("Your machine's architecture is not supported")
+                        log.info(
                             "https://firefox-source-docs.mozilla.org/testing/geckodriver/ARM.html"
                         )
+                        sys.exit(1)
                     raise e from None
 
         raise e from None
@@ -107,17 +113,6 @@ LAUNCHERS = {
 }
 if playwright is None:
     del LAUNCHERS["playwright"]
-
-
-def resize(browser: GenericBrowser):
-    if isinstance(browser, PlaywrightBrowser):
-        log.warn("Resizing Playwright browsers is not yet supported")
-        return
-
-    browser.driver.set_window_size(settings.browser.width, settings.browser.height)
-    browser.driver.set_window_position(0, 0)
-    size = browser.driver.get_window_size()
-    log.debug(f"Resized browser: {size}")
 
 
 def save_url(browser: GenericBrowser):
@@ -134,10 +129,11 @@ def save_url(browser: GenericBrowser):
 
 def save_size(browser: GenericBrowser):
     if isinstance(browser, PlaywrightBrowser):
-        log.warn("Resizing Playwright browsers is not yet supported")
-        return
+        page = browser.contexts[0].pages[0]
+        size: dict = page.viewport_size  # type: ignore
+    else:
+        size = browser.driver.get_window_size()
 
-    size = browser.driver.get_window_size()
     if size != (settings.browser.width, settings.browser.height):
         log.debug(f"Saving last browser size: {size}")
         settings.browser.width = size["width"]
