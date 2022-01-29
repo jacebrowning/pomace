@@ -302,7 +302,7 @@ class Page:
     def at(cls, url: str, *, variant: str = "") -> "Page":
         if shared.client.url != url:
             log.info(f"Visiting {url}")
-            shared.client.visit(url)
+            shared.client.visit(url, settings.browser.size)
 
         if shared.client.url != url:
             log.info(f"Redirected to {url}")

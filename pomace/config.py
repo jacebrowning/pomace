@@ -16,6 +16,10 @@ class Browser:
     height: int = 1080
     headless: bool = False
 
+    @property
+    def size(self) -> dict:
+        return {"width": self.width, "height": self.height}
+
 
 @datafile
 class Secret:

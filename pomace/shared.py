@@ -1,5 +1,6 @@
 from typing import Callable, List
 
+import log
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
@@ -28,6 +29,7 @@ class _Client:
     @property
     def url(self) -> str:
         if isinstance(browser, PlaywrightBrowser):
+            self.page.bring_to_front()
             return self.page.url
 
         return browser.url
@@ -47,11 +49,16 @@ class _Client:
         return browser.html
 
     @staticmethod
-    def visit(url: str) -> None:
+    def visit(url: str, size: dict) -> None:
         if isinstance(browser, PlaywrightBrowser):
-            page = browser.new_page()
+            page = browser.new_page(screen=size, viewport=size)  # type: ignore
             page.goto(url)
         else:
+            if browser.driver.get_window_size() != size:
+                browser.driver.set_window_size(size["width"], size["height"])
+                browser.driver.set_window_position(0, 0)
+                size = browser.driver.get_window_size()
+                log.debug(f"Resized browser: {size}")
             browser.visit(url)
 
     def type_key(self, name: str) -> Callable:
