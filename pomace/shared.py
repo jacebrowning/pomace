@@ -90,6 +90,12 @@ class _Client:
             .perform
         )
 
+    def execute(self, javascript: str):
+        if isinstance(browser, PlaywrightBrowser):
+            self.page.evaluate(javascript)
+        else:
+            browser.execute_script(javascript)
+
     @staticmethod
     def clear_cookies():
         log.info("Clearing cookies")

@@ -96,13 +96,7 @@ class Verb(Enum):
 
     def pre_action(self):
         if self is self.CLICK:
-            if isinstance(shared.browser, PlaywrightBrowser):
-                log.warn(
-                    "Forcing Playwright browsers to open links "
-                    "in the same window is not yet supported"
-                )
-                return
-            shared.browser.execute_script(
+            shared.client.execute(
                 """
                 Array.from(document.querySelectorAll('a[target="_blank"]'))
                 .forEach(link => link.removeAttribute('target'));
