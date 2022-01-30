@@ -38,6 +38,9 @@ class BaseCommand(Command):  # pragma: no cover
             os.chdir(self.option("root"))
 
     def update_settings(self):
+        if self.option("framework"):
+            settings.framework = self.option("framework").lower()
+
         if self.option("browser"):
             settings.browser.name = self.option("browser").lower()
         prompts.browser_if_unset()
@@ -122,6 +125,7 @@ class ExecCommand(BaseCommand):  # pragma: no cover
 
     exec
         {script : Path to a Python script}
+        {--f|framework= : Framework to control browsers}
         {--b|browser= : Browser to use for automation}
         {--d|headless : Run the specified browser in a headless mode}
         {--r|root= : Path to directory to containing models}
@@ -145,6 +149,7 @@ class RunCommand(BaseCommand):  # pragma: no cover
 
     run
         {domain? : Starting domain for the automation}
+        {--f|framework= : Framework to control browsers}
         {--b|browser= : Browser to use for automation}
         {--d|headless : Run the specified browser in a headless mode}
         {--p|prompt=* : Prompt for secrets before running}
@@ -186,6 +191,7 @@ class ShellCommand(BaseCommand):  # pragma: no cover
 
     shell
         {domain? : Starting domain for the automation}
+        {--f|framework= : Framework to control browsers}
         {--b|browser= : Browser to use for automation}
         {--d|headless : Run the specified browser in a headless mode}
         {--r|root= : Path to directory to containing models}
@@ -201,6 +207,7 @@ class ServeCommand(BaseCommand):
 
     serve
         {domain? : Starting domain for the automation}
+        {--f|framework= : Framework to control browsers}
         {--b|browser= : Browser to use for automation}
         {--d|headless : Run the specified browser in a headless mode}
         {--p|prompt=* : Prompt for secrets before running}

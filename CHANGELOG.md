@@ -2,6 +2,7 @@
 
 - Added URL pattern detection when using `auto()` to create pages.
 - Added preliminary support for using Playwright as the automation framework.
+- Added setting to remember the last action used on a page.
 
 # 0.9 (2021-10-27)
 

@@ -444,6 +444,7 @@ class Page:
 
     def perform(self, name: str, value: str = "", _log=None) -> Tuple["Page", bool]:
         _log = _log or log
+
         action = getattr(self, name)
         if action.verb in {"fill", "select"}:
             if not value:
@@ -456,7 +457,11 @@ class Page:
         else:
             _log.info(f"{action.humanized}")
             page = action(_page=self)
-        return page, page != self
+
+        if transitioned := page != self:
+            settings.action = 0
+
+        return page, transitioned
 
     def clean(self, *, force: bool = False) -> int:
         count = self.locators.clean(self, force=force)
