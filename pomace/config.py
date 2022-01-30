@@ -44,6 +44,7 @@ class Settings:
     framework: str = "splinter"
     browser: Browser = field(default_factory=Browser)
     url: str = ""
+    action: int = 0
     aliases: Dict[str, str] = field(default_factory=dict)
     secrets: List[Site] = field(default_factory=list)
 

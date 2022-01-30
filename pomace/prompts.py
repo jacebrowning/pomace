@@ -105,8 +105,13 @@ def action(page) -> Optional[str]:
         prompt="Select an action: ",
         bullet=" ● ",
         choices=choices,
+        return_index=True,
     )
-    value = command.launch()
+
+    if settings.action > len(choices) - 1:
+        settings.action = 0
+    command.pos = settings.action
+    value, settings.action = command.launch()
 
     if value == RELOAD_ACTIONS:
         return None
