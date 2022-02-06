@@ -27,6 +27,14 @@ Install project dependencies into a virtual environment:
 $ make install
 ```
 
+On a Raspberry Pi, you'll need to run the following first:
+
+```
+sudo apt install libffi-dev chromium-chromedriver
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source ~/.bashrc
+```
+
 # Development Tasks
 
 ## Manual
