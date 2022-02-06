@@ -7,8 +7,8 @@ try:
     from playwright.sync_api import Page
     from playwright.sync_api import sync_playwright as playwright
 except ImportError:
-    PlaywrightBrowser = None  # type: ignore
-    ElementHandle = None  # type: ignore
+    PlaywrightBrowser = type(None)  # type: ignore
+    ElementHandle = type(None)  # type: ignore
     PlaywrightElement = None  # type: ignore
     PlaywrightError = None  # type: ignore
     Page = None  # type: ignore
