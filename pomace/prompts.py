@@ -123,6 +123,7 @@ def action(page) -> Optional[str]:
     if value == ADD_ACTION:
         verb, name = verb_and_name()
         if verb and name:
+            settings.action += 1
             return f"{verb}_{name}"
         return ""
 
