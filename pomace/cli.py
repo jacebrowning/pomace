@@ -121,7 +121,7 @@ class CloneCommand(BaseCommand):
 
 class ExecCommand(BaseCommand):  # pragma: no cover
     """
-    Run a Python script
+    Run a Python script with 'pomace' imports
 
     exec
         {script : Path to a Python script}

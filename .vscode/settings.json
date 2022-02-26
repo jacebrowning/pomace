@@ -28,6 +28,11 @@
   "python.formatting.provider": "black",
   "python.formatting.blackPath": ".venv/bin/black",
   "cSpell.words": [
-    "dasherize"
+    "chromedriver",
+    "dasherize",
+    "Graphviz",
+    "proto",
+    "pyenv",
+    "tlsv"
   ]
 }

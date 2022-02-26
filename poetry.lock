@@ -285,7 +285,7 @@ test = ["pytest (>=6.2.0)", "pytest-cov", "pytest-subtests", "pytest-xdist", "pr
 
 [[package]]
 name = "datafiles"
-version = "1.1"
+version = "1.2"
 description = "File-based ORM for dataclasses."
 category = "main"
 optional = false
@@ -1533,7 +1533,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "12fdc655fb65deb4d23eac9af5224a33f542fda8825e9b82ae01364c01fd4b05"
+content-hash = "0d6b807b771dd38301b27ef7b836d66e638878219661ff2fb6a6cbea2ea285af"
 
 [metadata.files]
 altgraph = [
@@ -1744,8 +1744,8 @@ cryptography = [
     {file = "cryptography-36.0.1.tar.gz", hash = "sha256:53e5c1dc3d7a953de055d77bef2ff607ceef7a2aac0353b5d630ab67f7423638"},
 ]
 datafiles = [
-    {file = "datafiles-1.1-py3-none-any.whl", hash = "sha256:42b75b157abd141316c4564ae3130f4a7465d805354b4ec3c72c5c7c4c9b546b"},
-    {file = "datafiles-1.1.tar.gz", hash = "sha256:8a853844a2393a37f4003cbb74172ccda99177c924d287a14aca4cfd13f7ef62"},
+    {file = "datafiles-1.2-py3-none-any.whl", hash = "sha256:75f3f572884f045e101262f014a3c594b67df14a55da82d19394c0e9854be6e6"},
+    {file = "datafiles-1.2.tar.gz", hash = "sha256:209493cac9640e30d51de0c59708ddba1d57d317878b278a69532adad07f543a"},
 ]
 decorator = [
     {file = "decorator-5.1.1-py3-none-any.whl", hash = "sha256:b8c3f85900b9dc423225913c5aace94729fe1fa9763b38939a95226f02d37186"},
