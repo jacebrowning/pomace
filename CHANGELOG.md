@@ -1,4 +1,4 @@
-# 0.10 (unreleased)
+# 0.10 (2022-04-01)
 
 - Added URL pattern detection when using `auto()` to create pages.
 - Added preliminary support for using Playwright as the automation framework.
