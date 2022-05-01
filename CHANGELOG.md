@@ -1,3 +1,7 @@
+# 0.11 (unreleased)
+
+- Updated automatic locators to try partial text match.
+
 # 0.10 (2022-04-01)
 
 - Added URL pattern detection when using `auto()` to create pages.

@@ -28,8 +28,11 @@
   "python.formatting.provider": "black",
   "python.formatting.blackPath": ".venv/bin/black",
   "cSpell.words": [
+    "autopage",
     "chromedriver",
     "dasherize",
+    "eing",
+    "geckodriver",
     "Graphviz",
     "proto",
     "pyenv",

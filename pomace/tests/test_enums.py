@@ -15,6 +15,9 @@ def describe_verb():
                 ("value", "Send Email"),
                 ("value", "Send email"),
                 ("value", "send email"),
+                ("text (partial)", "Send Email"),
+                ("text (partial)", "Send email"),
+                ("text (partial)", "send email"),
             ]
 
         def when_fill(expect):

@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.10"
+version = "0.10.1"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -71,8 +71,8 @@ minilog = "^2.0"
 [tool.poetry.dev-dependencies]
 
 # Formatters
-black = "=21.8b0"
-isort = "=5.9.3"
+black = "^22.3"
+isort = "^5.10"
 
 # Linters
 mypy = "~0.782"
@@ -82,7 +82,7 @@ pylint = "~2.6"
 # Testing
 pytest = "^6.2.4"
 pytest-cov = "*"
-pytest-describe = { git = "https://github.com/pytest-dev/pytest-describe", rev = "9014bf3ee564518aad3622b5f035f7ca6139e398" }
+pytest-describe = "^2.0.1"
 pytest-expecter = "^2.0"
 pytest-mock = "^2.0"
 pytest-vcr = "^1.0.2"

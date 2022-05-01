@@ -85,6 +85,9 @@ class Verb(Enum):
             yield Mode.VALUE.value, inflection.titleize(name)
             yield Mode.VALUE.value, inflection.humanize(name)
             yield Mode.VALUE.value, name.replace("_", " ")
+            yield Mode.PARTIAL_TEXT.value, inflection.titleize(name)
+            yield Mode.PARTIAL_TEXT.value, inflection.humanize(name)
+            yield Mode.PARTIAL_TEXT.value, name.replace("_", " ")
         elif self in {self.FILL, self.SELECT}:
             yield Mode.NAME.value, name
             yield Mode.NAME.value, inflection.dasherize(name)

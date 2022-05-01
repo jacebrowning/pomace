@@ -50,7 +50,8 @@ class Locator:
             element = elements[index]
             assert not isinstance(element, ElementHandle)
             if index == 0 and not element.visible:
-                log.debug(f"{self} found invisible element: {element.outer_html}")
+                html = element.outer_html.replace("\n", "").replace("  ", "")
+                log.debug(f"{self} found invisible element: {html}")
                 index += 1
                 element = elements[index]
         except ElementDoesNotExist:
@@ -58,7 +59,8 @@ class Locator:
             return None
         else:
             self.index = index
-            log.debug(f"{self} found element: {element.outer_html}")
+            html = element.outer_html.replace("\n", "").replace("  ", "")
+            log.debug(f"{self} found element: {html}")
             return element
 
     def score(self, value: int, *, limit: int = 0) -> bool:
