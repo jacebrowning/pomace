@@ -1,10 +1,11 @@
 from typing import Callable, List
 
 import log
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
-from .compat import Page
+from .compat import Page, PlaywrightError
 from .types import GenericBrowser, PlaywrightBrowser
 
 __all__ = ["browser", "client", "linebreak"]
@@ -53,16 +54,23 @@ class _Client:
 
     @staticmethod
     def visit(url: str, size: dict) -> None:
+        exception = RuntimeError(f"Unable to load {url}")
         if isinstance(browser, PlaywrightBrowser):
             page = browser.new_page(screen=size, viewport=size)  # type: ignore
-            page.goto(url)
+            try:
+                page.goto(url)
+            except PlaywrightError:
+                raise exception from None
         else:
             if browser.driver.get_window_size() != size:
                 browser.driver.set_window_size(size["width"], size["height"])
                 browser.driver.set_window_position(0, 0)
                 size = browser.driver.get_window_size()
                 log.debug(f"Resized browser: {size}")
-            browser.visit(url)
+            try:
+                browser.visit(url)
+            except WebDriverException:
+                raise exception from None
 
     def type_key(self, name: str) -> Callable:
         if isinstance(browser, PlaywrightBrowser):

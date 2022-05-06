@@ -1,6 +1,7 @@
 # 0.11 (unreleased)
 
 - Updated automatic locators to try partial text match.
+- Added a better error message for when a URL is unreachable.
 
 # 0.10 (2022-04-01)
 
