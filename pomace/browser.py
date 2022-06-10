@@ -35,11 +35,12 @@ def launch() -> GenericBrowser:
 
     if settings.browser.name == "open":
         settings.browser.name = NAMES[0]
-
     settings.framework = settings.framework.lower()
     settings.browser.name = settings.browser.name.lower()
 
-    log.info(f"Launching {settings.browser.name!r} using {settings.framework!r}")
+    log.info(
+        f"Launching {settings.browser.name.title()} using {settings.framework.title()}"
+    )
     try:
         function = LAUNCHERS[settings.framework]
     except KeyError:
