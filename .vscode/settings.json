@@ -35,6 +35,8 @@
     "esper",
     "geckodriver",
     "Graphviz",
+    "grixis",
+    "linebreak",
     "proto",
     "pyenv",
     "tlsv"

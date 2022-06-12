@@ -59,7 +59,9 @@ class Locator:
             return None
         else:
             self.index = index
-            html = element.outer_html.replace("\n", "").replace("  ", "")
+            html = (
+                element.outer_html.replace("\n", "").replace("\t", "").replace("  ", "")
+            )
             log.debug(f"{self} found element: {html}")
             return element
 
@@ -221,7 +223,9 @@ class Action:
             if locator.uses > 1:
                 remove_unused_locators = True
 
-        log.debug(f"Found {len(unused_locators)} unused locators for {self} on {page}")
+        count = len(unused_locators)
+        if count:
+            log.debug(f"Found {count} unused locators for {self} on {page}")
         if not remove_unused_locators:
             return 0
 
@@ -269,7 +273,8 @@ class Locators:
                 remove_unused_locators = True
 
         count = len(unused_inclusion_locators) + len(unused_exclusion_locators)
-        log.debug(f"Found {count} unused locators for {page}")
+        if count:
+            log.debug(f"Found {count} unused locators for {page}")
         if not remove_unused_locators:
             return 0
 

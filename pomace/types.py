@@ -116,6 +116,7 @@ ALIASES = {
     "cell_phone": "phone_number",
     "email_address": "email",
     "email": "email_address",
+    "nickname": "username",
     "phone": "phone_number",
     "prefix": "honorific",
     "street_address": "address",
@@ -202,6 +203,16 @@ class Person:
     @property
     def name(self) -> str:
         return f"{self.first_name} {self.last_name}"
+
+    @property
+    def username(self) -> str:
+        return self.name.replace(" ", "").lower() + str(len(self.name))
+
+    @property
+    def password(self) -> str:
+        characters = list(self.username)
+        random.Random(1).shuffle(characters)
+        return "".join(characters)
 
 
 class Fake:
