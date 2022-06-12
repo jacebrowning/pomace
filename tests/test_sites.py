@@ -2,6 +2,8 @@
 
 from contextlib import suppress
 
+import pytest
+
 from pomace import shared
 from pomace.models import Page
 
@@ -51,15 +53,16 @@ def test_unused_actions_are_removed_on_forced_cleanup(expect, browser):
     expect(len(page.actions)) < previous_count
 
 
+@pytest.mark.flaky(reruns=2)
 def test_multiple_indices_are_tried(expect, browser):
     page = Page.at("https://www.mtggoldfish.com/metagame/standard#paper")
     with suppress(AttributeError):
-        page.click_esper_control.locators = []
+        page.click_grixis_vampires.locators = []
         page.datafile.save()
 
-    page.click_esper_control()
+    page.click_grixis_vampires()
 
-    expect(page.click_esper_control.sorted_locators[0].index) == 1
+    expect(page.click_grixis_vampires.sorted_locators[0].index) == 1
 
 
 def test_links_are_opened_in_the_same_window(expect, browser):

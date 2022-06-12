@@ -173,9 +173,12 @@ def describe_person():
             "county",
             "email",
             "honorific",
+            "nickname",
+            "password",
             "phone",
             "prefix",
             "street_address",
+            "username",
             "zip",
         ],
     )

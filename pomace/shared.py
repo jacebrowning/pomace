@@ -69,7 +69,8 @@ class _Client:
                 log.debug(f"Resized browser: {size}")
             try:
                 browser.visit(url)
-            except WebDriverException:
+            except WebDriverException as e:
+                log.error(e)
                 raise exception from None
 
     def type_key(self, name: str) -> Callable:

@@ -2,6 +2,7 @@
 
 - Updated automatic locators to try partial text match.
 - Added a better error message for when a URL is unreachable.
+- Added `fake.person.username` and `fake.person.password` properties.
 
 # 0.10 (2022-04-01)
 
