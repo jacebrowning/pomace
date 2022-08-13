@@ -6,6 +6,7 @@ from importlib import import_module
 from typing import Optional, Tuple, no_type_check
 
 import log
+import nest_asyncio
 from IPython import embed
 
 from . import browser, enums, shared
@@ -197,10 +198,6 @@ def mode_and_value() -> Tuple[str, str]:
 
 @no_type_check
 def shell():
-    if settings.framework == "playwright":
-        log.error("Shell mode is not supported with Playwright")
-        return
-
     try:
         get_ipython()  # type: ignore
     except NameError:
@@ -217,6 +214,10 @@ def shell():
         {name: getattr(pomace.types, name) for name in pomace.types.__all__}
     )
     auto = pomace.models.auto
-
     page = auto()  # pylint: disable=unused-variable
+
+    if settings.framework == "playwright":
+        log.debug("Enabling support for nested event loops")
+        nest_asyncio.apply()
+
     embed(colors="neutral")

@@ -39,6 +39,7 @@
     "Graphviz",
     "grixis",
     "linebreak",
+    "noninteractive",
     "proto",
     "pyenv",
     "tlsv",
