@@ -47,6 +47,25 @@ def noninteractive() -> bool:
 
 
 @offset
+def framework_if_unset():
+    if settings.framework:
+        return
+
+    frameworks = sorted(browser.LAUNCHERS.keys())
+    if noninteractive():
+        settings.framework = frameworks[0]
+        return
+
+    shared.linebreak = False
+    command = bullet.Bullet(
+        prompt="Select an automation framework: ",
+        bullet=" ● ",
+        choices=frameworks,
+    )
+    settings.framework = command.launch()
+
+
+@offset
 def browser_if_unset():
     if settings.browser.name:
         return
@@ -58,7 +77,7 @@ def browser_if_unset():
 
     shared.linebreak = False
     command = bullet.Bullet(
-        prompt="Select a browser for automation: ",
+        prompt="Select a browser to automate: ",
         bullet=" ● ",
         choices=browser.NAMES,
     )
