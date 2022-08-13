@@ -8,7 +8,7 @@ def describe_framework_if_unset():
         monkeypatch.setenv("CI", "true")
         config.settings.framework = ""
         prompts.framework_if_unset()
-        expect(config.settings.framework) == "Playwright"
+        expect(config.settings.framework) == "Splinter"
 
 
 def describe_browser_if_unset():
