@@ -93,7 +93,7 @@ pytest-rerunfailures = "*"
 freezegun = "*"
 
 # Reports
-coveragespace = "^4.1"
+coveragespace = "^5.0b1"
 
 # Documentation
 mkdocs = "^1.2.2"
