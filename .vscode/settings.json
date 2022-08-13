@@ -30,15 +30,18 @@
   "cSpell.words": [
     "autopage",
     "chromedriver",
+    "connectionpool",
     "dasherize",
     "eing",
     "esper",
     "geckodriver",
+    "gitman",
     "Graphviz",
     "grixis",
     "linebreak",
     "proto",
     "pyenv",
-    "tlsv"
+    "tlsv",
+    "useragent"
   ]
 }

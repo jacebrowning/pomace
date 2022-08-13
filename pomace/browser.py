@@ -25,7 +25,7 @@ WEBDRIVER_MANAGERS = {
     "geckodriver": firefox.GeckoDriverManager,
 }
 
-FALLBACK_USER_AGENT = "Mozilla/5.0 Gecko/20100101 Firefox/53.0"
+FALLBACK_USER_AGENT = "Mozilla/5.0 Gecko/20100101 Firefox/103.0"
 
 
 def launch() -> GenericBrowser:

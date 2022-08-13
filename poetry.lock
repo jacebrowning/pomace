@@ -394,15 +394,15 @@ dev = ["twine", "markdown", "flake8", "wheel"]
 
 [[package]]
 name = "gitman"
-version = "3.0.1"
+version = "3.2"
 description = "A language-agnostic dependency manager using Git."
 category = "main"
 optional = false
 python-versions = ">=3.7,<4.0"
 
 [package.dependencies]
-datafiles = ">=1.0,<2.0"
-minilog = ">=2.0,<3.0"
+datafiles = ">=1.2,<2.0"
+minilog = ">=2.1,<3.0"
 
 [[package]]
 name = "greenlet"
@@ -1515,7 +1515,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "5274f3e67ab3c15689fe8f8b15c301e866e2a883e6a548bc0c74201287077152"
+content-hash = "2608d1c0c908b97d96a827cac894d3a141f7e2c73ce005e058f2fe49f8782d3e"
 
 [metadata.files]
 altgraph = [
@@ -1778,8 +1778,8 @@ ghp-import = [
     {file = "ghp_import-2.0.2-py3-none-any.whl", hash = "sha256:5f8962b30b20652cdffa9c5a9812f7de6bcb56ec475acac579807719bf242c46"},
 ]
 gitman = [
-    {file = "gitman-3.0.1-py3-none-any.whl", hash = "sha256:955d42394cdd242426b21855a41806a8e3f805ae2bf30e6822c5cedb8dd210e7"},
-    {file = "gitman-3.0.1.tar.gz", hash = "sha256:557d2f39b245386d2573617af571baf68949acf9708f3356c86e5769e6bbf09e"},
+    {file = "gitman-3.2-py3-none-any.whl", hash = "sha256:6f92adf9332f03da24c376549c8545458b1ce2933fedd271623760a3ae703a08"},
+    {file = "gitman-3.2.tar.gz", hash = "sha256:f7a8f96b04df1301a6cfd95bf964b02a1eaee3c2b66d009d95d5142da59f85d8"},
 ]
 greenlet = [
     {file = "greenlet-1.1.2-cp27-cp27m-macosx_10_14_x86_64.whl", hash = "sha256:58df5c2a0e293bf665a51f8a100d3e9956febfbf1d9aaf8c0677cf70218910c6"},
