@@ -41,7 +41,7 @@ class Site:
 
 @datafile("./pomace.yml", defaults=True)
 class Settings:
-    framework: str = "splinter"
+    framework: str = ""
     browser: Browser = field(default_factory=Browser)
     url: str = ""
     action: int = 0
