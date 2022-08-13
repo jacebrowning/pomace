@@ -39,9 +39,11 @@
     "Graphviz",
     "grixis",
     "linebreak",
+    "mockbrowser",
     "noninteractive",
     "proto",
     "pyenv",
+    "setenv",
     "tlsv",
     "useragent"
   ]

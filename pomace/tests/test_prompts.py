@@ -3,6 +3,14 @@
 from .. import config, prompts
 
 
+def describe_framework_if_unset():
+    def when_ci(expect, monkeypatch):
+        monkeypatch.setenv("CI", "true")
+        config.settings.framework = ""
+        prompts.framework_if_unset()
+        expect(config.settings.framework) == "Playwright"
+
+
 def describe_browser_if_unset():
     def when_ci(expect, monkeypatch):
         monkeypatch.setenv("CI", "true")

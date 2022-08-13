@@ -40,6 +40,7 @@ class BaseCommand(Command):  # pragma: no cover
     def update_settings(self):
         if self.option("framework"):
             settings.framework = self.option("framework").lower()
+        prompts.framework_if_unset()
 
         if self.option("browser"):
             settings.browser.name = self.option("browser").lower()

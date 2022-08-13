@@ -42,7 +42,7 @@ def launch() -> GenericBrowser:
         f"Launching {settings.browser.name.title()} using {settings.framework.title()}"
     )
     try:
-        function = LAUNCHERS[settings.framework]
+        function = LAUNCHERS[settings.framework.title()]
     except KeyError:
         log.error(f"Unsupported framework: {settings.framework}")
         sys.exit(1)
@@ -109,11 +109,11 @@ def launch_splinter_browser(name: str, headless: bool) -> SplinterBrowser:
 
 
 LAUNCHERS = {
-    "playwright": launch_playwright_browser,
-    "splinter": launch_splinter_browser,
+    "Playwright": launch_playwright_browser,
+    "Splinter": launch_splinter_browser,
 }
 if playwright is None:
-    del LAUNCHERS["playwright"]
+    del LAUNCHERS["Playwright"]
 
 
 def save_url(browser: GenericBrowser):
