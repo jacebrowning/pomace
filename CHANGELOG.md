@@ -1,4 +1,4 @@
-# 0.11 (unreleased)
+# 0.11 (2022-08-14)
 
 - Updated automatic locators to try partial text match.
 - Added a better error message for when a URL is unreachable.

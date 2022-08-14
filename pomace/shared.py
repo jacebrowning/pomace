@@ -33,7 +33,10 @@ class _Client:
             return ""
 
         if isinstance(browser, PlaywrightBrowser):
-            self.page.bring_to_front()
+            try:
+                self.page.bring_to_front()
+            except IndexError:
+                return ""
             return self.page.url
 
         return browser.url
