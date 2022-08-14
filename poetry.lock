@@ -229,7 +229,7 @@ toml = ["tomli"]
 
 [[package]]
 name = "coveragespace"
-version = "5.0b1"
+version = "5.0"
 description = "A place to track your code coverage metrics."
 category = "dev"
 optional = false
@@ -1586,7 +1586,7 @@ docs = ["rst.linker (>=1.9)", "jaraco.packaging (>=8.2)", "sphinx"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "bdf238b3fbc90e99016fb4e22488cb0cb177e5dac00718f25badb70e23bfd3e0"
+content-hash = "effb5fd6505e962cbbfe13c8acd0808d0508a0bd8b9292f1e6e5d0fd5d51674c"
 
 [metadata.files]
 altgraph = [
@@ -1781,8 +1781,8 @@ coverage = [
     {file = "coverage-6.3.tar.gz", hash = "sha256:987a84ff98a309994ca77ed3cc4b92424f824278e48e4bf7d1bb79a63cfe2099"},
 ]
 coveragespace = [
-    {file = "coveragespace-5.0b1-py3-none-any.whl", hash = "sha256:26531cbcdacb0eaa28f4859124deb718e0deda46662a443caf0a637bdc69e9ac"},
-    {file = "coveragespace-5.0b1.tar.gz", hash = "sha256:a214d64d9ec7f1a3ad2f8e7645da463f14539acb1b35e7bbd170d5888e36986a"},
+    {file = "coveragespace-5.0-py3-none-any.whl", hash = "sha256:b1ffa5dc1e6b4f1e64c764a676c6ec3bd875448942d441c307c338086f2c8f4c"},
+    {file = "coveragespace-5.0.tar.gz", hash = "sha256:7cc03a8f380922d993f43e67009d35886702342ac08aabd6467a1b4e2e059ce9"},
 ]
 crashtest = [
     {file = "crashtest-0.3.1-py3-none-any.whl", hash = "sha256:300f4b0825f57688b47b6d70c6a31de33512eb2fa1ac614f780939aa0cf91680"},

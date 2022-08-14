@@ -52,7 +52,7 @@ def framework_if_unset():
         return
 
     if noninteractive():
-        settings.framework = "Splinter"
+        settings.framework = "splinter"
         return
 
     shared.linebreak = False
