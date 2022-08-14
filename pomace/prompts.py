@@ -51,16 +51,15 @@ def framework_if_unset():
     if settings.framework:
         return
 
-    frameworks = sorted(browser.LAUNCHERS.keys())
     if noninteractive():
-        settings.framework = frameworks[0]
+        settings.framework = "Splinter"
         return
 
     shared.linebreak = False
     command = bullet.Bullet(
         prompt="Select an automation framework: ",
         bullet=" ● ",
-        choices=frameworks,
+        choices=sorted(browser.LAUNCHERS.keys()),
     )
     settings.framework = command.launch()
 
