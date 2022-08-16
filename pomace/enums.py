@@ -111,10 +111,14 @@ class Verb(Enum):
         previous_url: str,
         delay: float = 0.0,
         wait: Optional[float] = None,
+        start: float = 0.0,
     ):
+        start = start or time.time()
+
         if delay:
             log.info(f"Waiting {delay} seconds before continuing")
             time.sleep(delay)
+            start += delay
 
         if wait is None:
             wait = 0.0 if self.updates else 5.0
@@ -122,7 +126,6 @@ class Verb(Enum):
             log.debug(f"Waiting {wait} seconds for URL to change from {previous_url}")
 
         elapsed = 0.0
-        start = time.time()
         logged = False
         while elapsed < wait:
             time.sleep(0.1)
@@ -133,5 +136,5 @@ class Verb(Enum):
                 time.sleep(delay or 0.5)
                 break
             if elapsed > 1.0 and not logged:
-                log.info(f"Waiting {wait} seconds for the URL to change")
+                log.info(f"Waiting up to {wait} seconds for the URL to change")
                 logged = True

@@ -1,3 +1,4 @@
+import time
 from contextlib import suppress
 from copy import copy
 from functools import cached_property
@@ -198,6 +199,7 @@ class Action:
         delay = kwargs.pop("delay", None)
         wait = kwargs.pop("wait", None)
         self._verb.pre_action()
+        start = time.time()
         try:
             function(*args, **kwargs)
         except ElementDoesNotExist as e:
@@ -210,7 +212,7 @@ class Action:
             log.debug(e)
             return False
         else:
-            self._verb.post_action(previous_url, delay, wait)
+            self._verb.post_action(previous_url, delay, wait, start)
             return True
 
     def clean(self, page, *, force: bool = False) -> int:

@@ -75,7 +75,7 @@ def launch_splinter_browser(name: str, headless: bool) -> SplinterBrowser:
     utils.get_browsers = patched.get_browsers
     options = {
         "headless": headless,
-        "user_agent": UserAgent(fallback=FALLBACK_USER_AGENT)[name],
+        "user_agent": get_user_agent(name),
         "wait_time": 1.0,
     }
     log.debug(f"Options: {options}")
@@ -114,6 +114,11 @@ LAUNCHERS = {
 }
 if playwright is None:
     del LAUNCHERS["Playwright"]
+
+
+def get_user_agent(browser: str) -> str:
+    user_agent = UserAgent(fallback=FALLBACK_USER_AGENT)
+    return user_agent[browser]
 
 
 def save_url(browser: GenericBrowser):
