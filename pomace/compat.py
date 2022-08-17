@@ -19,9 +19,13 @@ try:
 
 except ImportError:
 
-    PlaywrightBrowser = None
-    ElementHandle = None
-    PlaywrightElement = None
+    class Missing:
+        def __bool__(self):
+            return False
+
+    PlaywrightBrowser = Missing
+    ElementHandle = Missing
+    PlaywrightElement = Missing
     PlaywrightError = None
-    Page = None
-    playwright = None
+    Page = Missing
+    playwright = Missing
