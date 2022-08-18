@@ -25,6 +25,7 @@ fake = types.Fake()
 def visit(
     url: str = "",
     *,
+    framework: str = "",
     browser: str = "",
     headless: Optional[bool] = None,
     delay: float = 0.0,
@@ -33,6 +34,11 @@ def visit(
         settings.url = url
     else:
         prompts.url_if_unset()
+
+    if framework:
+        settings.framework = framework.lower()
+    else:
+        prompts.framework_if_unset()
 
     if browser:
         settings.browser.name = browser.lower()

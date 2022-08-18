@@ -55,7 +55,7 @@ def framework_if_unset():
         settings.framework = "splinter"
         return
 
-    shared.linebreak = False
+    linebreak(force=True)
     command = bullet.Bullet(
         prompt="Select an automation framework: ",
         bullet=" ● ",
@@ -74,7 +74,7 @@ def browser_if_unset():
         settings.browser.name = value.lower()
         return
 
-    shared.linebreak = False
+    linebreak(force=True)
     command = bullet.Bullet(
         prompt="Select a browser to automate: ",
         bullet=" ● ",
@@ -92,7 +92,7 @@ def url_if_unset(domains=None):
         settings.url = "http://example.com"
         return
 
-    shared.linebreak = False
+    linebreak(force=True)
     if domains:
         command = bullet.Bullet(
             prompt="Starting domain: ", bullet=" ● ", choices=domains
