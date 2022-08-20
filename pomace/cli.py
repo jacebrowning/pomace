@@ -15,9 +15,9 @@ class BaseCommand(Command):  # pragma: no cover
     def handle(self):
         self.configure_logging()
         self.set_directory()
+        utils.locate_models()
         self.update_settings()
         utils.launch_browser()
-        utils.locate_models()
         try:
             self.run()
         except KeyboardInterrupt:
@@ -51,9 +51,11 @@ class BaseCommand(Command):  # pragma: no cover
         if self.argument("domain"):
             if "://" in self.argument("domain"):
                 settings.url = self.argument("domain")
-            else:
+            elif "." in self.argument("domain"):
                 settings.url = "http://" + self.argument("domain")
-        domains = list(set(p.domain for p in models.Page.objects.all()))
+            else:
+                settings.url = ""
+        domains = sorted(set(p.domain for p in models.Page.objects.all()))
         prompts.url_if_unset(domains)
 
 
@@ -100,7 +102,7 @@ class CleanCommand(BaseCommand):
 
 class CloneCommand(BaseCommand):
     """
-    Download site definitions from a git repository
+    Download site definitions from a Git repository
 
     clone
         {url : Git repository URL containing pomace models}
@@ -122,7 +124,7 @@ class CloneCommand(BaseCommand):
 
 class ExecCommand(BaseCommand):  # pragma: no cover
     """
-    Run a Python script with 'pomace' imports
+    Run a Python script with 'pomace' dependency
 
     exec
         {script : Path to a Python script}
