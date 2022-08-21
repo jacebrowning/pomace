@@ -48,6 +48,9 @@ class BaseCommand(Command):  # pragma: no cover
 
         settings.browser.headless = self.option("headless")
 
+        if self._command.name == "exec":
+            return
+
         if self.argument("domain"):
             if "://" in self.argument("domain"):
                 settings.url = self.argument("domain")
@@ -133,14 +136,6 @@ class ExecCommand(BaseCommand):  # pragma: no cover
         {--d|headless : Run the specified browser in a headless mode}
         {--r|root= : Path to directory to containing models}
     """
-
-    def update_settings(self):
-        prompts.browser_if_unset()
-
-        if self.option("browser"):
-            settings.browser.name = self.option("browser").lower()
-
-        settings.browser.headless = self.option("headless")
 
     def run(self):
         utils.run_script(self.argument("script"))
