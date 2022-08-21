@@ -6,6 +6,7 @@ from importlib import reload
 import log
 from cleo.application import Application
 from cleo.commands.command import Command
+from startfile import startfile
 
 from . import __version__, models, prompts, server, utils
 from .config import settings
@@ -125,6 +126,17 @@ class CloneCommand(BaseCommand):
         )
 
 
+class EditCommand(BaseCommand):  # pragma: no cover
+    """
+    Open the configuration file for editing
+
+    edit
+    """
+
+    def handle(self):
+        startfile(settings.datafile.path)
+
+
 class ExecCommand(BaseCommand):  # pragma: no cover
     """
     Run a Python script with 'pomace' dependency
@@ -229,6 +241,7 @@ application = Application("pomace", __version__)
 application.add(AliasCommand())
 application.add(CleanCommand())
 application.add(CloneCommand())
+application.add(EditCommand())
 application.add(ExecCommand())
 application.add(RunCommand())
 application.add(ServeCommand())
