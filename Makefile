@@ -133,6 +133,7 @@ docs/requirements.txt: poetry.lock
 	@ poetry export --dev --without-hashes | grep mkdocs > $@
 	@ poetry export --dev --without-hashes | grep pygments >> $@
 	@ poetry export --dev --without-hashes | grep jinja2 >> $@
+	@ poetry export --dev --without-hashes | grep importlib-metadata >> $@
 
 .PHONY: uml
 uml: install docs/*.png

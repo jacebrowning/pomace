@@ -97,8 +97,10 @@ freezegun = "*"
 coveragespace = "^5.0"
 
 # Documentation
-mkdocs = "^1.2.2"
+mkdocs = "^1.3"
 pygments = "^2.9"
+jinja2 = "~3.0.3" # fix for 'mkdocs' incompatiblity
+importlib-metadata = "<5"
 
 # Tooling
 pyinstaller = "*"
