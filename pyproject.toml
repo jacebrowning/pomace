@@ -90,7 +90,6 @@ pytest-expecter = "^2.0"
 pytest-mock = "^2.0"
 pytest-vcr = "^1.0.2"
 pytest-random = "*"
-pytest-rerunfailures = "*"
 freezegun = "*"
 
 # Reports

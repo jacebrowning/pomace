@@ -2,8 +2,6 @@
 
 from contextlib import suppress
 
-import pytest
-
 from pomace import shared
 from pomace.models import Page
 
@@ -53,7 +51,6 @@ def test_unused_actions_are_removed_on_forced_cleanup(expect, browser):
     expect(len(page.actions)) < previous_count
 
 
-@pytest.mark.flaky(reruns=2)
 def test_multiple_indices_are_tried(expect, browser):
     page = Page.at("https://www.mtggoldfish.com/metagame/standard#paper")
     with suppress(AttributeError):
