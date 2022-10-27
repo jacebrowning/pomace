@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.11.8"
+version = "0.11.9"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -53,6 +53,7 @@ playwright = { version = "^1.24", markers = "platform_machine != 'armv7l'" }
 selenium = "^4.4"
 splinter = "^0.18.1"
 webdriver_manager = "^3.8.3"
+packaging = "*" # https://github.com/SergeyPirogov/webdriver_manager/issues/460
 
 # Persistence
 datafiles = "^2.0"
