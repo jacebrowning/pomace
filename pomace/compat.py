@@ -17,7 +17,7 @@ try:
     if "pytest" in sys.modules:
         raise ImportError
 
-except ImportError:
+except (ImportError, AttributeError):
 
     class Missing:
         def __bool__(self):
