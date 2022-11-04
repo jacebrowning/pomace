@@ -4,12 +4,11 @@ import sys
 
 import log
 import splinter
-from fake_useragent import UserAgent, utils
+from fake_useragent import UserAgent
 from selenium.webdriver import ChromeOptions
 from splinter.exceptions import DriverNotFoundError
 from webdriver_manager import chrome, firefox
 
-from . import patched
 from .compat import PlaywrightError, playwright
 from .config import settings
 from .types import GenericBrowser, PlaywrightBrowser, SplinterBrowser
@@ -73,16 +72,16 @@ def launch_playwright_browser(name: str, headless: bool) -> PlaywrightBrowser:
 
 
 def launch_splinter_browser(name: str, headless: bool) -> SplinterBrowser:
-    utils.get_browsers = patched.get_browsers
+    options = ChromeOptions()
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
     config = {
         "headless": headless,
         "user_agent": get_user_agent(name),
         "wait_time": 1.0,
     }
     if name == "chrome":
-        config["options"] = ChromeOptions()
-        config["options"].add_argument("--no-sandbox")  # type: ignore
-        config["options"].add_argument("--disable-gpu")  # type: ignore
+        config["options"] = options
 
     try:
         log.debug(f"Launching {name}: {config}")

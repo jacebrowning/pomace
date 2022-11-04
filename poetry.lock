@@ -1,12 +1,4 @@
 [[package]]
-name = "alt-fake-useragent"
-version = "0.2.1"
-description = "A Fixed and Updated Alternative for fake-useragent"
-category = "main"
-optional = false
-python-versions = "*"
-
-[[package]]
 name = "altgraph"
 version = "0.17.2"
 description = "Python graph (network) package"
@@ -313,6 +305,14 @@ python-versions = "*"
 name = "executing"
 version = "0.10.0"
 description = "Get the currently executing AST node of a frame, and other information"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
+name = "fake-useragent"
+version = "0.1.13"
+description = "Up to date simple useragent faker with real world database"
 category = "main"
 optional = false
 python-versions = "*"
@@ -1583,13 +1583,9 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "9ab54034e144788eb166d496f43a668679e6936ff14ba14f4af905deba7d9140"
+content-hash = "86ea786d43772e1fa6415b907df19ca32216be695c224fbc3a3a2f60c638664e"
 
 [metadata.files]
-alt-fake-useragent = [
-    {file = "alt-fake-useragent-0.2.1.tar.gz", hash = "sha256:19c4b12a559faf226502ecc54dc800a5fbf82ab1993e29a3a5b8d64cc5418ae5"},
-    {file = "alt_fake_useragent-0.2.1-py3-none-any.whl", hash = "sha256:30038cfa60447895886c6e2db90c79439d525474a805119d703a6b6c708ae89e"},
-]
 altgraph = [
     {file = "altgraph-0.17.2-py2.py3-none-any.whl", hash = "sha256:743628f2ac6a7c26f5d9223c91ed8ecbba535f506f4b6f558885a8a56a105857"},
     {file = "altgraph-0.17.2.tar.gz", hash = "sha256:ebf2269361b47d97b3b88e696439f6e4cbc607c17c51feb1754f90fb79839158"},
@@ -1825,6 +1821,10 @@ docopt = [
 executing = [
     {file = "executing-0.10.0-py2.py3-none-any.whl", hash = "sha256:9c745f80cda11eb22b62cbecf21156491a794eb56ab06f9d286a44e62822b24e"},
     {file = "executing-0.10.0.tar.gz", hash = "sha256:d1cd87c2e371e9966261410c5b3769d6df2f9e4a79a83eebd2662dd3388f9833"},
+]
+fake-useragent = [
+    {file = "fake-useragent-0.1.13.tar.gz", hash = "sha256:1205ec0f65bcadbba64c8ace4fd9cb4ef3ac8ee922015e979a955c7bb88b7d72"},
+    {file = "fake_useragent-0.1.13-py3-none-any.whl", hash = "sha256:1ea8a56e81a5f295e2cdbcf37df59218c34bd3eef18648df5e742746805b5511"},
 ]
 faker = [
     {file = "Faker-13.12.0-py3-none-any.whl", hash = "sha256:5cbb89fc6a16793b2bd98252c03a86098c7426beab0a20382709a815651b8804"},
