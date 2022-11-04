@@ -4,11 +4,11 @@ import sys
 
 import log
 import splinter
-from fake_useragent import UserAgent, utils
+from fake_useragent import UserAgent
+from selenium.webdriver import ChromeOptions
 from splinter.exceptions import DriverNotFoundError
 from webdriver_manager import chrome, firefox
 
-from . import patched
 from .compat import PlaywrightError, playwright
 from .config import settings
 from .types import GenericBrowser, PlaywrightBrowser, SplinterBrowser
@@ -72,15 +72,20 @@ def launch_playwright_browser(name: str, headless: bool) -> PlaywrightBrowser:
 
 
 def launch_splinter_browser(name: str, headless: bool) -> SplinterBrowser:
-    utils.get_browsers = patched.get_browsers
-    options = {
+    options = ChromeOptions()
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    config = {
         "headless": headless,
         "user_agent": get_user_agent(name),
         "wait_time": 1.0,
     }
-    log.debug(f"Options: {options}")
+    if name == "chrome":
+        config["options"] = options
+
     try:
-        return splinter.Browser(name, **options)
+        log.debug(f"Launching {name}: {config}")
+        return splinter.Browser(name, **config)
     except DriverNotFoundError:
         log.error(f"Unsupported browser: {name}")
         sys.exit(1)
@@ -93,9 +98,9 @@ def launch_splinter_browser(name: str, headless: bool) -> SplinterBrowser:
 
         for driver, manager in WEBDRIVER_MANAGERS.items():
             if driver in str(e).lower():
-                options["executable_path"] = manager().install()
+                config["executable_path"] = manager().install()
                 try:
-                    return splinter.Browser(name, **options)
+                    return splinter.Browser(name, **config)
                 except OSError as e:
                     if driver == "geckodriver" and "arm" in platform.machine():
                         log.error("Your machine's architecture is not supported")
