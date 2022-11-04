@@ -7,7 +7,7 @@ import datafiles
 import log
 import pytest
 
-from pomace import shared
+from pomace import prompts, shared
 
 
 class MockElement(str):
@@ -57,3 +57,4 @@ def pytest_configure(config):
 
 def pytest_runtest_setup(item):
     datafiles.settings.HOOKS_ENABLED = False
+    prompts.framework_if_unset()
