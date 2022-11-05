@@ -1,6 +1,7 @@
 # 0.12 (unreleased)
 
 - Added `edit` command to open the configuration file.
+- Fixed model detection in `serve` mode.
 
 # 0.11 (2022-08-14)
 

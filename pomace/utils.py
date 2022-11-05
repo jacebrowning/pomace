@@ -83,11 +83,14 @@ def locate_models(*, caller=None):
 
     if caller:
         for frame in inspect.getouterframes(caller):
-            if "pomace" not in frame.filename or "pomace/tests" in frame.filename:
-                path = Path(frame.filename)
-                log.debug(f"Found caller's package directory: {path.parent}")
-                os.chdir(path.parent)
-                return
+            if "lib/python" in frame.filename and "site-packages" not in frame.filename:
+                continue
+            if "pomace" in frame.filename and "pomace/tests" not in frame.filename:
+                continue
+            path = Path(frame.filename)
+            log.debug(f"Found caller's package directory: {path.parent}")
+            os.chdir(path.parent)
+            return
 
     if default.is_dir():
         log.info(f"Found models: {default}")

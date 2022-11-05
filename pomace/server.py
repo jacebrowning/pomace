@@ -1,9 +1,10 @@
 from urllib.parse import unquote
 
+import log
 from flask import redirect, request, url_for
 from flask_api import FlaskAPI
 
-from . import models, utils
+from .api import visit
 
 app = FlaskAPI("Pomace")
 
@@ -18,14 +19,19 @@ def pomace():
     if "url" not in request.args:
         return redirect("/")
 
-    utils.launch_browser(restore_previous_url=False)
-
     url = request.args["url"]
-    page = models.Page.at(url)
+    page = visit(url)
 
+    transitioned = False
     for action, value in request.args.items():
         if "_" in action:
-            page, _updated = page.perform(action, value, _log=app.logger)
+            page, transitioned = page.perform(action, value or "<missing>")
+            if transitioned:
+                log.info(f"Transitioned to {page}")
+
+    link = unquote(url_for(".pomace", url=page.url, _external=True))
+    if transitioned:
+        return redirect(link)
 
     data = {
         "id": page.identity,
@@ -33,11 +39,8 @@ def pomace():
         "title": page.title,
         "html": page.soup.prettify(),
         "text": page.text,
-        "_next": unquote(url_for(".pomace", url=page.url, _external=True)),
-        "_actions": dir(page),
+        "_self": link,
+        "_actions": {action: link + "&" + action for action in dir(page)},
     }
-
-    if not app.debug:
-        utils.close_browser()
 
     return data
