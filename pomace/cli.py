@@ -213,7 +213,7 @@ class ShellCommand(BaseCommand):  # pragma: no cover
 
 class ServeCommand(BaseCommand):
     """
-    Start the web API interaface
+    Start the web API interface
 
     serve
         {domain? : Starting domain for the automation}

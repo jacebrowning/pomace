@@ -50,6 +50,7 @@
     "pyenv",
     "setenv",
     "showfspath",
+    "startfile",
     "tlsv",
     "useragent"
   ]
