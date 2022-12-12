@@ -41,7 +41,7 @@ classifiers = [
 python = "^3.8"
 
 # Interface
-cleo = "~0.8.1"
+cleo = ">=0.8.1,<2.1.0"
 bullet = "^2.2"
 ipdb = "~0.13.9"
 ipython = "^8.4"
