@@ -96,8 +96,8 @@ freezegun = "*"
 coveragespace = "^5.0"
 
 # Documentation
-mkdocs = "~1.2.4"
-pygments = "^2.9"
+mkdocs = "~1.4"
+pygments = "^2.13"
 
 # Tooling
 pyinstaller = "*"
