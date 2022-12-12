@@ -60,12 +60,12 @@ gitman = "^3.3"
 parse = "^1.14"
 
 # Data
-faker = ">=4.1.1"
-zipcodes = "^1.1.2"
+faker = ">=15"
+zipcodes = "^1.2"
 us = "^2.0.2"
 
 # Utilities
-fake-useragent = "~0.1.13"
+fake-useragent = "^1.1"
 beautifulsoup4 = "^4.8.2"
 inflection = "^0.5.1"
 minilog = "^2.0"
