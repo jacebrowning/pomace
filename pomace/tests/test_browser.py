@@ -11,6 +11,7 @@ def describe_launch():
             browser.launch()
 
     def it_rejects_invalid_browsers(expect):
+        settings.framework = "splinter"
         settings.browser.name = "foobar"
         with expect.raises(SystemExit):
             browser.launch()
