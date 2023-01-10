@@ -14,6 +14,9 @@ from .config import settings
 
 
 class BaseCommand(Command):
+    def _run(self):
+        pass
+
     def handle(self):
         self.configure_logging()
         self.set_directory()
@@ -21,7 +24,7 @@ class BaseCommand(Command):
         self.update_settings()
         utils.launch_browser()
         try:
-            self.run()  # type: ignore
+            self._run()
         except KeyboardInterrupt:
             log.debug("User cancelled loop")
         finally:
@@ -200,7 +203,7 @@ class ExecCommand(BaseCommand):
         ),
     ]
 
-    def run(self):
+    def _run(self):
         utils.run_script(self.argument("script"))
 
 
@@ -246,7 +249,7 @@ class RunCommand(BaseCommand):
         ),
     ]
 
-    def run(self):
+    def _run(self):
         for name in self.option("prompt"):
             prompts.secret_if_unset(name)
 
@@ -310,7 +313,7 @@ class ShellCommand(BaseCommand):
         ),
     ]
 
-    def run(self):
+    def _run(self):
         prompts.shell()
 
 
