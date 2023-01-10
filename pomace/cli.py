@@ -6,13 +6,14 @@ from importlib import reload
 import log
 from cleo.application import Application
 from cleo.commands.command import Command
+from cleo.helpers import argument, option
 from startfile import startfile
 
 from . import __version__, models, prompts, server, utils
 from .config import settings
 
 
-class BaseCommand(Command):  # pragma: no cover
+class BaseCommand(Command):
     def handle(self):
         self.configure_logging()
         self.set_directory()
@@ -20,7 +21,7 @@ class BaseCommand(Command):  # pragma: no cover
         self.update_settings()
         utils.launch_browser()
         try:
-            self.run()
+            self.run()  # type: ignore
         except KeyboardInterrupt:
             log.debug("User cancelled loop")
         finally:
@@ -29,8 +30,9 @@ class BaseCommand(Command):  # pragma: no cover
 
     def configure_logging(self):
         log.reset()
-        shift = 2 if self._command.name == "exec" else 1
-        log.init(verbosity=self.io.verbosity + shift)
+        # TODO: Rewrite for cleo 2.0 and add a test
+        # shift = 2 if self.name == "exec" else 1
+        # log.init(verbosity=self.io.output.verbosity + shift)
         log.silence("datafiles", allow_warning=True)
         log.silence("urllib3.connectionpool", allow_error=True)
 
@@ -49,7 +51,7 @@ class BaseCommand(Command):  # pragma: no cover
 
         settings.browser.headless = self.option("headless")
 
-        if self._command.name == "exec":
+        if self.name == "exec":
             return
 
         if self.argument("domain"):
@@ -64,13 +66,18 @@ class BaseCommand(Command):  # pragma: no cover
 
 
 class AliasCommand(BaseCommand):
-    """
-    Map one domain's site definitions to another
-
-    alias
-        {source : Domain to map to another}
-        {target : Domain with existing models}
-    """
+    name = "alias"
+    description = "Map one domain's site definitions to another."
+    arguments = [
+        argument(
+            "source",
+            description="Domain to map to another.",
+        ),
+        argument(
+            "target",
+            description="Domain with existing models.",
+        ),
+    ]
 
     def handle(self):
         self.configure_logging()
@@ -84,13 +91,22 @@ class AliasCommand(BaseCommand):
 
 
 class CleanCommand(BaseCommand):
-    """
-    Remove unused actions in local site definitions
-
-    clean
-        {domain? : Limit cleaning to a single domain}
-        {--r|root= : Path to directory to containing models}
-    """
+    name = "clean"
+    description = "Remove unused actions in local site definitions."
+    arguments = [
+        argument(
+            "domain",
+            description="Limit cleaning to a single domain.",
+            optional=True,
+        ),
+    ]
+    options = [
+        option(
+            "root",
+            "r",
+            description="Path to directory to containing models.",
+        )
+    ]
 
     def handle(self):
         self.configure_logging()
@@ -105,15 +121,31 @@ class CleanCommand(BaseCommand):
 
 
 class CloneCommand(BaseCommand):
-    """
-    Download site definitions from a Git repository
-
-    clone
-        {url : Git repository URL containing pomace models}
-        {domain? : Name of sites directory for this repository}
-        {--f|force : Overwrite uncommitted changes in cloned repositories}
-        {--r|root= : Path to directory to containing models}
-    """
+    name = "clone"
+    description = "Download site definitions from a Git repository."
+    arguments = [
+        argument(
+            "url",
+            description="Git repository URL containing pomace models.",
+        ),
+        argument(
+            "domain",
+            description="Name of sites directory for this repository.",
+            optional=True,
+        ),
+    ]
+    options = [
+        option(
+            "force",
+            "f",
+            description="Overwrite uncommitted changes in cloned repositories.",
+        ),
+        option(
+            "root",
+            "r",
+            description="Path to directory to containing models.",
+        ),
+    ]
 
     def handle(self):
         self.configure_logging()
@@ -126,45 +158,93 @@ class CloneCommand(BaseCommand):
         )
 
 
-class EditCommand(BaseCommand):  # pragma: no cover
-    """
-    Open the configuration file for editing
-
-    edit
-    """
+class EditCommand(BaseCommand):
+    name = "edit"
+    description = "Open the configuration file for editing."
 
     def handle(self):
         startfile(settings.datafile.path)
 
 
-class ExecCommand(BaseCommand):  # pragma: no cover
-    """
-    Run a Python script with 'pomace' dependency
-
-    exec
-        {script : Path to a Python script}
-        {--f|framework= : Framework to control browsers}
-        {--b|browser= : Browser to use for automation}
-        {--d|headless : Run the specified browser in a headless mode}
-        {--r|root= : Path to directory to containing models}
-    """
+class ExecCommand(BaseCommand):
+    name = "exec"
+    description = "Run a Python script with 'pomace' dependency."
+    arguments = [
+        argument(
+            "script",
+            description="Path to a Python script.",
+        ),
+    ]
+    options = [
+        option(
+            "framework",
+            "f",
+            description="Framework to control browsers.",
+            flag=False,
+        ),
+        option(
+            "browser",
+            "b",
+            description="Browser to use for automation.",
+            flag=False,
+        ),
+        option(
+            "headless",
+            "d",
+            description="Run the specified browser in a headless mode.",
+        ),
+        option(
+            "root",
+            "r",
+            description="Path to directory to containing models.",
+        ),
+    ]
 
     def run(self):
         utils.run_script(self.argument("script"))
 
 
-class RunCommand(BaseCommand):  # pragma: no cover
-    """
-    Start the command-line interface
-
-    run
-        {domain? : Starting domain for the automation}
-        {--f|framework= : Framework to control browsers}
-        {--b|browser= : Browser to use for automation}
-        {--d|headless : Run the specified browser in a headless mode}
-        {--p|prompt=* : Prompt for secrets before running}
-        {--r|root= : Path to directory to containing models}
-    """
+class RunCommand(BaseCommand):
+    name = "run"
+    description = "Start the command-line interface."
+    arguments = [
+        argument(
+            "domain",
+            description="Name of sites directory for this repository.",
+            optional=True,
+        ),
+    ]
+    options = [
+        option(
+            "framework",
+            "f",
+            description="Framework to control browsers.",
+            flag=False,
+        ),
+        option(
+            "browser",
+            "b",
+            description="Browser to use for automation.",
+            flag=False,
+        ),
+        option(
+            "headless",
+            "d",
+            description="Run the specified browser in a headless mode.",
+        ),
+        option(
+            "prompt",
+            "p",
+            description="Prompt for secrets before running.",
+            flag=False,
+            multiple=True,
+        ),
+        option(
+            "root",
+            "r",
+            description="Path to directory to containing models.",
+        ),
+    ]
 
     def run(self):
         for name in self.option("prompt"):
@@ -195,35 +275,90 @@ class RunCommand(BaseCommand):  # pragma: no cover
         prompts.linebreak(force=True)
 
 
-class ShellCommand(BaseCommand):  # pragma: no cover
-    """
-    Launch an interactive shell
-
-    shell
-        {domain? : Starting domain for the automation}
-        {--f|framework= : Framework to control browsers}
-        {--b|browser= : Browser to use for automation}
-        {--d|headless : Run the specified browser in a headless mode}
-        {--r|root= : Path to directory to containing models}
-    """
+class ShellCommand(BaseCommand):
+    name = "shell"
+    description = "Launch an interactive shell."
+    arguments = [
+        argument(
+            "domain",
+            description="Name of sites directory for this repository.",
+            optional=True,
+        ),
+    ]
+    options = [
+        option(
+            "framework",
+            "f",
+            description="Framework to control browsers.",
+            flag=False,
+        ),
+        option(
+            "browser",
+            "b",
+            description="Browser to use for automation.",
+            flag=False,
+        ),
+        option(
+            "headless",
+            "d",
+            description="Run the specified browser in a headless mode.",
+        ),
+        option(
+            "root",
+            "r",
+            description="Path to directory to containing models.",
+        ),
+    ]
 
     def run(self):
         prompts.shell()
 
 
 class ServeCommand(BaseCommand):
-    """
-    Start the web API interface
-
-    serve
-        {domain? : Starting domain for the automation}
-        {--f|framework= : Framework to control browsers}
-        {--b|browser= : Browser to use for automation}
-        {--d|headless : Run the specified browser in a headless mode}
-        {--p|prompt=* : Prompt for secrets before running}
-        {--r|root= : Path to directory to containing models}
-        {--debug : Run the server in debug mode}
-    """
+    name = "serve"
+    description = "Start the web API interface."
+    arguments = [
+        argument(
+            "domain",
+            description="Name of sites directory for this repository.",
+            optional=True,
+        ),
+    ]
+    options = [
+        option(
+            "framework",
+            "f",
+            description="Framework to control browsers.",
+            flag=False,
+        ),
+        option(
+            "browser",
+            "b",
+            description="Browser to use for automation.",
+            flag=False,
+        ),
+        option(
+            "headless",
+            "d",
+            description="Run the specified browser in a headless mode.",
+        ),
+        option(
+            "prompt",
+            "p",
+            description="Prompt for secrets before running.",
+            flag=False,
+            multiple=True,
+        ),
+        option(
+            "root",
+            "r",
+            description="Path to directory to containing models.",
+        ),
+        option(
+            "debug",
+            description="Run the server in debug mode.",
+        ),
+    ]
 
     def handle(self):
         self.configure_logging()
