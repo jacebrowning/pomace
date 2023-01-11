@@ -13,7 +13,7 @@ def test_locator_uses_are_persisted(expect, browser):
     page.fill_search("foobar")
 
     page = Page.at("https://www.wikipedia.org")
-    locators = sorted(page.fill_search.locators)
+    locators = sorted(page.fill_search.locators)  # type: ignore
     good_locator = locators[-1]
     bad_locator = locators[0]
 

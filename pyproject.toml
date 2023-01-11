@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.11.16"
+version = "0.12"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -32,6 +32,7 @@ classifiers = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
     "Topic :: Internet :: WWW/HTTP :: Browsers",
     "Topic :: Software Development :: Testing",
 ]
@@ -78,9 +79,10 @@ black = "^22.3"
 isort = "^5.10"
 
 # Linters
-mypy = "~0.782"
+mypy = "~0.991"
+types-requests = "*"
 pydocstyle = "*"
-pylint = "~2.6"
+pylint = "~2.15"
 
 # Testing
 pytest = "^6.2.4"
@@ -117,6 +119,16 @@ quiet = "true"
 [tool.isort]
 
 profile = "black"
+
+[tool.mypy]
+
+ignore_missing_imports = true
+no_implicit_optional = true
+check_untyped_defs = true
+
+cache_dir = ".cache/mypy/"
+
+plugins = "datafiles.plugins:mypy"
 
 [build-system]
 
