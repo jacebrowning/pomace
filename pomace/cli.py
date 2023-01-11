@@ -1,5 +1,3 @@
-# pylint: disable=no-self-use
-
 import os
 from importlib import reload
 
@@ -21,9 +19,45 @@ VERBOSITY = {
 }
 
 
-class BaseCommand(Command):  # pragma: no cover
-    def _run(self):
-        pass
+class BaseCommand(Command):
+    arguments = [
+        argument(
+            "domain",
+            description="Name of sites directory for this repository.",
+            optional=True,
+        ),
+    ]
+    options = [
+        option(
+            "framework",
+            "f",
+            description="Framework to control browsers.",
+            flag=False,
+        ),
+        option(
+            "browser",
+            "b",
+            description="Browser to use for automation.",
+            flag=False,
+        ),
+        option(
+            "headless",
+            "d",
+            description="Run the specified browser in a headless mode.",
+        ),
+        option(
+            "prompt",
+            "p",
+            description="Prompt for secrets before running.",
+            flag=False,
+            multiple=True,
+        ),
+        option(
+            "root",
+            "r",
+            description="Path to directory to containing models.",
+        ),
+    ]
 
     def handle(self):
         self.configure_logging()
@@ -32,18 +66,21 @@ class BaseCommand(Command):  # pragma: no cover
         self.update_settings()
         utils.launch_browser()
         try:
-            self._run()
+            self.handle_command()
         except KeyboardInterrupt:
             log.debug("User cancelled loop")
         finally:
             utils.close_browser()
             prompts.linebreak()
 
+    def handle_command(self):
+        raise NotImplementedError
+
     def configure_logging(self):
         log.reset()
         verbosity = VERBOSITY[self.io.output.verbosity]
-        shift = 1 if self.name == "exec" else 0
-        log.init(verbosity=verbosity + shift)
+        extra = 1 if self.name == "exec" else 0
+        log.init(verbosity=verbosity + extra)
         log.silence("datafiles", allow_warning=True)
         log.silence("urllib3.connectionpool", allow_error=True)
 
@@ -61,6 +98,9 @@ class BaseCommand(Command):  # pragma: no cover
         prompts.browser_if_unset()
 
         settings.browser.headless = self.option("headless")
+
+        for name in self.option("prompt"):
+            prompts.secret_if_unset(name)
 
         if self.name == "exec":
             return
@@ -89,9 +129,13 @@ class AliasCommand(BaseCommand):
             description="Domain with existing models.",
         ),
     ]
+    options = []  # type: ignore
 
     def handle(self):
         self.configure_logging()
+        self.handle_command()
+
+    def handle_command(self):
         source = self.argument("source")
         target = self.argument("target")
         settings.aliases[source] = target
@@ -104,13 +148,6 @@ class AliasCommand(BaseCommand):
 class CleanCommand(BaseCommand):
     name = "clean"
     description = "Remove unused actions in local site definitions."
-    arguments = [
-        argument(
-            "domain",
-            description="Limit cleaning to a single domain.",
-            optional=True,
-        ),
-    ]
     options = [
         option(
             "root",
@@ -123,6 +160,9 @@ class CleanCommand(BaseCommand):
         self.configure_logging()
         self.set_directory()
         utils.locate_models()
+        self.handle_command()
+
+    def handle_command(self):
         if self.argument("domain"):
             pages = models.Page.objects.filter(domain=self.argument("domain"))
         else:
@@ -162,6 +202,9 @@ class CloneCommand(BaseCommand):
         self.configure_logging()
         self.set_directory()
         utils.locate_models()
+        self.handle_command()
+
+    def handle_command(self):
         utils.clone_models(
             self.argument("url"),
             domain=self.argument("domain"),
@@ -172,8 +215,13 @@ class CloneCommand(BaseCommand):
 class EditCommand(BaseCommand):
     name = "edit"
     description = "Open the configuration file for editing."
+    arguments = []  # type: ignore
+    options = []  # type: ignore
 
     def handle(self):
+        self.handle_command()
+
+    def handle_command(self):
         startfile(settings.datafile.path)
 
 
@@ -186,81 +234,16 @@ class ExecCommand(BaseCommand):
             description="Path to a Python script.",
         ),
     ]
-    options = [
-        option(
-            "framework",
-            "f",
-            description="Framework to control browsers.",
-            flag=False,
-        ),
-        option(
-            "browser",
-            "b",
-            description="Browser to use for automation.",
-            flag=False,
-        ),
-        option(
-            "headless",
-            "d",
-            description="Run the specified browser in a headless mode.",
-        ),
-        option(
-            "root",
-            "r",
-            description="Path to directory to containing models.",
-        ),
-    ]
 
-    def _run(self):
+    def handle_command(self):
         utils.run_script(self.argument("script"))
 
 
 class RunCommand(BaseCommand):
     name = "run"
     description = "Start the command-line interface."
-    arguments = [
-        argument(
-            "domain",
-            description="Name of sites directory for this repository.",
-            optional=True,
-        ),
-    ]
-    options = [
-        option(
-            "framework",
-            "f",
-            description="Framework to control browsers.",
-            flag=False,
-        ),
-        option(
-            "browser",
-            "b",
-            description="Browser to use for automation.",
-            flag=False,
-        ),
-        option(
-            "headless",
-            "d",
-            description="Run the specified browser in a headless mode.",
-        ),
-        option(
-            "prompt",
-            "p",
-            description="Prompt for secrets before running.",
-            flag=False,
-            multiple=True,
-        ),
-        option(
-            "root",
-            "r",
-            description="Path to directory to containing models.",
-        ),
-    ]
 
-    def _run(self):
-        for name in self.option("prompt"):
-            prompts.secret_if_unset(name)
-
+    def handle_command(self):
         self.clear_screen()
         page = models.auto()
         self.display_url(page)
@@ -289,82 +272,15 @@ class RunCommand(BaseCommand):
 class ShellCommand(BaseCommand):
     name = "shell"
     description = "Launch an interactive shell."
-    arguments = [
-        argument(
-            "domain",
-            description="Name of sites directory for this repository.",
-            optional=True,
-        ),
-    ]
-    options = [
-        option(
-            "framework",
-            "f",
-            description="Framework to control browsers.",
-            flag=False,
-        ),
-        option(
-            "browser",
-            "b",
-            description="Browser to use for automation.",
-            flag=False,
-        ),
-        option(
-            "headless",
-            "d",
-            description="Run the specified browser in a headless mode.",
-        ),
-        option(
-            "root",
-            "r",
-            description="Path to directory to containing models.",
-        ),
-    ]
 
-    def _run(self):
+    def handle_command(self):
         prompts.shell()
 
 
 class ServeCommand(BaseCommand):
     name = "serve"
     description = "Start the web API interface."
-    arguments = [
-        argument(
-            "domain",
-            description="Name of sites directory for this repository.",
-            optional=True,
-        ),
-    ]
-    options = [
-        option(
-            "framework",
-            "f",
-            description="Framework to control browsers.",
-            flag=False,
-        ),
-        option(
-            "browser",
-            "b",
-            description="Browser to use for automation.",
-            flag=False,
-        ),
-        option(
-            "headless",
-            "d",
-            description="Run the specified browser in a headless mode.",
-        ),
-        option(
-            "prompt",
-            "p",
-            description="Prompt for secrets before running.",
-            flag=False,
-            multiple=True,
-        ),
-        option(
-            "root",
-            "r",
-            description="Path to directory to containing models.",
-        ),
+    options = BaseCommand.options + [
         option(
             "debug",
             description="Run the server in debug mode.",
@@ -377,6 +293,9 @@ class ServeCommand(BaseCommand):
         self.update_settings()
         prompts.bullet = None
         utils.locate_models()
+        self.handle_command()
+
+    def handle_command(self):
         try:
             server.app.run(debug=self.option("debug"))
         finally:

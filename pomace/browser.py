@@ -110,7 +110,7 @@ def launch_splinter_browser(name: str, headless: bool) -> SplinterBrowser:
                         sys.exit(1)
                     raise e from None
 
-        raise e from None
+        raise e from None  # type: ignore
 
 
 LAUNCHERS = {

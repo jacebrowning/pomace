@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use,unused-argument
+# pylint: disable=unused-argument
 
 """Unit tests configuration file."""
 

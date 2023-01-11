@@ -99,7 +99,7 @@ class Action:
 
     @property
     def sorted_locators(self) -> List[Locator]:
-        locators = [x for x in sorted(self.locators, reverse=True) if x]
+        locators = [x for x in sorted(self.locators, reverse=True) if x]  # type: ignore
         if all(locator.uses < 0 for locator in locators):
             return locators
 
@@ -251,11 +251,11 @@ class Locators:
 
     @property
     def sorted_inclusions(self) -> List[Locator]:
-        return [x for x in sorted(self.inclusions, reverse=True) if x]
+        return [x for x in sorted(self.inclusions, reverse=True) if x]  # type: ignore
 
     @property
     def sorted_exclusions(self) -> List[Locator]:
-        return [x for x in sorted(self.exclusions, reverse=True) if x]
+        return [x for x in sorted(self.exclusions, reverse=True) if x]  # type: ignore
 
     def clean(self, page, *, force: bool = False) -> int:
         unused_inclusion_locators = []
@@ -338,11 +338,11 @@ class Page:
         return shared.browser
 
     @cached_property
-    def url(self) -> str:  # pylint: disable=no-self-use
+    def url(self) -> str:
         return shared.client.url
 
     @cached_property
-    def title(self) -> str:  # pylint: disable=no-self-use
+    def title(self) -> str:
         return shared.client.title
 
     @cached_property
@@ -359,7 +359,7 @@ class Page:
         return "\n".join(chunk for chunk in chunks if chunk)
 
     @cached_property
-    def html(self) -> str:  # pylint: disable=no-self-use
+    def html(self) -> str:
         return shared.client.html
 
     @cached_property

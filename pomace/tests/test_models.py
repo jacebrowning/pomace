@@ -37,7 +37,7 @@ def describe_locator():
                 Locator("name", "AAA", uses=7),
                 Locator("name", "zzz", uses=8),
             ]
-            expect(sorted(locators)) == locators
+            expect(sorted(locators)) == locators  # type: ignore
 
     def describe_find():
         def it_returns_callable(expect, mockbrowser, locator):
@@ -214,7 +214,7 @@ def describe_page():
     def describe_properties():
         @pytest.mark.vcr()
         def it_computes_values_based_on_the_html(expect, page, mockbrowser):
-            mockbrowser.html = requests.get("http://example.com").text
+            mockbrowser.html = requests.get("http://example.com", timeout=5).text
             expect(page.text) == (
                 "Example Domain\n"
                 "Example Domain\n"
