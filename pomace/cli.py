@@ -5,15 +5,23 @@ from importlib import reload
 
 import log
 from cleo.application import Application
-from cleo.commands.command import Command
+from cleo.commands.command import Command, Verbosity
 from cleo.helpers import argument, option
 from startfile import startfile
 
 from . import __version__, models, prompts, server, utils
 from .config import settings
 
+VERBOSITY = {
+    Verbosity.QUIET: 0,
+    Verbosity.NORMAL: 1,
+    Verbosity.VERBOSE: 2,
+    Verbosity.VERY_VERBOSE: 3,
+    Verbosity.DEBUG: 4,
+}
 
-class BaseCommand(Command):
+
+class BaseCommand(Command):  # pragma: no cover
     def _run(self):
         pass
 
@@ -33,9 +41,9 @@ class BaseCommand(Command):
 
     def configure_logging(self):
         log.reset()
-        # TODO: Rewrite for cleo 2.0 and add a test
-        # shift = 2 if self.name == "exec" else 1
-        # log.init(verbosity=self.io.output.verbosity + shift)
+        verbosity = VERBOSITY[self.io.output.verbosity]
+        shift = 1 if self.name == "exec" else 0
+        log.init(verbosity=verbosity + shift)
         log.silence("datafiles", allow_warning=True)
         log.silence("urllib3.connectionpool", allow_error=True)
 
