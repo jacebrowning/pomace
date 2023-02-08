@@ -66,7 +66,7 @@ zipcodes = "^1.2"
 us = "^2.0.2"
 
 # Utilities
-fake-useragent = "^1.1"
+fake-useragent = "^1.1.1"
 beautifulsoup4 = "^4.8.2"
 inflection = "^0.5.1"
 minilog = "^2.0"
@@ -79,7 +79,7 @@ black = "^22.3"
 isort = "^5.10"
 
 # Linters
-mypy = "~0.991"
+mypy = "^1.0"
 types-requests = "*"
 pydocstyle = "*"
 pylint = "~2.15"
