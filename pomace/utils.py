@@ -125,7 +125,7 @@ def run_script(script: str):
     else:
         log.error(f"Script not found: {path}")
     try:
-        exec(path.read_text())  # pylint: disable=exec-used
+        exec(path.read_text("utf-8"))  # pylint: disable=exec-used
     except (KeyboardInterrupt, BdbQuit):
         pass
     except Exception as e:

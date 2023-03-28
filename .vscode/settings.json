@@ -41,6 +41,7 @@
     "grixis",
     "Interactable",
     "linebreak",
+    "mkdocs",
     "mockbrowser",
     "mockelement",
     "mockhtml",
@@ -52,6 +53,7 @@
     "showfspath",
     "startfile",
     "tlsv",
-    "useragent"
+    "useragent",
+    "USERPROFILE"
   ]
 }

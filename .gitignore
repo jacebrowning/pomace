@@ -3,9 +3,9 @@ pomace.yml
 
 # Temporary Python files
 *.pyc
-*.egg-info
-__pycache__
-.ipynb_checkpoints
+*.egg-info/
+__pycache__/
+.ipynb_checkpoints/
 setup.py
 pip-wheel-metadata/
 
@@ -15,6 +15,7 @@ Icon*
 # Temporary virtual environment files
 /.cache/
 /.venv/
+tmp/
 
 # Temporary server files
 .env
@@ -37,6 +38,7 @@ Icon*
 /.coverage
 /.coverage.*
 /htmlcov/
+/prof/
 coverage.xml
 
 # Build and release directories
