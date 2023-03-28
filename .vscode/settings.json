@@ -52,6 +52,7 @@
     "showfspath",
     "startfile",
     "tlsv",
-    "useragent"
+    "useragent",
+    "USERPROFILE"
   ]
 }
