@@ -114,7 +114,7 @@ class _Client:
         if isinstance(browser, PlaywrightBrowser):
             browser.contexts[0].clear_cookies()
         else:
-            browser.cookies.delete()
+            browser.cookies.delete_all()
 
 
 client = _Client()

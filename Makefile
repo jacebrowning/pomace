@@ -148,7 +148,7 @@ docs/*.png: $(MODULES)
 
 .PHONY: run
 run: install ## Start the program
-	poetry run python $(PACKAGE)/__main__.py
+	poetry run python $(PACKAGE)/__main__.py run
 
 .PHONY: shell
 shell: install ## Launch an IPython session
