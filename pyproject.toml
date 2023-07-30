@@ -53,7 +53,7 @@ universal-startfile = "*"
 playwright = { version = "^1.24", markers = "platform_machine != 'armv7l'" }
 selenium = "^4.4"
 splinter = "^0.19"
-webdriver_manager = "^3.8.5"
+webdriver_manager = "^4.0"
 
 # Persistence
 datafiles = "^2.1.2"
