@@ -452,13 +452,13 @@ test-randomorder = ["pytest-randomly"]
 
 [[package]]
 name = "datafiles"
-version = "2.1.2"
+version = "2.2b1"
 description = "File-based ORM for dataclasses."
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "datafiles-2.1.2-py3-none-any.whl", hash = "sha256:67d7bcd105136ac41ec79b41a880935132c1cffbea4e240a46f5edf9ff9c04df"},
-    {file = "datafiles-2.1.2.tar.gz", hash = "sha256:4994974ca2bdbebecc8718294f6aaa674bc0a6ab185d4917c16739dc01719990"},
+    {file = "datafiles-2.2b1-py3-none-any.whl", hash = "sha256:889bd8ac2e492858927e0686f7d67226aee573d057fd712b6432acc900ca4a33"},
+    {file = "datafiles-2.2b1.tar.gz", hash = "sha256:41102ea258c7fe05db5d160114da1222b76d30253883df2363510372a593a2b1"},
 ]
 
 [package.dependencies]
@@ -2753,4 +2753,4 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "1cc8bc32e89f4d65e08a0ed92a8e3ce4f263a31f15e1e06018a20403ba45db30"
+content-hash = "d0fc1d145bb0a1b59508b2a97216d97ef2638517a9247031df92220579f0f20e"
