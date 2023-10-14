@@ -2024,20 +2024,19 @@ files = [
 
 [[package]]
 name = "selenium"
-version = "4.14.0"
+version = "4.4.3"
 description = ""
 optional = false
-python-versions = ">=3.8"
+python-versions = "~=3.7"
 files = [
-    {file = "selenium-4.14.0-py3-none-any.whl", hash = "sha256:be9824a9354a7fe288e3fad9ceb6a9c65ddc7c44545d23ad0ebf4ce202b19893"},
-    {file = "selenium-4.14.0.tar.gz", hash = "sha256:0d14b0d9842366f38fb5f8f842cf7c042bcfa062affc6a0a86e4d634bdd0fe54"},
+    {file = "selenium-4.4.3-py3-none-any.whl", hash = "sha256:ca6ed4a58a426bb40bf5aa2b027ce211cc5200f1acdcdfb8258b32b24624150c"},
 ]
 
 [package.dependencies]
 certifi = ">=2021.10.8"
 trio = ">=0.17,<1.0"
 trio-websocket = ">=0.9,<1.0"
-urllib3 = {version = ">=1.26,<3", extras = ["socks"]}
+urllib3 = {version = ">=1.26,<2.0", extras = ["socks"]}
 
 [[package]]
 name = "setuptools"
@@ -2632,4 +2631,4 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "ccb5b9ba3a5c0c057bebb1d47a7632318ed014519eb79d44432b78d2d8d1cbe6"
+content-hash = "7c977586b1ace6581364a1afeb0deb30e8b24fb4cd01c4cbffbdcc72497f0834"
