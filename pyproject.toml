@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.12.3"
+version = "0.12.4"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -50,10 +50,10 @@ flask-api = "^3.0"
 universal-startfile = "*"
 
 # Automation
-playwright = { version = "^1.38", markers = "platform_machine != 'armv7l'" }
+playwright = { version = "^1.39", markers = "platform_machine != 'armv7l'" }
 selenium = "^4.14"
 splinter = "^0.19"
-webdriver_manager = "^4.0"
+webdriver_manager = "^4.0.1"
 
 # Persistence
 datafiles = "^2.2"
