@@ -1,6 +1,9 @@
 # pylint: disable=unused-argument,expression-not-assigned
 
+import os
 from contextlib import suppress
+
+import pytest
 
 from pomace import shared
 from pomace.models import Page
@@ -21,6 +24,7 @@ def test_locator_uses_are_persisted(expect, browser):
     expect(bad_locator.uses) <= 0
 
 
+@pytest.mark.skipif("CI" in os.environ, reason="Wikipedia is blocked on CI")
 def test_type_actions_are_supported(expect, browser):
     page = Page.at("https://www.wikipedia.org")
 
@@ -30,6 +34,7 @@ def test_type_actions_are_supported(expect, browser):
     expect(shared.client.url).endswith("wikipedia.org/wiki/Foobar")
 
 
+@pytest.mark.skipif("CI" in os.environ, reason="Wikipedia is blocked on CI")
 def test_modifier_keys_are_supported(expect, browser):
     page = Page.at("https://www.wikipedia.org")
 
