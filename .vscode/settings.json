@@ -17,15 +17,7 @@
     "site/": true,
     "geckodriver.log": true
   },
-  "python.pythonPath": ".venv/bin/python",
   "editor.formatOnSave": true,
-  "python.linting.enabled": true,
-  "python.linting.pylintEnabled": true,
-  "python.linting.pylintArgs": ["--rcfile", ".pylint.ini"],
-  "python.linting.mypyEnabled": true,
-  "python.linting.pydocstyleEnabled": true,
-  "python.formatting.provider": "black",
-  "python.formatting.blackPath": ".venv/bin/black",
   "cSpell.words": [
     "autopage",
     "chromedriver",
