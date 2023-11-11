@@ -18,11 +18,14 @@ def test_package_contents(expect):
 
 
 def describe_visit():
+    @pytest.mark.xfail(
+        os.name == "nt", reason="WebDriver Manager is not working on Windows"
+    )
     def it_launches_a_browser(expect):
         page = pomace.visit("http://example.com", browser="chrome", headless=True)
         expect(page).contains("Example Domain")
 
-    @pytest.mark.skipif(os.name == "nt", reason="Path differs on Windows")
+    @pytest.mark.xfail(os.name == "nt", reason="Path differs on Windows")
     def it_saves_data_relative_to_caller(expect):
         page = pomace.visit("http://example.com", browser="chrome", headless=True)
         path = Path(__file__).parent / "sites" / "example.com" / "@" / "default.yml"
@@ -30,6 +33,9 @@ def describe_visit():
 
 
 def describe_freeze():
+    @pytest.mark.xfail(
+        os.name == "nt", reason="WebDriver Manager is not working on Windows"
+    )
     def it_disables_automatic_actions(expect):
         page = pomace.visit("http://example.com", browser="chrome", headless=True)
         page.actions = []
