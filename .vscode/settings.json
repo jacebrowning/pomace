@@ -18,6 +18,8 @@
     "geckodriver.log": true
   },
   "editor.formatOnSave": true,
+  "python.defaultInterpreterPath": ".venv/bin/python",
+  "pylint.args": ["--rcfile=.pylint.ini"],
   "cSpell.words": [
     "autopage",
     "chromedriver",

@@ -25,7 +25,6 @@ __all__ = ["Locator", "Action", "Page", "auto"]
 
 @datafile(order=True)
 class Locator:
-
     mode: str = field(default="", compare=False)
     value: str = field(default="", compare=False)
     index: int = field(default=0, compare=False)
@@ -88,7 +87,6 @@ class Locator:
 
 @datafile
 class Action:
-
     verb: str = ""
     name: str = ""
     locators: List[Locator] = field(default_factory=lambda: [Locator()])
@@ -299,7 +297,6 @@ class Locators:
     "./sites/{self.domain}/{self.path}/{self.variant}.yml", defaults=True, manual=True
 )
 class Page:
-
     domain: str
     path: str = URL.ROOT
     variant: str = "default"
