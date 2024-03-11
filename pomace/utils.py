@@ -43,7 +43,8 @@ def launch_browser(
         did_launch = True
 
     if restore_previous_url and settings.url:
-        shared.client.visit(settings.url, settings.browser.size)
+        size = settings.browser.size if did_launch else None
+        shared.client.visit(settings.url, size)
         time.sleep(delay)
 
     return did_launch
