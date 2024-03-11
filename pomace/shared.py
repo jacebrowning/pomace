@@ -1,4 +1,4 @@
-from typing import Callable, List
+from typing import Callable, List, Optional
 
 import log
 from selenium.common.exceptions import WebDriverException
@@ -56,7 +56,7 @@ class _Client:
         return browser.html
 
     @staticmethod
-    def visit(url: str, size: dict) -> None:
+    def visit(url: str, size: Optional[dict]) -> None:
         exception = RuntimeError(f"Unable to load {url}")
         if isinstance(browser, PlaywrightBrowser):
             page = browser.new_page(screen=size, viewport=size)  # type: ignore
@@ -65,7 +65,7 @@ class _Client:
             except PlaywrightError:
                 raise exception from None
         else:
-            if browser.driver.get_window_size() != size:
+            if size and browser.driver.get_window_size() != size:
                 browser.driver.set_window_size(size["width"], size["height"])
                 browser.driver.set_window_position(0, 0)
                 size = browser.driver.get_window_size()
