@@ -2,11 +2,14 @@
 
 Dynamic page objects for browser automation.
 
-[![Unix Build Status](https://img.shields.io/github/actions/workflow/status/jacebrowning/pomace/main.yml?branch=main&label=unix)](https://github.com/jacebrowning/pomace/actions)
-[![Windows Build Status](https://img.shields.io/appveyor/ci/jacebrowning/pomace/main.svg?label=window)](https://ci.appveyor.com/project/jacebrowning/pomace)
-[![Coverage Status](https://img.shields.io/codecov/c/gh/jacebrowning/pomace)](https://codecov.io/gh/jacebrowning/pomace)
-[![PyPI Version](https://img.shields.io/pypi/v/pomace.svg)](https://pypi.org/project/pomace)
+[![Linux Build](https://img.shields.io/github/actions/workflow/status/jacebrowning/pomace/main.yml?branch=main&label=linux)](https://github.com/jacebrowning/pomace/actions)
+[![Windows Build](https://img.shields.io/appveyor/ci/jacebrowning/pomace/main.svg?label=windows)](https://ci.appveyor.com/project/jacebrowning/pomace)
+[![Code Coverage](https://img.shields.io/codecov/c/github/jacebrowning/pomace)
+](https://codecov.io/gh/jacebrowning/pomace)
 [![PyPI License](https://img.shields.io/pypi/l/pomace.svg)](https://pypi.org/project/pomace)
+[![PyPI Version](https://img.shields.io/pypi/v/pomace.svg?label=version)](https://pypi.org/project/pomace)
+[![PyPI Downloads](https://img.shields.io/pypi/dm/pomace.svg?color=orange)](https://pypistats.org/packages/pomace)
+
 
 ## Quick Start
 
