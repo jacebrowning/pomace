@@ -407,19 +407,19 @@ files = [
 
 [[package]]
 name = "datafiles"
-version = "2.2.2"
+version = "2.2.3"
 description = "File-based ORM for dataclasses."
 optional = false
-python-versions = ">=3.8,<4.0"
+python-versions = "<4.0,>=3.8"
 files = [
-    {file = "datafiles-2.2.2-py3-none-any.whl", hash = "sha256:ad50344be44444edf8220046b3cfb81aff61aed5c3dd61f2808caf5add2f5ec2"},
-    {file = "datafiles-2.2.2.tar.gz", hash = "sha256:c82e3ca2e187f5fdbb6eb01c4001021c945f0e75de1e32b0aeece3615d8d478b"},
+    {file = "datafiles-2.2.3-py3-none-any.whl", hash = "sha256:a3251ce5cc0c508907c8bc97c6601401b6576f6d6fc94b209ba7519d970d2058"},
+    {file = "datafiles-2.2.3.tar.gz", hash = "sha256:4192e1bc22e47d6a50c1384d1a5becc6106eb6aaa725f46326b890cf36c62113"},
 ]
 
 [package.dependencies]
 cached_property = ">=1.5,<2.0"
 classproperties = ">=0.2,<0.3"
-minilog = ">=2.1,<3.0"
+minilog = ">=2.3,<3.0"
 parse = ">=1.12,<2.0"
 "ruamel.yaml" = ">=0.17.21,<0.18.0"
 tomlkit = ">=0.10.1,<0.11.0"
@@ -580,19 +580,19 @@ dev = ["flake8", "markdown", "twine", "wheel"]
 
 [[package]]
 name = "gitman"
-version = "3.3"
+version = "3.5.2"
 description = "A language-agnostic dependency manager using Git."
 optional = false
-python-versions = ">=3.8,<4.0"
+python-versions = "<4.0,>=3.8"
 files = [
-    {file = "gitman-3.3-py3-none-any.whl", hash = "sha256:1dd9edb14ecd2f8953e0289899150f11747d440cd37dfbe8bab1ac7b1bc74f06"},
-    {file = "gitman-3.3.tar.gz", hash = "sha256:2e916e67168c36ce9232ccb06bfd1154eaf817ce19e92d72e7ed338562b91cbc"},
+    {file = "gitman-3.5.2-py3-none-any.whl", hash = "sha256:a1303a9a88250a5c3f1babf4a46510a2dcc368f41d9a37f8a1bb1c202ebcfafe"},
+    {file = "gitman-3.5.2.tar.gz", hash = "sha256:51f8d8efdecd3076ac7ea16a7de415be74ef26c3a3ca8c8ef9410e32d103db67"},
 ]
 
 [package.dependencies]
-datafiles = ">=2.0,<3.0"
-minilog = ">=2.1,<3.0"
-universal-startfile = "*"
+datafiles = ">=2.2,<3.0"
+minilog = ">=2.3,<3.0"
+universal-startfile = ">=0.2,<0.3"
 
 [[package]]
 name = "greenlet"
@@ -1115,13 +1115,13 @@ files = [
 
 [[package]]
 name = "minilog"
-version = "2.1"
+version = "2.3"
 description = "Minimalistic wrapper for Python logging."
 optional = false
-python-versions = ">=3.7,<4.0"
+python-versions = ">=3.8,<4.0"
 files = [
-    {file = "minilog-2.1-py3-none-any.whl", hash = "sha256:0c48879cc9e72f0127aa2c36b522dc6fa10fa8532956197436b491d31617d5d5"},
-    {file = "minilog-2.1.tar.gz", hash = "sha256:2048a8d381b36ef5f146fb9a657e627729411f8e2ed0047e2c1286cf8e3e58d7"},
+    {file = "minilog-2.3-py3-none-any.whl", hash = "sha256:e42dc2def1da424e90d6664279c128dde94adc5840557b27857957ed23ee09b6"},
+    {file = "minilog-2.3.tar.gz", hash = "sha256:ebdf354f1dd86a2e8a824cdde4b7b50cdbc24b99a5465bc4d1806bd1e030bc92"},
 ]
 
 [[package]]
@@ -2692,4 +2692,4 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "be8edeece6e6daa3c5ec669a12ea85049fa0ad16dacabad84c40a9d52dbf90ff"
+content-hash = "8506a935efac7311c84d845e4836cf1effe3111dcaefa26edcc1737aab635099"
