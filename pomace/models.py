@@ -99,7 +99,7 @@ class Action:
     def sorted_locators(self) -> List[Locator]:
         locators = [x for x in sorted(self.locators, reverse=True) if x]  # type: ignore
         if all(locator.uses < 0 for locator in locators):
-            return locators
+            return locators[:1]
 
         if len(locators) > 1 and locators[0].uses == 0 and locators[1].uses < 0:
             log.debug("Trying new locator first")
@@ -499,6 +499,7 @@ def auto(*, detect_patterns: bool = True) -> Page:
     matching_pages = []
     found_exact_match = False
 
+    page: Page
     for page in Page.objects.filter(domain=domain(shared.client.url)):
         if page.active:
             matching_pages.append(page)
