@@ -51,8 +51,8 @@ universal-startfile = "*"
 # Automation
 playwright = { version = "^1.40", markers = "platform_machine != 'armv7l'" }
 selenium = "^4.14"
-splinter = "^0.20.1"
-webdriver_manager = "^4.0.1"
+splinter = "^0.21"
+webdriver_manager = "^4.0.2"
 
 # Persistence
 datafiles = "^2.2.3"
