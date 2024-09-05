@@ -2185,13 +2185,13 @@ files = [
 
 [[package]]
 name = "splinter"
-version = "0.20.1"
+version = "0.21.0"
 description = "browser abstraction for web acceptance testing"
 optional = false
 python-versions = "*"
 files = [
-    {file = "splinter-0.20.1-py3-none-any.whl", hash = "sha256:d1e11f679606473227b0350cddaf2cbe444eb2ad5a26c87eaa1c19aeeb50b336"},
-    {file = "splinter-0.20.1.tar.gz", hash = "sha256:28a2e45d0b50002a38d40989993b5c59f39d32e0f6c62b03360af25d8290c0f4"},
+    {file = "splinter-0.21.0-py3-none-any.whl", hash = "sha256:4c9e5962ce25f468b2dd52effbd1445afd7466740f238e564c6b70f7fda9368f"},
+    {file = "splinter-0.21.0.tar.gz", hash = "sha256:60cbbec9209acefccf39608d677eecdb248bbd700023663ce406595322c38fe5"},
 ]
 
 [package.dependencies]
@@ -2200,7 +2200,7 @@ urllib3 = ">=1.26.14,<3.0"
 [package.extras]
 django = ["Django (>=2.0.6)", "cssselect", "lxml (>=4.2.4)"]
 flask = ["Flask (>=2.3.2)", "cssselect", "lxml (>=4.2.4)"]
-selenium = ["selenium (>=4.1.0,<4.16.0)"]
+selenium = ["selenium (>=4.1.0,<4.17.0)"]
 zope-testbrowser = ["cssselect", "lxml (>=4.2.4)", "zope.testbrowser (>=6.0)"]
 
 [[package]]
@@ -2450,13 +2450,13 @@ files = [
 
 [[package]]
 name = "webdriver-manager"
-version = "4.0.1"
+version = "4.0.2"
 description = "Library provides the way to automatically manage drivers for different browsers"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "webdriver_manager-4.0.1-py2.py3-none-any.whl", hash = "sha256:d7970052295bb9cda2c1a24cf0b872dd2c41ababcc78f7b6b8dc37a41e979a7e"},
-    {file = "webdriver_manager-4.0.1.tar.gz", hash = "sha256:25ec177c6a2ce9c02fb8046f1b2732701a9418d6a977967bb065d840a3175d87"},
+    {file = "webdriver_manager-4.0.2-py2.py3-none-any.whl", hash = "sha256:75908d92ecc45ff2b9953614459c633db8f9aa1ff30181cefe8696e312908129"},
+    {file = "webdriver_manager-4.0.2.tar.gz", hash = "sha256:efedf428f92fd6d5c924a0d054e6d1322dd77aab790e834ee767af392b35590f"},
 ]
 
 [package.dependencies]
@@ -2691,4 +2691,4 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "8506a935efac7311c84d845e4836cf1effe3111dcaefa26edcc1737aab635099"
+content-hash = "4936b5bb3316eb59cab7871f1ca2a81fa64f07c00e61e90108f2c0f75b7678c2"
