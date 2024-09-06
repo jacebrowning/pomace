@@ -74,7 +74,7 @@ nest-asyncio = "^1.5.5"
 [tool.poetry.dev-dependencies]
 
 # Formatters
-black = "^22.3"
+black = "^24.3"
 isort = "^5.10"
 
 # Linters
