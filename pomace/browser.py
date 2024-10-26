@@ -5,7 +5,8 @@ import sys
 import log
 import splinter
 from fake_useragent import UserAgent
-from selenium.webdriver import ChromeOptions
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.chrome.service import Service
 from splinter.exceptions import DriverNotFoundError
 from webdriver_manager import chrome, firefox
 
@@ -84,21 +85,23 @@ def launch_splinter_browser(name: str, headless: bool) -> SplinterBrowser:
         config["options"] = options
 
     try:
-        log.debug(f"Launching {name}: {config}")
+        log.debug(f"Browser config: {config}")
         return splinter.Browser(name, **config)
     except DriverNotFoundError:
         log.error(f"Unsupported browser: {name}")
         sys.exit(1)
     except Exception as e:  # pylint: disable=broad-except
-        log.debug(str(e))
+        log.warn(f"Unable to find existing WebDriver: {e}")
 
         if "exited process" in str(e):
             log.error("Browser update prevented launch. Please try again.")
             sys.exit(1)
 
+        log.info("Attempting to install compatible WebDriver")
         for driver, manager in WEBDRIVER_MANAGERS.items():
             if driver in str(e).lower():
-                config["executable_path"] = manager().install()
+                service = Service(manager().install())
+                config["service"] = service
                 try:
                     return splinter.Browser(name, **config)
                 except OSError as e:
