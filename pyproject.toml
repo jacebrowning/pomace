@@ -105,7 +105,7 @@ pyinstaller = "*"
 sniffer = "*"
 MacFSEvents = { version = "*", platform = "darwin" }
 pync = { version = "*", platform = "darwin" }
-rope = "^0.18"
+rope = "*"
 
 [tool.poetry.scripts]
 

@@ -60,6 +60,7 @@ def test_unused_actions_are_removed_on_forced_cleanup(expect, browser):
     expect(len(page.actions)) < previous_count
 
 
+@pytest.mark.xfail(reason="https://github.com/citizenlabsgr/elections-api/issues/357")
 def test_links_are_opened_in_the_same_window(expect, browser):
     page = Page.at("https://share.michiganelections.io/elections/41/precincts/1209/")
     with suppress(AttributeError):
