@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.12.9"
+version = "0.12.10"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -48,6 +48,7 @@ bullet = "^2.2"
 ipdb = "~0.13.9"
 ipython = "^8.4"
 flask-api = "^3.0"
+werkzeug = "<3" # newer flask-api dependency does not work with Python 3.13+
 universal-startfile = "*"
 
 # Automation
