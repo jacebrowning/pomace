@@ -59,7 +59,7 @@ Install this library directly into an activated virtual environment:
 pip install pomace
 ```
 
-or add it to your [Poetry](https://poetry.eustace.io/) project:
+or add it to your [Poetry](https://python-poetry.org/docs/) project:
 
 ```shell
 poetry add pomace
