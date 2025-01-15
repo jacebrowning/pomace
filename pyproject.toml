@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.12.8"
+version = "0.12.9"
 description = "Dynamic page objects for browser automation."
 
 license = "MIT"
@@ -32,6 +32,8 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Internet :: WWW/HTTP :: Browsers",
     "Topic :: Software Development :: Testing",
 ]
@@ -55,7 +57,7 @@ splinter = "^0.21"
 webdriver_manager = "^4.0.2"
 
 # Persistence
-datafiles = "^2.2.3"
+datafiles = "^2.3"
 gitman = "^3.5.2"
 parse = "^1.14"
 
@@ -81,7 +83,7 @@ isort = "^5.10"
 mypy = "^1.3"
 types-requests = "*"
 pydocstyle = "*"
-pylint = "~2.15"
+pylint = "~3.3"
 
 # Testing
 pytest = "^7.3"
@@ -103,7 +105,7 @@ pygments = "^2.15"
 # Tooling
 pyinstaller = "*"
 sniffer = "*"
-MacFSEvents = { version = "*", platform = "darwin" }
+macfsevents = { version = "*", platform = "darwin", markers = "python_version < '3.13'" }
 pync = { version = "*", platform = "darwin" }
 rope = "*"
 
