@@ -50,6 +50,7 @@
     "multidict",
     "mypy",
     "noninteractive",
+    "overgeneral",
     "pipx",
     "pluginmanager",
     "proto",

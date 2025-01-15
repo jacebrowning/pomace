@@ -33,8 +33,7 @@ def is_identifier(value: str) -> bool:
         UUID(value)
     except ValueError:
         return False
-    else:
-        return True
+    return True
 
 
 class URL:
@@ -196,9 +195,8 @@ class Person:
             alias = ALIASES[name]
         except KeyError:
             return super().__getattribute__(name)
-        else:
-            log.debug(f"Mapped fake attribute {alias!r} to {name!r}")
-            return getattr(self, alias)
+        log.debug(f"Mapped fake attribute {alias!r} to {name!r}")
+        return getattr(self, alias)
 
     @property
     def name(self) -> str:
@@ -227,9 +225,8 @@ class Fake:
                 alias = ALIASES[name]
             except KeyError:
                 return super().__getattribute__(name)
-            else:
-                log.debug(f"Mapped fake attribute {alias!r} to {name!r}")
-                method = getattr(self._generator, alias)
+            log.debug(f"Mapped fake attribute {alias!r} to {name!r}")
+            method = getattr(self._generator, alias)
         return method()
 
     @property

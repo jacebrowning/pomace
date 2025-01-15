@@ -57,13 +57,11 @@ class Locator:
         except ElementDoesNotExist:
             log.debug(f"{self} unable to find element")
             return None
-        else:
-            self.index = index
-            html = (
-                element.outer_html.replace("\n", "").replace("\t", "").replace("  ", "")
-            )
-            log.debug(f"{self} found element: {html}")
-            return element
+
+        self.index = index
+        html = element.outer_html.replace("\n", "").replace("\t", "").replace("  ", "")
+        log.debug(f"{self} found element: {html}")
+        return element
 
     def score(self, value: int, *, limit: int = 0) -> bool:
         previous = self.uses
@@ -209,9 +207,8 @@ class Action:
         except WebDriverException as e:
             log.debug(e)
             return False
-        else:
-            self._verb.post_action(previous_url, delay, wait, start)
-            return True
+        self._verb.post_action(previous_url, delay, wait, start)
+        return True
 
     def clean(self, page, *, force: bool = False) -> int:
         unused_locators = []
