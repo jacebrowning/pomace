@@ -42,13 +42,14 @@ pipx upgrade pomace
 Then download some site models:
 
 ```shell
-pomace clone https://github.com/jacebrowning/pomace-twitter.com
+pomace clone https://github.com/jacebrowning/pomace-wikipedia.org
+pomace alias en.wikipedia.org wikipedia.org
 ```
 
 And launch the application:
 
 ```shell
-pomace run twitter.com
+pomace run wikipedia.org
 ```
 
 # Usage
