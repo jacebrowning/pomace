@@ -402,13 +402,13 @@ files = [
 
 [[package]]
 name = "datafiles"
-version = "2.3"
+version = "2.3.1"
 description = "File-based ORM for dataclasses."
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "datafiles-2.3-py3-none-any.whl", hash = "sha256:0fd602a760c3fe6e6309f02b34d04b0ebe692a5ee09293c6c922f3b26de0c3c7"},
-    {file = "datafiles-2.3.tar.gz", hash = "sha256:7cc24098ae7f834544e046e815a45f41fc1f280495903cc0335eec6e240941cb"},
+    {file = "datafiles-2.3.1-py3-none-any.whl", hash = "sha256:641b68e54038c7abab6ca1978ce3fa0c49c269d0686c17013e7f84f2e8267c5c"},
+    {file = "datafiles-2.3.1.tar.gz", hash = "sha256:4f77f8c910c6f7f39158864aa92d88a2846ec94419e855f788f33cfb937a2dfe"},
 ]
 
 [package.dependencies]
@@ -2977,4 +2977,4 @@ test = ["big-O", "jaraco.functools", "jaraco.itertools", "jaraco.test", "more-it
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "95cac9430755444bfac0145db81a344cecd9d73723f5d3db184d749e8931ef64"
+content-hash = "6a28417e3d11f45da6ee0629aecfd4e2c5b40be12fb3a17aaeedce131125aa09"
