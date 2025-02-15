@@ -74,7 +74,7 @@ inflection = "^0.5.1"
 minilog = "^2.3"
 nest-asyncio = "^1.5.5"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 
 # Formatters
 black = "^24.3"
@@ -109,6 +109,10 @@ sniffer = "*"
 macfsevents = { version = "*", platform = "darwin", markers = "python_version < '3.13'" }
 pync = { version = "*", platform = "darwin" }
 rope = "*"
+
+[tool.poetry.requires-plugins]
+
+poetry-plugin-export = ">=1.8"
 
 [tool.poetry.scripts]
 
