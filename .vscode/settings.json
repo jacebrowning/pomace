@@ -66,6 +66,7 @@
     "tlsv",
     "useragent",
     "USERPROFILE",
+    "venv",
     "werkzeug",
     "yarl",
     "zipcodes"
