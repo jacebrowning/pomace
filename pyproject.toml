@@ -100,7 +100,7 @@ freezegun = "*"
 coveragespace = "^6.1"
 
 # Documentation
-mkdocs = "~1.4"
+mkdocs = ">=1.4,<1.7"
 pygments = "^2.15"
 
 # Tooling
