@@ -19,7 +19,9 @@
   },
   "editor.formatOnSave": true,
   "python.defaultInterpreterPath": ".venv/bin/python",
-  "pylint.args": ["--rcfile=.pylint.ini"],
+  "pylint.args": [
+    "--rcfile=.pylint.ini"
+  ],
   "cSpell.words": [
     "armv",
     "autopage",
@@ -59,6 +61,7 @@
     "pygments",
     "pyinstaller",
     "pync",
+    "pyproject",
     "pyyaml",
     "setenv",
     "showfspath",
@@ -67,6 +70,7 @@
     "useragent",
     "USERPROFILE",
     "venv",
+    "virtualenvs",
     "werkzeug",
     "yarl",
     "zipcodes"
