@@ -48,7 +48,7 @@ bullet = "^2.2"
 ipdb = "~0.13.9"
 ipython = "^8.4"
 flask-api = "^3.0"
-werkzeug = "<3" # newer flask-api dependency does not work with Python 3.13+
+werkzeug = "<4" # newer flask-api dependency does not work with Python 3.13+
 universal-startfile = "*"
 
 # Automation
