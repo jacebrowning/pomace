@@ -78,7 +78,7 @@ nest-asyncio = "^1.5.5"
 
 # Formatters
 black = ">=24.3,<26.0"
-isort = "^5.10"
+isort = ">=5.10,<7.0"
 
 # Linters
 mypy = "^1.3"
