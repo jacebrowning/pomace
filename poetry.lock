@@ -609,18 +609,18 @@ dotenv = ["python-dotenv"]
 
 [[package]]
 name = "flask-api"
-version = "3.0.post1"
+version = "3.1"
 description = "Browsable web APIs for Flask."
 optional = false
 python-versions = "*"
 groups = ["main"]
 files = [
-    {file = "Flask-API-3.0.post1.tar.gz", hash = "sha256:331889500433b0a5e71ae7910a00ee577c8999baba03ca685b3558ee93031cce"},
-    {file = "Flask_API-3.0.post1-py3-none-any.whl", hash = "sha256:913d1ef4d303b5e4490a712175d83a91c2b9cc6052ef501cff8301d9f553b179"},
+    {file = "Flask-API-3.1.tar.gz", hash = "sha256:cb079845f5573eac55c6800a9a142bd7b54fd1227019a21cb2f75dfe5311d44f"},
+    {file = "Flask_API-3.1-py3-none-any.whl", hash = "sha256:08cb377412ff1b6bea47e8a5ffefc592a149f8686045038df6e116d12ab5d4e9"},
 ]
 
 [package.dependencies]
-Flask = ">=2.0"
+Flask = ">=2.0.0"
 
 [[package]]
 name = "freezegun"
