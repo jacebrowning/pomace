@@ -3393,14 +3393,14 @@ propcache = ">=0.2.0"
 
 [[package]]
 name = "zipcodes"
-version = "1.2.0"
+version = "1.3.0"
 description = "Query U.S. state zipcodes without SQLite."
 optional = false
-python-versions = "*"
+python-versions = ">=2.6"
 groups = ["main"]
 files = [
-    {file = "zipcodes-1.2.0-py2.py3-none-any.whl", hash = "sha256:e06e4ad7a460cfa892452e1b8d6207a0e9059e2a00e96bf0b7b36afcaa176a29"},
-    {file = "zipcodes-1.2.0.tar.gz", hash = "sha256:15d727e1c3426423fe0f2bdc9b056fdbc18c7c31e556d62e23537ceb35001077"},
+    {file = "zipcodes-1.3.0-py2.py3-none-any.whl", hash = "sha256:0da407f1c7e7c0bb93fc91da00c4bb95dc88b545c2ff04febdff5168e9ab8b2f"},
+    {file = "zipcodes-1.3.0.tar.gz", hash = "sha256:6a8d663f8477b54806b0af01bd90bfa2ba88e8e79be824a44e37697c69d064ef"},
 ]
 
 [[package]]
