@@ -1,6 +1,6 @@
 # Pomace
 
-Dynamic page objects for browser automation.
+Dynamic page objects for browser end-to-end testing.
 
 [![Linux Build](https://img.shields.io/github/actions/workflow/status/jacebrowning/pomace/main.yml?branch=main&label=linux)](https://github.com/jacebrowning/pomace/actions)
 [![Windows Build](https://img.shields.io/appveyor/ci/jacebrowning/pomace/main.svg?label=windows)](https://ci.appveyor.com/project/jacebrowning/pomace)

@@ -2,7 +2,7 @@
 
 name = "pomace"
 version = "0.12.13"
-description = "Dynamic page objects for browser automation."
+description = "Dynamic page objects for browser end-to-end testing."
 
 license = "MIT"
 
