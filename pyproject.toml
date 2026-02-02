@@ -54,7 +54,7 @@ werkzeug = "<3" # newer flask-api dependency does not work with Python 3.13+
 universal-startfile = "*"
 
 # Automation
-playwright = { version = "^1.48", markers = "platform_machine != 'armv7l'" }
+playwright = { version = "^1.58", markers = "platform_machine != 'armv7l'" }
 selenium = "^4.25"
 splinter = "^0.21"
 webdriver_manager = "^4.0.2"
