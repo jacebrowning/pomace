@@ -9,7 +9,6 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.9"
           - "3.10"
           - "3.11"
           - "3.12"
@@ -18,14 +17,18 @@ jobs:
           # - "3.14"
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
 
-    - uses: Gr1N/setup-poetry@v8
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: 2.4.1
+        virtualenvs-in-project: true
 
     - name: Check dependencies
       run: make doctor
@@ -33,7 +36,7 @@ jobs:
     - uses: actions/cache@v4
       with:
         path: .venv
-        key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+        key: ${{ runner.os }}-poetry-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
 
     - name: Install dependencies
       run: make install
