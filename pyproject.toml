@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "pomace"
-version = "0.12.14a1"
+version = "0.12.14"
 description = "Dynamic page objects for browser end-to-end testing."
 
 license = "MIT"
@@ -29,7 +29,6 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -42,7 +41,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 
-python = "^3.9"
+python = "^3.10"
 
 # Interface
 cleo = "^2.0"
