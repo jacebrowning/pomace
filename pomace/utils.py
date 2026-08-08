@@ -125,11 +125,14 @@ def run_script(script: str):
         log.info(f"Running script: {path}")
     else:
         log.error(f"Script not found: {path}")
+    namespace = {"__name__": "__main__", "__file__": str(path)}
     try:
-        exec(path.read_text("utf-8"))  # pylint: disable=exec-used
+        exec(path.read_text("utf-8"), namespace)  # pylint: disable=exec-used
     except (KeyboardInterrupt, BdbQuit):
         pass
     except Exception as e:
         log.critical(f"Script exception: {e}")
-        _type, _value, traceback = sys.exc_info()
-        ipdb.post_mortem(traceback)
+        if sys.stdin.isatty():
+            _type, _value, tb = sys.exc_info()
+            ipdb.post_mortem(tb)
+        raise
